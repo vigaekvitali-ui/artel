@@ -251,112 +251,29 @@
 
 
 <div class="page" :class="{ 'active': tab === 1 }">
-
-
-
-    <div class="hero-block">
-
-
-
-        <div class="fact-box" x-text="fact"></div>
-
-
-
-        <div class="mini-calendar">
-
-
-
-            <div style="text-align: center; font-weight: bold; margin-bottom: 4px; text-transform: uppercase;" x-text="month"></div>
-
-
-
-            <div class="cal-grid">
-
-
-
-                <template x-for="h in ['П','В','С','Ч','П','С','В']"><div style="font-weight:bold;color:#94a3b8" x-text="h"></div></template>
-
-
-
-                <template x-for="b in blanks"><div></div></template>
-
-
-
-                <template x-for="d in days"><div :class="isToday(d) ? 'cal-today' : ''" x-text="d"></div></template>
-
-
-
-            </div>
-
-
-
+        <div class="card" style="text-align:center; background:#1e293b; color:#38bdf8; border:none; padding: 20px 10px;">
+            <div style="font-size: 3rem; font-weight: 900; font-family: monospace; letter-spacing: 2px;" x-text="currentTime">00:00:00</div>
+            <div style="font-size: 0.9rem; color: #94a3b8; margin-top: 5px;" x-text="todayDate"></div>
         </div>
 
+        <div class="card" style="padding:0; overflow:hidden;">
+            <div style="background:#f1f5f9; padding:8px; font-size:0.7rem; font-weight:bold; color:#64748b; text-align:center; border-bottom:1px solid #e2e8f0;">РАСПИСАНИЕ ЗВОНКОВ (10 мин. перерыв)</div>
+            <table style="width:100%; font-size:0.85rem; border-collapse: collapse;">
+                <template x-for="(time, index) in schedule">
+                    <tr :style="index % 2 === 0 ? 'background:#fff' : 'background:#f8fafc'">
+                        <td style="padding:6px 15px; font-weight:bold; color:#2563eb; border-bottom:1px solid #f1f5f9;" x-text="(index + 1)"></td>
+                        <td style="padding:6px 15px; text-align:right; color:#1e293b; border-bottom:1px solid #f1f5f9; font-family:monospace;" x-text="time"></td>
+                    </tr>
+                </template>
+            </table>
+        </div>
 
-
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
+            <a href="https://ogaek.by" target="_blank" class="link-btn" style="grid-column: span 2; margin:0; text-align:center; background:#eff6ff; border-color:#bfdbfe;">🏫 ПОРТАЛ ОГАЭК</a>
+            <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" class="link-btn" style="margin:0; text-align:center;">🚗 АВТО-БАЗА</a>
+            <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" class="link-btn" style="margin:0; text-align:center;">🚜 ТРАКТОРЫ</a>
+        </div>
     </div>
-
-
-
-    <form action="https://www.google.com/search" method="get" target="_blank" class="google-form">
-
-
-
-        <input type="text" name="q" class="google-input" placeholder="Поиск в Google...">
-
-
-
-        <button type="submit" class="google-btn">🔎</button>
-
-
-
-    </form>
-
-
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-
-
-
-        <a href="https://ogaek.by" target="_blank" class="res-btn" style="background:#fffbeb;grid-column:span 2;">🏫 ОГАЭК</a>
-
-
-
-        <a href="https://cyberleninka.ru" target="_blank" class="res-btn">📖 Ленинка</a>
-
-
-
-        <a href="https://scholar.google.com" target="_blank" class="res-btn">🎓 Академия</a>
-
-
-
-    </div>
-
-
-
-    <h4 style="color:#64748b;margin:15px 0 5px;font-size:0.7rem;">📁 КАТАЛОГИ</h4>
-
-
-
-    <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" class="res-btn" style="border-left:5px solid #22c55e">🚗 АВТО</a>
-
-
-
-    <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" class="res-btn" style="border-left:5px solid #f59e0b">🚜 ТРАКТОРЫ</a>
-
-
-
-    <a href="https://drive.google.com/drive/folders/1KlkqrXha0zBNZWXfDS6ISiq4zs44u3hL" target="_blank" class="res-btn" style="border-left:5px solid #3b82f6">⚙️ С/Х МАШИНЫ</a>
-
-
-
-</div>
-
-
-
-
-
-
 
 <div class="page" :class="{ 'active': tab === 2 }">
 
@@ -372,8 +289,7 @@
 
             <a href="https://edu.gov.by/news/" target="_blank" rel="noopener noreferrer" class="res-btn" style="margin:0; justify-content:center; text-align:center;">Минобр (Новости)</a>
 
-            <a href="https://ripo.by/index.php?id=75" target="_blank" rel="noopener noreferrer" class="res-btn" style="margin:0; justify-content:center; text-align:center;">РИПО (Лента)</a>
-
+            <a href="http://ripo.by" target="_blank" class="link-btn">📢 РИПО (Новости)</a>
         </div>
 
     </div>
@@ -1035,131 +951,87 @@ document.addEventListener('alpine:init', () => {
         }
     }));
 });
-</script>
-</body>
-</html>
 <script>
-
-    document.addEventListener('alpine:init', () => {
+document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
+        // --- Системные переменные ---
         tab: 1,
-        // Загружаем ранг из памяти или ставим "Студент" по умолчанию
-        rank: localStorage.getItem('rank') || 'Студент',
+        rank: localStorage.getItem('artel_rank') || 'Студент',
         pass: '',
-        fact: '',
-        facts: ["Бритва Оккама", "Закон Мерфи", "Павел Сухой", "Жорес Алферов", "Синяя изолента - основа инженерии"],
-        month: new Intl.DateTimeFormat('ru', {month: 'long'}).format(new Date()),
-        days: Array.from({length: new Date(2026, new Date().getMonth() + 1, 0).getDate()}, (_, i) => i + 1),
-        blanks: (new Date(2026, new Date().getMonth(), 1).getDay() || 7) - 1,
         
-        activeGroup: '',
-        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "15ТМ"]'),
-        newTask: '',
-        tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
-        chatMsg: '',
-        chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
+        // --- Часы и Дата ---
+        currentTime: new Date().toLocaleTimeString('ru'),
+        todayDate: new Intl.DateTimeFormat('ru', { 
+            day: 'numeric', 
+            month: 'long', 
+            weekday: 'long' 
+        }).format(new Date()),
 
-        isToday(d) { return new Date().getDate() === d; },
+        // --- Расписание (12 уроков по 45 мин + 10 мин перерыв) ---
+        schedule: [
+            '08:15 - 09:00', '09:10 - 09:55', '10:05 - 10:50', 
+            '11:00 - 11:45', '11:55 - 12:40', '12:50 - 13:35', 
+            '13:45 - 14:30', '14:40 - 15:25', '15:35 - 16:20', 
+            '16:30 - 17:15', '17:25 - 18:10', '18:20 - 19:05'
+        ],
 
-        // ЛОГИКА ВХОДА: 2026 - Препод, 0000 - Админ
-        login() {
-            let p = this.pass.trim();
-            if (p === '2026') {
-                this.rank = 'Мастодонт';
-                localStorage.setItem('rank', 'Мастодонт');
-                this.pass = '';
-                this.tab = 1; // Возвращаем на главную после входа
-            } else if (p === '0000') {
-                this.rank = 'Админ';
-                localStorage.setItem('rank', 'Админ');
-                this.pass = '';
-                this.tab = 8; // Остаемся в админке, чтобы видеть QR
-            } else { 
-                alert('Код не принят!'); 
-                this.pass = '';
-            }
+        // --- Зачетка и Группы ---
+        groups: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "15ТМ"]'),
+        selGroup: '57ТО',
+        tasks: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
+        tempTask: '',
+
+        // --- Инициализация (запуск часов) ---
+        init() {
+            setInterval(() => {
+                this.currentTime = new Date().toLocaleTimeString('ru');
+            }, 1000);
+            this.selGroup = this.groups[0] || '';
         },
 
-        logout() { 
-            this.rank = 'Студент'; 
-            localStorage.setItem('rank', 'Студент'); 
-            this.tab = 1; 
+        // --- Функции управления ---
+        login() {
+            if(this.pass === '2026') this.rank = 'Мастодонт';
+            else if(this.pass === '0000') this.rank = 'Админ';
+            else return alert('Неверный код');
+            localStorage.setItem('artel_rank', this.rank);
+            this.pass = ''; this.tab = 1;
+        },
+        
+        logout() {
+            this.rank = 'Студент';
+            localStorage.setItem('artel_rank', 'Студент');
+            this.tab = 1;
         },
 
         addGroup() {
-            if (this.rank === 'Студент') return alert('Нет доступа');
-            let n = prompt("Название группы:");
-            if (n && n.trim()) {
-                let clean = n.trim().toUpperCase();
-                if(!this.groups_list.includes(clean)) {
-                    this.groups_list.push(clean);
-                    this.activeGroup = clean;
-                    this.save();
-                }
-            }
-        },
-
-        removeGroup(name) {
-            if (this.rank === 'Студент') return;
-            if(confirm('Удалить группу и все данные?')) {
-                this.groups_list = this.groups_list.filter(g => g !== name);
-                delete this.tasks_data[name];
-                this.activeGroup = this.groups_list[0] || '';
-                this.save();
+            let n = prompt("Введите номер новой группы:");
+            if(n) { 
+                this.groups.push(n.toUpperCase()); 
+                this.save(); 
             }
         },
 
         addTask() {
-            if (this.rank === 'Студент' || !this.newTask.trim() || !this.activeGroup) return;
-            if(!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
-            this.tasks_data[this.activeGroup].unshift({
+            if(!this.tempTask.trim()) return;
+            if(!this.tasks[this.selGroup]) this.tasks[this.selGroup] = [];
+            this.tasks[this.selGroup].unshift({
                 id: Date.now(), 
-                text: this.newTask, 
-                time: new Date().toLocaleDateString()
+                text: this.tempTask.trim()
             });
-            this.newTask = '';
+            this.tempTask = ''; 
             this.save();
         },
 
-        removeTask(id) {
-            if (this.rank === 'Студент') return;
-            this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id);
+        delTask(id) {
+            this.tasks[this.selGroup] = this.tasks[this.selGroup].filter(t => t.id !== id);
             this.save();
-        },
-
-        addChatMessage() {
-            if (this.rank === 'Студент' || !this.chatMsg.trim()) return;
-            this.chat_history.unshift({
-                id: Date.now(), 
-                text: this.chatMsg, 
-                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
-            });
-            this.chatMsg = '';
-            this.save();
-        },
-
-        clearChat() {
-            if (this.rank === 'Админ' && confirm('Очистить чат?')) {
-                this.chat_history = [];
-                this.save();
-            }
         },
 
         save() {
-            localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
-            localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
-            localStorage.setItem('artel_chat', JSON.stringify(this.chat_history));
-        },
-
-        init() { 
-            this.fact = this.facts[Math.floor(Math.random() * this.facts.length)]; 
-            this.activeGroup = this.groups_list[0] || '';
+            localStorage.setItem('artel_groups', JSON.stringify(this.groups));
+            localStorage.setItem('artel_tasks', JSON.stringify(this.tasks));
         }
     }));
 });
-
 </script>
-
-</body>
-
-</html> 
