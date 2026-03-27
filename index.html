@@ -1017,6 +1017,7 @@ document.addEventListener('alpine:init', () => {
             this.chat_history.unshift({id: Date.now(), text: this.chatMsg, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
             this.chatMsg = ''; this.save();
         },
+        clearChat() { if(confirm('Очистить чат?')) { this.chat_history = []; this.save(); } },
         save() {
             localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
             localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
@@ -1028,128 +1029,6 @@ document.addEventListener('alpine:init', () => {
         }
     }));
 });
-<script>
-
-    document.addEventListener('alpine:init', () => {
-    Alpine.data('artel', () => ({
-        tab: 1,
-        // Загружаем ранг из памяти или ставим "Студент" по умолчанию
-        rank: localStorage.getItem('rank') || 'Студент',
-        pass: '',
-        fact: '',
-        facts: ["Бритва Оккама", "Закон Мерфи", "Павел Сухой", "Жорес Алферов", "Синяя изолента - основа инженерии"],
-        month: new Intl.DateTimeFormat('ru', {month: 'long'}).format(new Date()),
-        days: Array.from({length: new Date(2026, new Date().getMonth() + 1, 0).getDate()}, (_, i) => i + 1),
-        blanks: (new Date(2026, new Date().getMonth(), 1).getDay() || 7) - 1,
-        
-        activeGroup: '',
-        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "15ТМ"]'),
-        newTask: '',
-        tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
-        chatMsg: '',
-        chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
-
-        isToday(d) { return new Date().getDate() === d; },
-
-        // ЛОГИКА ВХОДА: 2026 - Препод, 0000 - Админ
-        login() {
-            let p = this.pass.trim();
-            if (p === '2026') {
-                this.rank = 'Мастодонт';
-                localStorage.setItem('rank', 'Мастодонт');
-                this.pass = '';
-                this.tab = 1; // Возвращаем на главную после входа
-            } else if (p === '0000') {
-                this.rank = 'Админ';
-                localStorage.setItem('rank', 'Админ');
-                this.pass = '';
-                this.tab = 8; // Остаемся в админке, чтобы видеть QR
-            } else { 
-                alert('Код не принят!'); 
-                this.pass = '';
-            }
-        },
-
-        logout() { 
-            this.rank = 'Студент'; 
-            localStorage.setItem('rank', 'Студент'); 
-            this.tab = 1; 
-        },
-
-        addGroup() {
-            if (this.rank === 'Студент') return alert('Нет доступа');
-            let n = prompt("Название группы:");
-            if (n && n.trim()) {
-                let clean = n.trim().toUpperCase();
-                if(!this.groups_list.includes(clean)) {
-                    this.groups_list.push(clean);
-                    this.activeGroup = clean;
-                    this.save();
-                }
-            }
-        },
-
-        removeGroup(name) {
-            if (this.rank === 'Студент') return;
-            if(confirm('Удалить группу и все данные?')) {
-                this.groups_list = this.groups_list.filter(g => g !== name);
-                delete this.tasks_data[name];
-                this.activeGroup = this.groups_list[0] || '';
-                this.save();
-            }
-        },
-
-        addTask() {
-            if (this.rank === 'Студент' || !this.newTask.trim() || !this.activeGroup) return;
-            if(!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
-            this.tasks_data[this.activeGroup].unshift({
-                id: Date.now(), 
-                text: this.newTask, 
-                time: new Date().toLocaleDateString()
-            });
-            this.newTask = '';
-            this.save();
-        },
-
-        removeTask(id) {
-            if (this.rank === 'Студент') return;
-            this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id);
-            this.save();
-        },
-
-        addChatMessage() {
-            if (this.rank === 'Студент' || !this.chatMsg.trim()) return;
-            this.chat_history.unshift({
-                id: Date.now(), 
-                text: this.chatMsg, 
-                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
-            });
-            this.chatMsg = '';
-            this.save();
-        },
-
-        clearChat() {
-            if (this.rank === 'Админ' && confirm('Очистить чат?')) {
-                this.chat_history = [];
-                this.save();
-            }
-        },
-
-        save() {
-            localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
-            localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
-            localStorage.setItem('artel_chat', JSON.stringify(this.chat_history));
-        },
-
-        init() { 
-            this.fact = this.facts[Math.floor(Math.random() * this.facts.length)]; 
-            this.activeGroup = this.groups_list[0] || '';
-        }
-    }));
-});
-
 </script>
-
 </body>
-
-</html> 
+</html>
