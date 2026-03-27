@@ -954,50 +954,33 @@ document.addEventListener('alpine:init', () => {
 <script>
 document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
-        // --- Системные переменные ---
         tab: 1,
         rank: localStorage.getItem('artel_rank') || 'Студент',
         pass: '',
-        
-        // --- Часы и Дата ---
+        // Новые переменные для работы первой страницы
         currentTime: new Date().toLocaleTimeString('ru'),
-        todayDate: new Intl.DateTimeFormat('ru', { 
-            day: 'numeric', 
-            month: 'long', 
-            weekday: 'long' 
-        }).format(new Date()),
-
-        // --- Расписание (12 уроков по 45 мин + 10 мин перерыв) ---
-        schedule: [
-            '08:15 - 09:00', '09:10 - 09:55', '10:05 - 10:50', 
-            '11:00 - 11:45', '11:55 - 12:40', '12:50 - 13:35', 
-            '13:45 - 14:30', '14:40 - 15:25', '15:35 - 16:20', 
-            '16:30 - 17:15', '17:25 - 18:10', '18:20 - 19:05'
-        ],
-
-        // --- Зачетка и Группы ---
+        todayDate: new Intl.DateTimeFormat('ru', { day: 'numeric', month: 'long', weekday: 'long' }).format(new Date()),
+        schedule: ['08:15 - 09:00', '09:10 - 09:55', '10:05 - 10:50', '11:00 - 11:45', '11:55 - 12:40', '12:50 - 13:35', '13:45 - 14:30', '14:40 - 15:25', '15:35 - 16:20', '16:30 - 17:15', '17:25 - 18:10', '18:20 - 19:05'],
+        
+        // Возвращенная логика Зачетки
         groups: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "15ТМ"]'),
         selGroup: '57ТО',
         tasks: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
         tempTask: '',
 
-        // --- Инициализация (запуск часов) ---
         init() {
-            setInterval(() => {
-                this.currentTime = new Date().toLocaleTimeString('ru');
-            }, 1000);
-            this.selGroup = this.groups[0] || '';
+            // Запуск только часов
+            setInterval(() => { this.currentTime = new Date().toLocaleTimeString('ru'); }, 1000);
         },
 
-        // --- Функции управления ---
         login() {
-            if(this.pass === '2026') this.rank = 'Мастодонт';
+            if(this.pass === '2026') this.rank = 'Гранд Мастер';
             else if(this.pass === '0000') this.rank = 'Админ';
-            else return alert('Неверный код');
+            else return alert('Отказ');
             localStorage.setItem('artel_rank', this.rank);
             this.pass = ''; this.tab = 1;
         },
-        
+
         logout() {
             this.rank = 'Студент';
             localStorage.setItem('artel_rank', 'Студент');
@@ -1005,22 +988,15 @@ document.addEventListener('alpine:init', () => {
         },
 
         addGroup() {
-            let n = prompt("Введите номер новой группы:");
-            if(n) { 
-                this.groups.push(n.toUpperCase()); 
-                this.save(); 
-            }
+            let n = prompt("Группа:");
+            if(n) { this.groups.push(n.toUpperCase()); this.save(); }
         },
 
         addTask() {
             if(!this.tempTask.trim()) return;
             if(!this.tasks[this.selGroup]) this.tasks[this.selGroup] = [];
-            this.tasks[this.selGroup].unshift({
-                id: Date.now(), 
-                text: this.tempTask.trim()
-            });
-            this.tempTask = ''; 
-            this.save();
+            this.tasks[this.selGroup].unshift({ id: Date.now(), text: this.tempTask.trim() });
+            this.tempTask = ''; this.save();
         },
 
         delTask(id) {
