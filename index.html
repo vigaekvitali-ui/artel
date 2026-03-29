@@ -137,32 +137,27 @@
     </div>
 </div>
 <div class="page" :class="{ 'active': tab === 4 }">
-    
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
         <h2 style="margin:0">📋 Зачетка</h2>
         <template x-if="rank !== 'Студент'">
             <button @click="addGroup()" style="background:#22c55e; color:white; border:none; padding:5px 10px; border-radius:6px; font-size:0.7rem">+ Группа</button>
         </template>
     </div>
-
     <div class="group-tabs">
         <template x-for="g in groups_list" :key="g">
             <button @click="activeGroup = g" :class="activeGroup === g ? 'active-group-btn' : 'group-btn'" x-text="g"></button>
         </template>
     </div>
-
     <template x-if="rank !== 'Студент' && activeGroup">
         <div class="card" style="display:flex; gap:5px; margin-bottom:15px; background:#f8fafc">
             <input type="text" x-model="newTask" @keydown.enter="addTask()" placeholder="Что записать?" style="flex:1; padding:10px; border:1px solid var(--border); border-radius:8px; font-size:0.8rem">
             <button @click="addTask()" style="background:var(--primary); color:white; border:none; padding:0 15px; border-radius:8px; font-weight:bold">ОК</button>
         </div>
     </template>
-
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
         <b style="font-size:0.8rem" x-text="'События для ' + activeGroup"></b>
         <button @click="removeGroup(activeGroup)" x-show="rank === 'Мастодонт' || rank === 'Админ'" style="background:none; border:none; color:#ef4444; font-size:0.7rem; cursor:pointer">🗑 Удалить группу</button>
     </div>
-
     <template x-for="task in (tasks_data[activeGroup] || [])" :key="task.id">
         <div class="card" style="display:flex; justify-content:space-between; padding:10px; align-items:center">
             <div>
@@ -174,284 +169,71 @@
             </template>
         </div>
     </template>
-
 </div>
 <div class="page" :class="{ 'active': tab === 5 }">
-
-
-
     <div class="vpn-alert">⚠️ VPN необходим!</div>
-
-
-
     <h3 style="margin:0">💡 Промт-Станция</h3>
-
-
-
     <h4 style="color:var(--primary);font-size:0.7rem;margin:15px 0 5px">🌐 VPN (ДЛЯ ДОСТУПА)</h4>
-
-
-
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:15px">
-
-
-
         <a href="https://protonvpn.com" target="_blank" class="res-btn">Proton</a>
-
-
-
         <a href="https://psiphon.ca" target="_blank" class="res-btn">Psiphon</a>
-
-
-
         <a href="https://www.urban-vpn.com" target="_blank" class="res-btn">Urban VPN</a>
-
-
-
         <a href="https://windscribe.com" target="_blank" class="res-btn">Windscribe</a>
-
-
-
         <a href="https://1.1.1.1" target="_blank" class="res-btn">Cloudflare</a>
-
-
-
         <a href="https://browsec.com" target="_blank" class="res-btn">Browsec</a>
-
-
-
     </div>
-
-
-
     <h4 style="color:var(--primary);font-size:0.7rem;margin:15px 0 5px">🤠 ПРОМТКОВБОЙ И СЕРВИСЫ</h4>
-
-
-
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:15px">
-
-
-
         <a href="https://promptcowboy.com" target="_blank" class="res-btn">PromptCowboy</a>
-
-
-
         <a href="https://prompthero.com" target="_blank" class="res-btn">PromptHero</a>
-
-
-
         <a href="https://autoprompt.cc" target="_blank" class="res-btn">AutoPrompt</a>
-
-
-
         <a href="https://нейросеть.рф" target="_blank" class="res-btn">Нейросеть.рф</a>
-
-
-
     </div>
-
-
-
     <h4 style="color:var(--primary);font-size:0.7rem;margin:15px 0 5px">🛡️ АНТИПЛАГИАТ</h4>
-
-
-
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:15px">
-
-
-
         <a href="https://text.ru" target="_blank" class="res-btn">Text.ru</a>
-
-
-
         <a href="https://gptzero.me" target="_blank" class="res-btn">GPTZero</a>
-
-
-
     </div>
-
-
-
     <h4 style="color:var(--primary);font-size:0.7rem;margin:10px 0 5px">📋 МОИ ШАБЛОНЫ</h4>
-
-
-
     <div class="card">
-
-
-
         <b>👨‍🏫 Для лекций:</b>
-
-
-
         <div class="prompt-text">Действуй как эксперт в области автомеханики. Составь план занятия на тему [ТЕМА]. Добавь 3 вопроса для проверки и одну задачу по диагностике поломки.</div>
-
-
-
         <br><b>🛠️ Диагностика:</b>
-
-
-
         <div class="prompt-text">Симптомы: [ОПИСАНИЕ]. Ошибки: [КОДЫ]. Составь пошаговый алгоритм проверки узлов, начиная с самых вероятных.</div>
-
-
-
     </div>
-
-
-
 </div>
-
-
-
-
-
-
-
 <div class="page" :class="{ 'active': tab === 6 }">
-
-
-
     <div class="vpn-alert">⚠️ VPN необходим для большинства сервисов!</div>
-
-
-
-    
-
-
-
     <h4 style="color:var(--primary);font-size:0.7rem;margin:0 0 8px">🧠 ТЕКСТ / КОД / РЕШЕНИЯ</h4>
-
-
-
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:15px">
-
-
-
         <a href="https://chatgpt.com" target="_blank" class="res-btn" style="border-left:4px solid #10a37f">ChatGPT</a>
-
-
-
         <a href="https://gemini.google.com" target="_blank" class="res-btn" style="border-left:4px solid #4285f4">Gemini</a>
-
-
-
         <a href="https://claude.ai" target="_blank" class="res-btn" style="border-left:4px solid #d97757">Claude AI</a>
-
-
-
         <a href="https://chat.deepseek.com" target="_blank" class="res-btn" style="border-left:4px solid #4ade80">DeepSeek</a>
-
-
-
         <a href="https://perplexity.ai" target="_blank" class="res-btn" style="grid-column:span 2">🔍 Perplexity (Поиск с источниками)</a>
-
-
-
         <a href="https://blackbox.ai" target="_blank" class="res-btn">💻 Blackbox (Код)</a>
-
-
-
         <a href="https://notebooklm.google.com" target="_blank" class="res-btn">📚 NotebookLM</a>
-
-
-
     </div>
-
-
-
-
-
-
-
     <h4 style="color:var(--primary);font-size:0.7rem;margin:0 0 8px">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</h4>
-
-
-
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:15px">
-
-
-
         <a href="https://midjourney.com" target="_blank" class="res-btn">Midjourney</a>
-
-
-
         <a href="https://leonardo.ai" target="_blank" class="res-btn">Leonardo</a>
-
-
-
         <a href="https://fusionbrain.ai" target="_blank" class="res-btn">Kandinsky</a>
-
-
-
         <a href="https://ideogram.ai" target="_blank" class="res-btn">Ideogram</a>
-
-
-
     </div>
-
-
-
-
-
-
-
     <h4 style="color:var(--primary);font-size:0.7rem;margin:0 0 8px">🛠️ ИНЖЕНЕРИЯ / СХЕМЫ / ПРЕЗЕНТЫ</h4>
-
-
-
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:15px">
-
-
-
         <a href="https://gamma.app" target="_blank" class="res-btn" style="border-left:4px solid #9333ea">Gamma (Презентации)</a>
-
-
-
         <a href="https://napkin.ai" target="_blank" class="res-btn">Napkin (Схемы)</a>
-
-
-
         <a href="https://tome.app" target="_blank" class="res-btn">Tome (Сторителлинг)</a>
-
-
-
         <a href="https://wolframalpha.com" target="_blank" class="res-btn">📐 WolframAlpha</a>
-
-
-
     </div>
-
-
-
-
-
-
-
     <h4 style="color:var(--primary);font-size:0.7rem;margin:0 0 8px">🎬 МЕДИА (ФОТО / ЗВУК)</h4>
-
-
-
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-
-
-
         <a href="https://www.remove.bg" target="_blank" class="res-btn">Удалить фон</a>
-
-
-
         <a href="https://replicate.com/guosongchi/waifu2x" target="_blank" class="res-btn">Улучшить фото</a>
-
-
-
         <a href="https://podcast.adobe.com/enhance" target="_blank" class="res-btn">🎤 Очистить звук</a>
-
-
-
         <a href="https://vocalremover.org" target="_blank" class="res-btn">✂️ Голос/Музыка</a>
-
-
-
     </div>
 
 
