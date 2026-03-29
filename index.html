@@ -139,6 +139,13 @@
 <div class="page" :class="{ 'active': tab === 4 }">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
         <h2 style="margin:0">📋 Зачетка</h2>
+        <div class="card" style="border: 2px solid #f97316; background: #fff7ed; padding: 10px; margin-bottom: 10px;">
+    <div style="font-weight:bold; font-size:0.7rem; color:#c2410c; margin-bottom:5px">📢 ОБЩАЯ СВЯЗЬ (ОБЛАКО)</div>
+    <div style="display:flex; gap:5px">
+        <input type="text" x-model="studentMsg" @keydown.enter="sendToCloud()" placeholder="Ваш вопрос..." style="flex:1; padding:10px; border:1px solid #cbd5e1; border-radius:8px;">
+        <button @click="sendToCloud()" style="background:#f97316; color:white; border:none; padding:0 15px; border-radius:8px; font-weight:bold">📤</button>
+    </div>
+</div>
         <template x-if="rank !== 'Студент'">
             <button @click="addGroup()" style="background:#22c55e; color:white; border:none; padding:5px 10px; border-radius:6px; font-size:0.7rem">+ Группа</button>
         </template>
@@ -340,6 +347,7 @@ document.addEventListener('alpine:init', () => {
         activeGroup: '',
         groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "15ТМ"]'),
         newTask: '',
+        studentMsg: '',
         tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
         chatMsg: '',
         chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
@@ -358,7 +366,7 @@ document.addEventListener('alpine:init', () => {
         },
         removeGroup(name) {
             if (this.rank !== 'Админ') return;
-            if (confirm('Удалить?')) { this.groups_list = this.groups_list.filter(g => g !== name); this.save(); }
+            if (confirm('Удалить группу?')) { this.groups_list = this.groups_list.filter(g => g !== name); this.save(); }
         },
         addTask() {
             if (this.rank === 'Студент' || !this.newTask.trim()) return;
@@ -369,6 +377,18 @@ document.addEventListener('alpine:init', () => {
         removeTask(id) {
             if (this.rank === 'Студент') return;
             this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id); this.save();
+        },
+        sendToCloud() {
+            if (!this.studentMsg.trim() || !this.activeGroup) return;
+            const fID = "1ODgwXsd1pBsDIHY2E8zt3TNMUv8Mkn8nm98NmTf6_zE";
+            const fURL = `https://docs.google.com/forms/d/e/${fID}/formResponse`;
+            const body = new FormData();
+            body.append("entry.1262201757", this.activeGroup);
+            body.append("entry.619319691", this.studentMsg);
+            body.append("entry.1450519488", this.rank);
+            fetch(fURL, { method: "POST", mode: "no-cors", body: body })
+            .then(() => { alert("Отправлено в облако!"); this.studentMsg = ''; })
+            .catch(() => alert("Ошибка сети"));
         },
         addChatMessage() {
             if (this.rank === 'Студент' || !this.chatMsg.trim()) return;
@@ -388,5 +408,3 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 </script>
-</body>
-</html>
