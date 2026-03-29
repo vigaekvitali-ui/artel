@@ -235,124 +235,54 @@
         <a href="https://podcast.adobe.com/enhance" target="_blank" class="res-btn">🎤 Очистить звук</a>
         <a href="https://vocalremover.org" target="_blank" class="res-btn">✂️ Голос/Музыка</a>
     </div>
-
-
-
 </div>
-
-
-
-
-
-
-
 <div class="page" :class="{ 'active': tab === 7 }">
-
     <h2 style="margin:0 0 15px 0; font-size: 1.2rem; display:flex; align-items:center; gap:10px">
-
         🔔 ПЕРЕМЕНКА
-
     </h2>
-
-
-
     <h4 style="color:#64748b; font-size:0.65rem; margin:0 0 8px; text-transform:uppercase;">☕ ТАЙМ-АУТ</h4>
-
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:20px">
-
         <a href="https://radiopotok.ru/belarus" target="_blank" class="res-btn" style="margin:0; border-left:4px solid #ef4444">🇧🇾 БелРадио</a>
-
         <a href="https://www.tiktok.com" target="_blank" class="res-btn" style="margin:0; border-left:4px solid #000">🎵 Tik-Tok</a>
-
         <a href="https://www.youtube.com" target="_blank" class="res-btn" style="margin:0; border-left:4px solid #ff0000">🎬 YouTube</a>
-
         <a href="https://pikabu.ru" target="_blank" class="res-btn" style="margin:0; border-left:4px solid #4ade80">🦎 Пикабу</a>
-
         <a href="https://www.yaplakal.com" target="_blank" class="res-btn" style="margin:0; border-left:4px solid #f59e0b; grid-column: span 2; justify-content:center">🤣 ЯПлакалъ</a>
-
     </div>
-
-
-
     <h4 style="color:var(--primary); font-size:0.65rem; margin:0 0 8px; text-transform:uppercase;">🏛️ ПРЕПОДАВАТЕЛЬСКАЯ</h4>
-
     <div class="card" style="border: 2px solid var(--primary); background: #f0f7ff;">
-
         <template x-if="rank !== 'Мастодонт'">
-
             <div style="text-align:center; padding:10px;">
-
                 <div style="font-size:1.5rem">🔒</div>
-
                 <div style="font-size:0.7rem; color:#64748b">Только для Мастодонтов (вход через Админ)</div>
-
             </div>
-
         </template>
-
-
-
         <template x-if="rank === 'Мастодонт'">
-
             <div>
-
                 <div style="font-size:0.8rem; font-weight:bold; margin-bottom:10px; color:var(--primary)">Чат Артели (Локальный):</div>
-
-                
-
                 <div style="display:flex; gap:5px; margin-bottom:10px">
-
                     <input type="text" x-model="chatMsg" @keydown.enter="addChatMessage()" placeholder="Написать коллегам..." style="flex:1; padding:8px; border:1px solid var(--border); border-radius:8px; font-size:0.8rem">
-
                     <button @click="addChatMessage()" style="background:var(--primary); color:white; border:none; padding:0 12px; border-radius:8px">💾</button>
-
                 </div>
-
-
-
                 <div style="max-height:150px; overflow-y:auto; font-size:0.75rem;">
-
                     <template x-for="m in chat_history" :key="m.id">
-
                         <div style="background:white; padding:6px; border-radius:6px; margin-bottom:5px; border-left:3px solid var(--primary)">
-
                             <div style="display:flex; justify-content:space-between; font-size:0.6rem; color:#94a3b8; margin-bottom:2px">
-
                                 <span>Мастодонт</span>
-
                                 <span x-text="m.time"></span>
-
                             </div>
-
                             <div x-text="m.text"></div>
-
                         </div>
-
                     </template>
-
                 </div>
-
                 <button @click="clearChat()" style="width:100%; background:none; border:none; color:#94a3b8; font-size:0.6rem; margin-top:10px; cursor:pointer">🧹 очистить историю</button>
-
             </div>
-
         </template>
-
     </div>
-
 </div>
-
-
-
-
-
-
-
 <div class="page" :class="{ 'active': tab === 8 }" x-cloak>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h2 style="margin: 0; font-size: 1.2rem;">⚙️ Доступ: <span x-text="rank" style="color:var(--primary)"></span></h2>
     </div>
-
     <template x-if="rank === 'Студент'">
         <div class="card" style="border-top: 4px solid var(--border); padding: 20px; text-align: center;">
             <div style="font-size: 2rem; margin-bottom: 10px;">🔐</div>
@@ -362,7 +292,6 @@
             <button @click="login()" style="width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%;">ПОДТВЕРДИТЬ</button>
         </div>
     </template>
-
     <template x-if="rank === 'Мастодонт'">
         <div class="card" style="border-left: 5px solid #2563eb; background: #f0f7ff;">
             <div style="font-weight: bold; color: #1e40af; margin-bottom: 10px;">✅ РЕЖИМ ПРЕПОДАВАТЕЛЯ</div>
@@ -370,7 +299,6 @@
             <button @click="logout()" style="width: 100%; background: #ef4444; color: white; padding: 10px; border-radius: 8px; margin-top: 15px; border: none;">ВЫЙТИ</button>
         </div>
     </template>
-
     <template x-if="rank === 'Админ'">
         <div>
             <div class="card" style="border-left: 5px solid #7c3aed; background: #f5f3ff;">
@@ -386,7 +314,6 @@
         </div>
     </template>
 </div>
-
 <nav class="nav-bar" style="grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));">
     <div class="nav-item" :class="{'active': tab === 1}" @click="tab = 1"><span class="nav-icon">🏠</span>Домой</div>
     <div class="nav-item" :class="{'active': tab === 2}" @click="tab = 2"><span class="nav-icon">📢</span>Доска</div>
@@ -394,14 +321,11 @@
     <div class="nav-item" :class="{'active': tab === 4}" @click="tab = 4"><span class="nav-icon">📋</span>Зачетка</div>
     <div class="nav-item" :class="{'active': tab === 5}" @click="tab = 5"><span class="nav-icon">💡</span>Промт</div>
     <div class="nav-item" :class="{'active': tab === 6}" @click="tab = 6"><span class="nav-icon">🤖</span>ИИ</div>
-    
     <template x-if="rank === 'Мастодонт' || rank === 'Админ'">
         <div class="nav-item" :class="{'active': tab === 7}" @click="tab = 7"><span class="nav-icon">🔔</span>Переменка</div>
     </template>
-
     <div class="nav-item" :class="{'active': tab === 8}" @click="tab = 8"><span class="nav-icon">⚙️</span>Админ</div>
 </nav>
-
 <script>
 document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
@@ -419,7 +343,6 @@ document.addEventListener('alpine:init', () => {
         tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
         chatMsg: '',
         chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
-
         isToday(d) { return new Date().getDate() === d; },
         login() {
             let p = this.pass.trim();
