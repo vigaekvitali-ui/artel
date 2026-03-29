@@ -347,43 +347,83 @@ document.addEventListener('alpine:init', () => {
         tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
         chatMsg: '',
         chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
-        isToday(d) { return new Date().getDate() === d; },
+        
+        isToday(d) { 
+            return new Date().getDate() === d; 
+        },
+
         login() {
             let p = this.pass.trim();
-            if (p === '2026') { this.rank = 'Мастодонт'; localStorage.setItem('rank', 'Мастодонт'); this.pass = ''; this.tab = 1; }
-            else if (p === '0000') { this.rank = 'Админ'; localStorage.setItem('rank', 'Админ'); this.pass = ''; this.tab = 8; }
-            else { alert('Неверно'); this.pass = ''; }
+            if (p === '2026') { 
+                this.rank = 'Мастодонт'; 
+                localStorage.setItem('rank', 'Мастодонт'); 
+                this.pass = ''; 
+                this.tab = 1; 
+            }
+            else if (p === '0000') { 
+                this.rank = 'Админ'; 
+                localStorage.setItem('rank', 'Админ'); 
+                this.pass = ''; 
+                this.tab = 8; 
+            }
+            else { 
+                alert('Неверно'); 
+                this.pass = ''; 
+            }
         },
-        logout() { this.rank = 'Студент'; localStorage.setItem('rank', 'Студент'); this.tab = 1; },
+
+        logout() { 
+            this.rank = 'Студент'; 
+            localStorage.setItem('rank', 'Студент'); 
+            this.tab = 1; 
+        },
+
         addGroup() {
             if (this.rank === 'Студент') return;
             let n = prompt("Группа:");
-            if (n) { this.groups_list.push(n.trim().toUpperCase()); this.save(); }
+            if (n) { 
+                this.groups_list.push(n.trim().toUpperCase()); 
+                this.save(); 
+            }
         },
+
         removeGroup(name) {
             if (this.rank !== 'Админ') return;
-            if (confirm('Удалить группу?')) { this.groups_list = this.groups_list.filter(g => g !== name); this.save(); }
+            if (confirm('Удалить группу?')) { 
+                this.groups_list = this.groups_list.filter(g => g !== name); 
+                this.save(); 
+            }
         },
+
         addTask() {
             if (this.rank === 'Студент' || !this.newTask.trim()) return;
             if (!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
-            this.tasks_data[this.activeGroup].unshift({id: Date.now(), text: this.newTask, time: new Date().toLocaleDateString()});
-            this.newTask = ''; this.save();
+            this.tasks_data[this.activeGroup].unshift({
+                id: Date.now(), 
+                text: this.newTask, 
+                time: new Date().toLocaleDateString()
+            });
+            this.newTask = ''; 
+            this.save();
         },
+
         removeTask(id) {
             if (this.rank === 'Студент') return;
-            this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id); this.save();
+            this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id); 
+            this.save();
         },
+
         sendToCloud() {
             if (!this.studentMsg.trim() || !this.activeGroup) {
                 alert("Выберите группу и введите сообщение");
                 return;
             }
+            // ID вашей новой формы
             const fID = "1ODgwXsd1pBsDIHY2E8zt3TNMUv8Mkn8nm98NmTf6_zE";
             const fURL = `https://docs.google.com/forms/d/e/${fID}/formResponse`;
-            const body = new FormData();
             
-            // Заряжаем данные по вашим ID
+            const body = new FormData();
+            // Эти ID полей (entry) мы будем проверять, если данные не дойдут
             body.append("entry.1262201757", this.activeGroup);
             body.append("entry.619319691", this.studentMsg);
             body.append("entry.1450519488", this.rank);
@@ -392,7 +432,7 @@ document.addEventListener('alpine:init', () => {
             .then(() => { 
                 alert("Отправлено в Артель-Облако!"); 
                 this.studentMsg = ''; 
-                // Даем Google 1.5 секунды подумать и обновляем окно журнала
+                // Принудительное обновление iframe журнала через 1.5 сек
                 setTimeout(() => {
                     const iframe = document.getElementById('cloudFrame');
                     if(iframe) iframe.src = iframe.src;
@@ -400,17 +440,31 @@ document.addEventListener('alpine:init', () => {
             })
             .catch(() => alert("Ошибка связи с Космопортом"));
         },
+
         addChatMessage() {
             if (this.rank === 'Студент' || !this.chatMsg.trim()) return;
-            this.chat_history.unshift({id: Date.now(), text: this.chatMsg, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
-            this.chatMsg = ''; this.save();
+            this.chat_history.unshift({
+                id: Date.now(), 
+                text: this.chatMsg, 
+                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+            });
+            this.chatMsg = ''; 
+            this.save();
         },
-        clearChat() { if(confirm('Очистить чат?')) { this.chat_history = []; this.save(); } },
+
+        clearChat() { 
+            if(confirm('Очистить чат?')) { 
+                this.chat_history = []; 
+                this.save(); 
+            } 
+        },
+
         save() {
             localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
             localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
             localStorage.setItem('artel_chat', JSON.stringify(this.chat_history));
         },
+
         init() { 
             this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
             this.activeGroup = this.groups_list[0] || '';
