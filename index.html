@@ -370,41 +370,41 @@ document.addEventListener('alpine:init', () => {
 
         removeGroup(name) {
             if (this.rank !== 'Админ') return;
-            if (confirm('Удалить?')) { this.groups_list = this.groups_list.filter(g => g !== name); this.save(); }
+            if (confirm('Удалить группу?')) { 
+                this.groups_list = this.groups_list.filter(g => g !== name); 
+                this.save(); 
+            }
         },
 
+        // ГЛАВНОЕ ИЗМЕНЕНИЕ: Отправка через ваш личный Apps Script сервер
         sendToCloud() {
             if (!this.studentMsg.trim() || !this.activeGroup) {
-                alert("Ошибка: Выберите группу и напишите сообщение!");
+                alert("Выберите группу и напишите сообщение!");
                 return;
             }
             
-            const fID = "1ODgwXsd1pBsDIHY2E8zt3TNMUv8Mkn8nm98NmTf6_zE";
-            const fURL = `https://docs.google.com/forms/d/e/${fID}/formResponse`;
+            // Ваша ссылка на Apps Script сервер
+            const scriptURL = "https://script.google.com/macros/s/AKfycbxSgsFqlqi6SjDFjWWMi0FU8Fk9KVEV31gOYlmaykL3Iq4wPQiOC0ZSdMEMkqwO9fLP-A/exec";
+            
+            // Формируем URL с параметрами для GET/POST запроса
+            const finalURL = `${scriptURL}?group=${encodeURIComponent(this.activeGroup)}&msg=${encodeURIComponent(this.studentMsg)}&rank=${encodeURIComponent(this.rank)}`;
 
-            // Формируем параметры в классическом виде
-            const params = new URLSearchParams();
-            params.append("entry.2048551139", this.activeGroup);
-            params.append("entry.1017409419", this.studentMsg);
-            params.append("entry.650393282", this.rank);
-
-            fetch(fURL, {
+            fetch(finalURL, {
                 method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: params.toString()
+                mode: "no-cors" // Позволяет обойти политику безопасности браузера для Google Script
             })
             .then(() => {
-                alert("ОТПРАВЛЕНО! Проверьте таблицу.");
+                alert("ОТПРАВЛЕНО В ОБЛАКО!");
                 this.studentMsg = '';
-                // Принудительно дергаем таблицу
+                // Обновляем визуальный журнал через 2 секунды
                 setTimeout(() => {
                     const iframe = document.getElementById('cloudFrame');
                     if(iframe) iframe.src = iframe.src;
                 }, 2000);
             })
             .catch(err => {
-                alert("ОШИБКА СЕТИ: " + err);
+                console.error(err);
+                alert("Ошибка связи с сервером. Проверьте интернет.");
             });
         },
 
