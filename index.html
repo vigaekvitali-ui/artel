@@ -137,36 +137,41 @@
     </div>
 </div>
 <div class="page" :class="{ 'active': tab === 4 }">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
         <h2 style="margin:0">📋 Зачетка</h2>
-        <div class="card" style="border: 2px solid #f97316; background: #fff7ed; padding: 10px; margin-bottom: 10px;">
-    <div style="font-weight:bold; font-size:0.7rem; color:#c2410c; margin-bottom:5px">📢 ОБЩАЯ СВЯЗЬ (ОБЛАКО)</div>
-    <div style="display:flex; gap:5px">
-        <input type="text" x-model="studentMsg" @keydown.enter="sendToCloud()" placeholder="Ваш вопрос..." style="flex:1; padding:10px; border:1px solid #cbd5e1; border-radius:8px;">
-        <button @click="sendToCloud()" style="background:#f97316; color:white; border:none; padding:0 15px; border-radius:8px; font-weight:bold">📤</button>
-    </div>
-</div>
         <template x-if="rank !== 'Студент'">
-            <button @click="addGroup()" style="background:#22c55e; color:white; border:none; padding:5px 10px; border-radius:6px; font-size:0.7rem">+ Группа</button>
+            <button @click="addGroup()" style="background:#22c55e; color:white; border:none; padding:8px 12px; border-radius:8px; font-size:0.75rem; font-weight:bold">+ Группа</button>
         </template>
     </div>
+
+    <div class="card" style="border: 2px solid #f97316; background: #fff7ed; padding: 12px; margin-bottom: 15px;">
+        <div style="font-weight:bold; font-size:0.7rem; color:#c2410c; margin-bottom:5px">📢 ОБЩАЯ СВЯЗЬ (ОБЛАКО)</div>
+        <div style="display:flex; gap:5px">
+            <input type="text" x-model="studentMsg" @keydown.enter="sendToCloud()" placeholder="Ваш вопрос..." style="flex:1; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem">
+            <button @click="sendToCloud()" style="background:#f97316; color:white; border:none; padding:0 15px; border-radius:8px; font-weight:bold">📤</button>
+        </div>
+    </div>
+
     <div class="group-tabs">
         <template x-for="g in groups_list" :key="g">
             <button @click="activeGroup = g" :class="activeGroup === g ? 'active-group-btn' : 'group-btn'" x-text="g"></button>
         </template>
     </div>
+
     <template x-if="rank !== 'Студент' && activeGroup">
         <div class="card" style="display:flex; gap:5px; margin-bottom:15px; background:#f8fafc">
-            <input type="text" x-model="newTask" @keydown.enter="addTask()" placeholder="Что записать?" style="flex:1; padding:10px; border:1px solid var(--border); border-radius:8px; font-size:0.8rem">
+            <input type="text" x-model="newTask" @keydown.enter="addTask()" placeholder="Что записать группе?" style="flex:1; padding:10px; border:1px solid var(--border); border-radius:8px; font-size:0.8rem">
             <button @click="addTask()" style="background:var(--primary); color:white; border:none; padding:0 15px; border-radius:8px; font-weight:bold">ОК</button>
         </div>
     </template>
+
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
         <b style="font-size:0.8rem" x-text="'События для ' + activeGroup"></b>
         <button @click="removeGroup(activeGroup)" x-show="rank === 'Мастодонт' || rank === 'Админ'" style="background:none; border:none; color:#ef4444; font-size:0.7rem; cursor:pointer">🗑 Удалить группу</button>
     </div>
+
     <template x-for="task in (tasks_data[activeGroup] || [])" :key="task.id">
-        <div class="card" style="display:flex; justify-content:space-between; padding:10px; align-items:center">
+        <div class="card" style="display:flex; justify-content:space-between; padding:10px; align-items:center; margin-bottom:8px">
             <div>
                 <div style="font-weight:bold; font-size:0.8rem" x-text="task.text"></div>
                 <div style="font-size:0.6rem; color:#94a3b8" x-text="task.time"></div>
@@ -176,6 +181,17 @@
             </template>
         </div>
     </template>
+
+    <div class="card" style="margin-top:20px; background:#f1f5f9; border:1px solid #cbd5e1; padding: 5px;">
+        <div style="font-weight:bold; font-size:0.65rem; color:#64748b; margin-bottom:5px; display:flex; justify-content:space-between; padding: 0 5px;">
+            <span>📜 ЖУРНАЛ СООБЩЕНИЙ (ОБЛАКО)</span>
+            <span style="color:#f97316; cursor:pointer; font-size:0.6rem;" onclick="document.getElementById('cloudFrame').src += ''">🔄 ОБНОВИТЬ</span>
+        </div>
+        <iframe id="cloudFrame" 
+                src="https://docs.google.com/spreadsheets/d/1y3vUKkOuj5dGFO2q4nzLD5EbB7f1X9fd3QAtFYjR1uM/pubhtml?gid=758036400&single=true&widget=false&headers=false&range=A1:D30" 
+                style="width:100%; height:300px; border:none; border-radius:8px; background:white;">
+        </iframe>
+    </div>
 </div>
 <div class="page" :class="{ 'active': tab === 5 }">
     <div class="vpn-alert">⚠️ VPN необходим!</div>
