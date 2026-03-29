@@ -160,20 +160,7 @@
 
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
         <b style="font-size:0.8rem" x-text="'События для ' + activeGroup"></b>
-        <button @click="removeGroup(activeGroup)" x-show="rank === 'Мастодонт' || rank === 'Админ'" style="background:none; border:none; color:#ef4444; font-size:0.7rem; cursor:pointer">🗑 Удалить группу</button>
     </div>
-
-    <template x-for="task in (tasks_data[activeGroup] || [])" :key="task.id">
-        <div class="card" style="display:flex; justify-content:space-between; padding:10px; align-items:center; margin-bottom:8px">
-            <div>
-                <div style="font-weight:bold; font-size:0.8rem" x-text="task.text"></div>
-                <div style="font-size:0.6rem; color:#94a3b8" x-text="task.time"></div>
-            </div>
-            <template x-if="rank !== 'Студент'">
-                <button @click="removeTask(task.id)" style="color:#ef4444; background:none; border:none; font-size:1.2rem; padding:0 5px">&times;</button>
-            </template>
-        </div>
-    </template>
 
     <div class="card" style="margin-top:20px; background:#f1f5f9; border:1px solid #cbd5e1; padding: 5px;">
         <div style="font-weight:bold; font-size:0.65rem; color:#64748b; margin-bottom:5px; display:flex; justify-content:space-between; padding: 0 5px;">
@@ -181,8 +168,8 @@
             <span style="color:#f97316; cursor:pointer; font-size:0.6rem;" onclick="document.getElementById('cloudFrame').src += ''">🔄 ОБНОВИТЬ</span>
         </div>
         <iframe id="cloudFrame" 
-                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQEOqRDxXItz4wtqIa_ufa47hEX1sHu6fIHRY-O_d6WyO_XX8CCxNpKMHYr0_YhJqeXK1nHnsqDBdHC/pubhtml?widget=false&headers=false&chrome=false" 
-                style="width:100%; height:350px; border:none; border-radius:8px; background:white;">
+                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQEOqRDxXItz4wtqIa_ufa47hEX1sHu6fIHRY-O_d6WyO_XX8CCxNpKMHYr0_YhJqeXK1nHnsqDBdHC/pubhtml?gid=758036400&single=true&widget=false&headers=false&chrome=false" 
+                style="width:100%; height:400px; border:none; border-radius:8px; background:white;">
         </iframe>
     </div>
 </div>
