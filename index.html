@@ -49,101 +49,28 @@
 <body x-data="artel">
 <header>
     <div style="font-weight: 900; color: var(--primary); font-size: 1.4rem;">АРТЕЛЬ</div>
-
-
-
     <div style="font-size: 0.7rem; font-weight: bold; color: #64748b;" x-text="rank"></div>
-
-
-
 </header>
-
-
-
-
-
-
-
 <div class="page" :class="{ 'active': tab === 1 }">
-
-
-
     <div class="hero-block">
-
-
-
         <div class="fact-box" x-text="fact"></div>
-
-
-
         <div class="mini-calendar">
-
-
-
             <div style="text-align: center; font-weight: bold; margin-bottom: 4px; text-transform: uppercase;" x-text="month"></div>
-
-
-
             <div class="cal-grid">
-
-
-
                 <template x-for="h in ['П','В','С','Ч','П','С','В']"><div style="font-weight:bold;color:#94a3b8" x-text="h"></div></template>
-
-
-
                 <template x-for="b in blanks"><div></div></template>
-
-
-
                 <template x-for="d in days"><div :class="isToday(d) ? 'cal-today' : ''" x-text="d"></div></template>
-
-
-
             </div>
-
-
-
         </div>
-
-
-
     </div>
-
-
-
     <form action="https://www.google.com/search" method="get" target="_blank" class="google-form">
-
-
-
         <input type="text" name="q" class="google-input" placeholder="Поиск в Google...">
-
-
-
         <button type="submit" class="google-btn">🔎</button>
-
-
-
     </form>
-
-
-
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-
-
-
         <a href="https://ogaek.by" target="_blank" class="res-btn" style="background:#fffbeb;grid-column:span 2;">🏫 ОГАЭК</a>
-
-
-
         <a href="https://cyberleninka.ru" target="_blank" class="res-btn">📖 Ленинка</a>
-
-
-
         <a href="https://scholar.google.com" target="_blank" class="res-btn">🎓 Академия</a>
-
-
-
     </div>
 
 
