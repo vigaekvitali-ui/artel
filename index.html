@@ -388,16 +388,30 @@ document.addEventListener('alpine:init', () => {
             this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id); this.save();
         },
         sendToCloud() {
-            if (!this.studentMsg.trim() || !this.activeGroup) return;
+            if (!this.studentMsg.trim() || !this.activeGroup) {
+                alert("Выберите группу и введите сообщение");
+                return;
+            }
             const fID = "1ODgwXsd1pBsDIHY2E8zt3TNMUv8Mkn8nm98NmTf6_zE";
             const fURL = `https://docs.google.com/forms/d/e/${fID}/formResponse`;
             const body = new FormData();
+            
+            // Заряжаем данные по вашим ID
             body.append("entry.1262201757", this.activeGroup);
             body.append("entry.619319691", this.studentMsg);
             body.append("entry.1450519488", this.rank);
+
             fetch(fURL, { method: "POST", mode: "no-cors", body: body })
-            .then(() => { alert("Отправлено в облако!"); this.studentMsg = ''; })
-            .catch(() => alert("Ошибка сети"));
+            .then(() => { 
+                alert("Отправлено в Артель-Облако!"); 
+                this.studentMsg = ''; 
+                // Даем Google 1.5 секунды подумать и обновляем окно журнала
+                setTimeout(() => {
+                    const iframe = document.getElementById('cloudFrame');
+                    if(iframe) iframe.src = iframe.src;
+                }, 1500);
+            })
+            .catch(() => alert("Ошибка связи с Космопортом"));
         },
         addChatMessage() {
             if (this.rank === 'Студент' || !this.chatMsg.trim()) return;
