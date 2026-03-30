@@ -55,11 +55,15 @@
     <div class="hero-block">
         <div class="fact-box" x-text="fact"></div>
         <div class="mini-calendar">
-            <div style="text-align: center; font-weight: bold; margin-bottom: 4px; text-transform: uppercase;" x-text="month"></div>
+            <div style="text-align: center; font-weight: bold; margin-bottom: 4px; text-transform: uppercase;" x-text="currentMonthName"></div>
             <div class="cal-grid">
                 <template x-for="h in ['П','В','С','Ч','П','С','В']"><div style="font-weight:bold;color:#94a3b8" x-text="h"></div></template>
-                <template x-for="b in blanks"><div></div></template>
-                <template x-for="d in days"><div :class="isToday(d) ? 'cal-today' : ''" x-text="d"></div></template>
+                
+                <template x-for="b in firstDayOffset"><div></div></template>
+                
+                <template x-for="d in daysInMonth">
+                    <div :class="isToday(d) ? 'cal-today' : ''" x-text="d"></div>
+                </template>
             </div>
         </div>
     </div>
