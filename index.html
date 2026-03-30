@@ -283,88 +283,60 @@
     </div>
 </div>
 
-<div style="position: fixed; bottom: 65px; width: 100%; background: white; border-top: 1px solid #eee; display: flex; justify-content: space-around; padding: 10px 0; z-index: 999; box-shadow: 0 -2px 5px rgba(0,0,0,0.05);">
-    <template x-if="tab === 2 || tab === 3">
-        <div style="display: flex; gap: 20px;">
-            <button @click="tab = 2" :style="tab === 2 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.7rem;">ИНФО</button>
-            <button @click="tab = 3" :style="tab === 3 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.7rem;">ТЕХ</button>
-        </div>
-    </template>
-    <template x-if="tab >= 5 && tab <= 8">
-        <div style="display: flex; gap: 15px;">
-            <button @click="tab = 5" :style="tab === 5 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.6rem;">ПРОМПТ</button>
-            <button @click="tab = 6" :style="tab === 6 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.6rem;">AI</button>
-            <button @click="tab = 7" :style="tab === 7 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.6rem;">ЧАЙ</button>
-            <button @click="tab = 8" :style="tab === 8 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.6rem;">🔑</button>
-        </div>
-    </template>
-</div>
-<div class="page" :class="{ 'active': tab === 8 }">
-    <h2 style="margin: 0 0 20px 0; font-size: 1.2rem;">⚙️ Доступ: <span x-text="rank" style="color:var(--primary)"></span></h2>
+
+<div class="page" :class="{ 'active': tab === 8 }" x-cloak>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0; font-size: 1.2rem;">⚙️ Доступ: <span x-text="rank" style="color:var(--primary)"></span></h2>
+    </div>
 
     <template x-if="rank === 'Студент'">
-        <div class="card" style="text-align: center; padding: 20px;">
-            <p style="font-size: 0.8rem; color: #64748b;">Введите код:</p>
-            <input type="password" x-model="pass" @keydown.enter="login()" placeholder="****" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; text-align: center; margin-bottom: 15px;">
-            <button @click="login()" style="width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold;">ВХОД</button>
+        <div class="card" style="border-top: 4px solid var(--border); padding: 20px; text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 10px;">🔐</div>
+            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 15px;">Для расширенного доступа введите код:</p>
+            <input type="password" x-model="pass" @keydown.enter="login()" placeholder="****" 
+                   style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; text-align: center; font-size: 1.2rem; margin-bottom: 15px; outline: none;">
+            <button @click="login()" style="width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%;">ПОДТВЕРДИТЬ</button>
+        </div>
+    </template>
+
+    <template x-if="rank === 'Мастодонт'">
+        <div class="card" style="border-left: 5px solid #2563eb; background: #f0f7ff;">
+            <div style="font-weight: bold; color: #1e40af; margin-bottom: 10px;">✅ РЕЖИМ ПРЕПОДАВАТЕЛЯ</div>
+            <p style="font-size: 0.7rem; color: #3b82f6;">Доступ к зачетке и переменке открыт.</p>
+            <button @click="logout()" style="width: 100%; background: #ef4444; color: white; padding: 10px; border-radius: 8px; margin-top: 15px; border: none;">ВЫЙТИ</button>
         </div>
     </template>
 
     <template x-if="rank === 'Админ'">
-        <div style="display: flex; flex-direction: column; gap: 15px;">
-            <div class="card" style="border-left: 5px solid #ef4444; padding: 15px;">
-                <button @click="logout()" style="width: 100%; background: #ef4444; color: white; padding: 10px; border-radius: 8px; border: none; font-weight: bold;">ВЫЙТИ</button>
+        <div>
+            <div class="card" style="border-left: 5px solid #7c3aed; background: #f5f3ff;">
+                <div style="font-weight: bold; color: #5b21b6; margin-bottom: 10px;">⚡ РЕЖИМ АДМИНИСТРАТОРА</div>
+                <button @click="logout()" style="width: 100%; background: #ef4444; color: white; padding: 10px; border-radius: 8px; margin-top: 5px; border: none;">ВЫЙТИ</button>
             </div>
-            <div class="card" style="border-top: 4px solid #3b82f6; padding: 15px;">
-                <h3 style="margin: 0 0 15px 0; font-size: 1rem;">👥 Группы</h3>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <template x-for="g in groups_list" :key="g">
-                        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                            <span x-text="g" style="font-weight: bold;"></span>
-                            <div style="display: flex; gap: 8px;">
-                                <button @click="editGroup(g)" style="background: #fbbf24; border: none; border-radius: 6px; padding: 5px 10px;">✏️</button>
-                                <button @click="removeGroup(g)" style="background: #ef4444; border: none; border-radius: 6px; padding: 5px 10px;">❌</button>
-                            </div>
-                        </div>
-                    </template>
+            <div class="card" style="text-align: center;">
+                <div style="font-weight: bold; font-size: 0.8rem; margin-bottom: 10px;">📲 QR-КОД АРТЕЛИ</div>
+                <div style="background: white; padding: 10px; display: inline-block; border: 1px solid #eee; border-radius: 8px;">
+                    <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR" style="display: block;">
                 </div>
-                <button @click="addGroup()" style="width: 100%; margin-top: 15px; padding: 12px; background: #10b981; color: white; border: none; border-radius: 8px; font-weight: bold;">+ ДОБАВИТЬ ГРУППУ</button>
             </div>
         </div>
     </template>
 </div>
 
-<nav class="nav-bar">
-    <div class="nav-item" :class="{ 'active': tab === 1 }" @click="tab = 1">
-        <span class="nav-icon">🏠</span><span>Домой</span>
-    </div>
-    <div class="nav-item" :class="{ 'active': tab === 2 || tab === 3 }" @click="tab = 2">
-        <span class="nav-icon">📑</span><span>База</span>
-    </div>
-    <div class="nav-item" :class="{ 'active': tab === 4 }" @click="tab = 4">
-        <span class="nav-icon">📊</span><span>Зачетка</span>
-    </div>
-    <div class="nav-item" :class="{ 'active': tab >= 5 }" @click="tab = 5">
-        <span class="nav-icon">🚀</span><span>Нейро</span>
-    </div>
-</nav>
+<nav class="nav-bar" style="grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));">
+    <div class="nav-item" :class="{'active': tab === 1}" @click="tab = 1"><span class="nav-icon">🏠</span>Домой</div>
+    <div class="nav-item" :class="{'active': tab === 2}" @click="tab = 2"><span class="nav-icon">📢</span>Доска</div>
+    <div class="nav-item" :class="{'active': tab === 3}" @click="tab = 3"><span class="nav-icon">🛠️</span>Тех</div>
+    <div class="nav-item" :class="{'active': tab === 4}" @click="tab = 4"><span class="nav-icon">📋</span>Зачетка</div>
+    <div class="nav-item" :class="{'active': tab === 5}" @click="tab = 5"><span class="nav-icon">💡</span>Промт</div>
+    <div class="nav-item" :class="{'active': tab === 6}" @click="tab = 6"><span class="nav-icon">🤖</span>ИИ</div>
+    
+    <template x-if="rank === 'Мастодонт' || rank === 'Админ'">
+        <div class="nav-item" :class="{'active': tab === 7}" @click="tab = 7"><span class="nav-icon">🔔</span>Переменка</div>
+    </template>
 
-<div style="position: fixed; bottom: 65px; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #eee; font-size: 0.7rem;">
-    <template x-if="tab === 2 || tab === 3">
-        <div style="display: flex; gap: 20px;">
-            <span @click="tab = 2" :style="tab === 2 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'">ИНФО</span>
-            <span @click="tab = 3" :style="tab === 3 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'">ТЕХ</span>
-        </div>
-    </template>
-    <template x-if="tab >= 5">
-        <div style="display: flex; gap: 15px;">
-            <span @click="tab = 5" :style="tab === 5 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'">ПРОМПТ</span>
-            <span @click="tab = 6" :style="tab === 6 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'">AI</span>
-            <span @click="tab = 7" :style="tab === 7 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'">ЧАЙ</span>
-            <span @click="tab = 8" :style="tab === 8 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'">🔑</span>
-        </div>
-    </template>
-</div>
+    <div class="nav-item" :class="{'active': tab === 8}" @click="tab = 8"><span class="nav-icon">⚙️</span>Админ</div>
+</nav>
     <script>
 document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
