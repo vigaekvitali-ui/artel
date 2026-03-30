@@ -71,8 +71,53 @@
     </form>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
         <a href="https://ogaek.by" target="_blank" class="res-btn" style="background:#fffbeb;grid-column:span 2;">🏫 ОГАЭК</a>
-        <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" class="res-btn" style="border-left:5px solid #22c55e">🚗 АВТО</a>
-        <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" class="res-btn" style="border-left:5px solid #f59e0b">🚜 ТРАКТОРЫ</a>
+        <a href="https://cyberleninka.ru" target="_blank" class="res-btn">📖 Ленинка</a>
+        <a href="https://scholar.google.com" target="_blank" class="res-btn">🎓 Академия</a>
+    </div>
+    <h4 style="color:#64748b;margin:15px 0 5px;font-size:0.7rem;">📁 КАТАЛОГИ</h4>
+    <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" class="res-btn" style="border-left:5px solid #22c55e">🚗 АВТО</a>
+    <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" class="res-btn" style="border-left:5px solid #f59e0b">🚜 ТРАКТОРЫ</a>
+    <a href="https://drive.google.com/drive/folders/1KlkqrXha0zBNZWXfDS6ISiq4zs44u3hL" target="_blank" class="res-btn" style="border-left:5px solid #3b82f6">⚙️ С/Х МАШИНЫ</a>
+</div>
+
+<div class="page" :class="{ 'active': tab === 2 }">
+    <h2 style="margin:0 0 15px 0; font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 5px;">📢 ИНФО-ЦЕНТР</h2>
+    <div style="margin-bottom: 20px;">
+        <h4 style="color:#ef4444; font-size:0.65rem; margin:0 0 8px; text-transform:uppercase;">🏛️ ОБРАЗОВАНИЕ (РБ)</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <a href="https://edu.gov.by/news/" target="_blank" class="res-btn">Минобр</a>
+            <a href="https://ripo.by" target="_blank" class="res-btn">📢 РИПО</a>
+        </div>
+    </div>
+    <div style="margin-bottom: 20px;">
+        <h4 style="color:#16a34a; font-size:0.65rem; margin:0 0 8px; text-transform:uppercase;">🌾 АГРО-СЕКТОР (РБ)</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <a href="https://www.sb.by/sections/selkhoz/" target="_blank" class="res-btn">Сельхоз.BY</a>
+            <a href="https://glavpahar.ru" target="_blank" class="res-btn" style="grid-column: span 2;">ГлавПахарь</a>
+        </div>
+    </div>
+    <div>
+        <h4 style="color:#64748b; font-size:0.65rem; margin:0 0 8px; text-transform:uppercase;">📡 МОНИТОРИНГ</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <a href="https://www.ventusky.com/?p=54.02;25.90;8" target="_blank" class="res-btn">Ошмяны Погода</a>
+            <a href="https://myfin.by/currency/oshmyany" target="_blank" class="res-btn">Курсы Валют</a>
+        </div>
+    </div>
+</div>
+
+<div class="page" :class="{ 'active': tab === 3 }">
+    <h2 style="margin:0 0 15px 0; font-size: 1.2rem;">🛠️ ТЕХ-БАЗА</h2>
+    <h4 style="color:#16a34a; font-size:0.7rem; margin:0 0 8px; text-transform:uppercase;">🚜 ЗАВОДЫ РБ</h4>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:20px">
+        <a href="https://belarus-tractor.com/ru/" target="_blank" class="res-btn">МТЗ</a>
+        <a href="https://www.gomselmash.by/ru/" target="_blank" class="res-btn">Гомсельмаш</a>
+        <a href="https://maz.by/ru/products/trucks" target="_blank" class="res-btn">МАЗ</a>
+        <a href="https://belaz.by/ru/" target="_blank" class="res-btn">БЕЛАЗ</a>
+    </div>
+    <h4 style="color:#64748b; font-size:0.7rem; margin:0 0 8px; text-transform:uppercase;">💾 ИНЖЕНЕРНЫЕ БАЗЫ</h4>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <a href="https://podshypnik.info" target="_blank" class="res-btn">Подшипники</a>
+        <a href="https://znaytovar.ru" target="_blank" class="res-btn">ГОСТы / ТУ</a>
     </div>
 </div>
 
@@ -83,10 +128,41 @@
             <button @click="activeGroup = g" :class="activeGroup === g ? 'active-group-btn' : 'group-btn'" x-text="g"></button>
         </template>
     </div>
-    <div class="card" style="border: 2px solid #f97316; background: #fff7ed; padding: 12px; margin-bottom: 15px;">
-        <div style="font-weight:bold; font-size:0.7rem; color:#c2410c; margin-bottom:5px">📢 СООБЩЕНИЕ ДЛЯ: <span x-text="activeGroup"></span></div>
-        <textarea x-model="studentMsg" placeholder="Ваш вопрос..." style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem; margin-bottom:10px;"></textarea>
-        <button @click="sendToCloud()" style="width:100%; background:#f97316; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold">ОТПРАВИТЬ В ОБЛАКО 📤</button>
+    <div class="card" style="border: 2px solid #f97316; background: #fff7ed; padding: 12px;">
+        <div style="font-weight:bold; font-size:0.7rem; color:#c2410c; margin-bottom:5px">📢 ОБЩАЯ СВЯЗЬ: <span x-text="activeGroup"></span></div>
+        <textarea x-model="studentMsg" placeholder="Введите текст сообщения..." style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem; margin-bottom:10px;"></textarea>
+        <button @click="sendToCloud()" style="width:100%; background:#f97316; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold">ОТПРАВИТЬ 📤</button>
+    </div>
+</div>
+
+<div class="page" :class="{ 'active': tab === 5 }">
+    <div class="vpn-alert">⚠️ VPN необходим!</div>
+    <h3 style="margin:0">💡 Промпт-Станция</h3>
+    <div class="card" style="margin-top:15px">
+        <b>👨‍🏫 Для лекций:</b>
+        <div class="prompt-text">Действуй как эксперт в области автомеханики. Составь план занятия на тему [ТЕМА].</div>
+        <br><b>🛠️ Диагностика:</b>
+        <div class="prompt-text">Симптомы: [ОПИСАНИЕ]. Составь пошаговый алгоритм проверки.</div>
+    </div>
+</div>
+
+<div class="page" :class="{ 'active': tab === 6 }">
+    <h4 style="color:var(--primary);font-size:0.7rem;margin:0 0 8px">🧠 ТЕКСТ / КОД</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:15px">
+        <a href="https://chatgpt.com" target="_blank" class="res-btn">ChatGPT</a>
+        <a href="https://gemini.google.com" target="_blank" class="res-btn">Gemini</a>
+        <a href="https://claude.ai" target="_blank" class="res-btn">Claude AI</a>
+        <a href="https://perplexity.ai" target="_blank" class="res-btn">Perplexity</a>
+    </div>
+</div>
+
+<div class="page" :class="{ 'active': tab === 7 }">
+    <h2 style="margin:0 0 15px 0; font-size: 1.2rem;">🔔 ПЕРЕМЕНКА</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <a href="https://radiopotok.ru/belarus" target="_blank" class="res-btn">🇧🇾 БелРадио</a>
+        <a href="https://www.youtube.com" target="_blank" class="res-btn">🎬 YouTube</a>
+        <a href="https://pikabu.ru" target="_blank" class="res-btn">🦎 Пикабу</a>
+        <a href="https://www.yaplakal.com" target="_blank" class="res-btn">🤣 ЯПлакалъ</a>
     </div>
 </div>
 
@@ -100,9 +176,9 @@
     </template>
     <template x-if="rank !== 'Студент'">
         <div class="card">
-            <p style="font-weight:bold">Статус: <span x-text="rank"></span></p>
-            <button @click="addGroup()" style="background:#22c55e; color:white; border:none; padding:10px; border-radius:8px; width:100%; margin-bottom:10px;">+ Добавить группу</button>
-            <button @click="logout()" style="width:100%; background:none; border:none; color:red; text-decoration:underline; cursor:pointer">Выйти</button>
+            <p>Статус: <b x-text="rank"></b></p>
+            <button @click="addGroup()" style="background:#22c55e; color:white; border:none; padding:10px; border-radius:8px; width:100%; margin-bottom:10px;">+ Группа</button>
+            <button @click="logout()" style="width:100%; background:none; color:red; cursor:pointer">Выйти</button>
         </div>
     </template>
 </div>
@@ -162,12 +238,11 @@ document.addEventListener('alpine:init', () => {
         },
         isToday(date) {
             const now = new Date();
-            return now.getDate() === date && now.getFullYear() === 2026 && now.getMonth() === new Date().getMonth();
+            return now.getDate() === date && now.getMonth() === now.getMonth() && now.getFullYear() === 2026;
         },
         init() {
             this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
             if (this.groups_list.length > 0) this.activeGroup = this.groups_list[0];
-            
             const now = new Date();
             this.currentMonthName = now.toLocaleString('ru', { month: 'long' });
             const lastDay = new Date(2026, now.getMonth() + 1, 0).getDate();
