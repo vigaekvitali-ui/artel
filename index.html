@@ -330,7 +330,6 @@
     <div class="nav-item" :class="{'active': tab === 8}" @click="tab = 8"><span class="nav-icon">⚙️</span>Админ</div>
 </nav>
 <script>
-<script>
 document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
         tab: 1,
@@ -349,8 +348,8 @@ document.addEventListener('alpine:init', () => {
         chatMsg: '',
         chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
         
-        // Ссылка на твой скрипт (оставлена прежняя)
-        scriptURL: "https://script.google.com/macros/s/AKfycbxSgsFqlqi6SjDFjWWMi0FU8Fk9KVEV31gOYlmaykL3Iq4wPQiOC0ZSdMEMkqwO9fLP-A/exec",
+        // ВАША НОВАЯ ССЫЛКА
+        scriptURL: "https://script.google.com/macros/s/AKfycbx79sIkoWod5d9VOXGwdoSzO8Td62IbOilmsYQMEd9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec",
 
         isToday(d) { return new Date().getDate() === d; },
 
@@ -363,41 +362,43 @@ document.addEventListener('alpine:init', () => {
 
         logout() { this.rank = 'Студент'; localStorage.setItem('rank', 'Студент'); this.tab = 1; },
 
-        // ЗАГРУЗКА ГРУПП ИЗ ОБЛАКА
         async loadGroups() {
             try {
-                const response = await fetch(`${this.scriptURL}?action=getGroups`);
+                // Добавляем метку времени, чтобы избежать кэширования списка групп
+                const response = await fetch(`${this.scriptURL}?action=getGroups&t=${Date.now()}`);
                 const cloudGroups = await response.json();
                 if (cloudGroups && cloudGroups.length > 0) {
                     this.groups_list = cloudGroups;
                     localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
                     if (!this.activeGroup) this.activeGroup = this.groups_list[0];
                 }
-            } catch (e) { console.log("Облако групп пока недоступно"); }
+            } catch (e) { console.log("Связь с облаком групп..."); }
         },
 
-        // ДОБАВЛЕНИЕ ГРУППЫ (В ОБЛАКО)
         addGroup() {
             if (this.rank === 'Студент') return;
             let n = prompt("Новая группа для всех устройств:");
             if (n) { 
                 const newG = n.trim().toUpperCase();
-                this.groups_list.push(newG);
-                this.save();
-                // Отправка команды в Apps Script
                 fetch(`${this.scriptURL}?action=addGroup&name=${encodeURIComponent(newG)}`, {
                     method: "POST", mode: "no-cors"
-                }).then(() => { setTimeout(() => this.loadGroups(), 2000); });
+                }).then(() => { 
+                    // Сразу добавляем локально для визуального отклика
+                    this.groups_list.push(newG);
+                    this.save();
+                    setTimeout(() => this.loadGroups(), 3000); 
+                });
             }
         },
 
         removeGroup(name) {
             if (this.rank !== 'Админ') return;
             if (confirm('Удалить группу везде?')) { 
-                this.groups_list = this.groups_list.filter(g => g !== name); 
-                this.save();
                 fetch(`${this.scriptURL}?action=delGroup&name=${encodeURIComponent(name)}`, {
                     method: "POST", mode: "no-cors"
+                }).then(() => {
+                    this.groups_list = this.groups_list.filter(g => g !== name); 
+                    this.save();
                 });
             }
         },
@@ -418,22 +419,18 @@ document.addEventListener('alpine:init', () => {
 
         save() {
             localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
-            localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
         },
 
         init() { 
             this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
-            this.activeGroup = this.groups_list[0] || '';
-            this.loadGroups(); // Тянем группы при старте
+            this.loadGroups();
 
             setInterval(() => {
-                // Обновляем журнал
                 const iframe = document.getElementById('cloudFrame');
                 if (iframe) {
                     const currentSrc = iframe.src.split('&cachebust=')[0];
                     iframe.src = currentSrc + '&cachebust=' + Date.now();
                 }
-                // Синхронизируем группы раз в 30 сек
                 this.loadGroups();
             }, 30000);
         }
