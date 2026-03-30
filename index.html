@@ -395,105 +395,78 @@
     </nav>
 <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('artel', () => ({
-            tab: 1,
-            rank: localStorage.getItem('rank') || 'Студент',
-            pass: '',
-            fact: "Синяя изолента - основа инженерии",
-            facts: ["Бритва Оккама", "Закон Мерфи", "Павел Сухой", "Жорес Алферов", "Синяя изолента - основа инженерии"],
-            activeGroup: '',
-            groups_list: JSON.parse(localStorage.getItem('artel_groups') || '[]'),
-            studentMsg: '',
-            
-            // Список для мгновенных сообщений
-            cloudMessages: [],
-            
-            daysInMonth: [],
-            firstDayOffset: 0,
-            currentMonthName: '',
-            currentYear: 2026,
-            
-            // ИСПРАВЛЕНО: Твоя актуальная ссылка из последнего развертывания
-            cloudUrl: "https://script.google.com/macros/s/AKfycbx9KfpXYhowHjClW3PxX7IfFS2VrpCkmM1tDLIHp1o3hvwq0R22mK23FU4BlzJvUojH4Q/exec",
+    Alpine.data('artel', () => ({
+        tab: 1,
+        rank: localStorage.getItem('rank') || 'Студент',
+        pass: '',
+        fact: "Синяя изолента - основа инженерии",
+        facts: ["Бритва Оккама", "Закон Мерфи", "Павел Сухой", "Жорес Алферов", "Синяя изолента - основа инженерии"],
+        activeGroup: '',
+        // Оставляем тот список, который уже есть в браузере или пустой массив
+        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '[]'),
+        studentMsg: '',
+        
+        daysInMonth: [],
+        firstDayOffset: 0,
+        currentMonthName: '',
+        currentYear: 2026,
 
-            login() {
-                let p = this.pass.trim();
-                if (p === '2026') { this.rank = 'Мастодонт'; }
-                else if (p === '0000') { this.rank = 'Админ'; }
-                else { alert('Отказ'); return; }
-                localStorage.setItem('rank', this.rank);
-                this.pass = ''; this.tab = 8;
-            },
+        login() {
+            let p = this.pass.trim();
+            if (p === '2026') { this.rank = 'Мастодонт'; }
+            else if (p === '0000') { this.rank = 'Админ'; }
+            else { alert('Отказ'); return; }
+            localStorage.setItem('rank', this.rank);
+            this.pass = ''; this.tab = 8;
+        },
 
-            logout() { 
-                this.rank = 'Студент'; 
-                localStorage.setItem('rank', 'Студент'); 
-                this.tab = 1; 
-            },
+        logout() { 
+            this.rank = 'Студент'; 
+            localStorage.setItem('rank', 'Студент'); 
+            this.tab = 1; 
+        },
 
-            addGroup() {
-                let n = prompt("Группа:");
-                if (n) { 
-                    let newGroupName = n.trim().toUpperCase();
-                    if (!this.groups_list.includes(newGroupName)) {
-                        this.groups_list.push(newGroupName); 
-                        localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
-                        this.activeGroup = newGroupName;
-                        fetch(`${this.cloudUrl}?action=addGroup&name=${encodeURIComponent(newGroupName)}`, { method: 'POST', mode: 'no-cors' });
-                    }
-                }
-            },
-
-            // Функция быстрой загрузки сообщений
-            loadMessages() {
-                fetch(`${this.cloudUrl}?action=getMessages`)
-                    .then(res => res.json())
-                    .then(data => { 
-                        this.cloudMessages = data; 
-                    })
-                    .catch(e => console.log('Ошибка загрузки чата'));
-            },
-
-            sendToCloud() {
-                if (!this.studentMsg.trim() || !this.activeGroup) return;
-                const url = `${this.cloudUrl}?group=${encodeURIComponent(this.activeGroup)}&msg=${encodeURIComponent(this.studentMsg)}&rank=${encodeURIComponent(this.rank)}`;
-                
-                fetch(url, { method: 'POST', mode: 'no-cors' })
-                .then(() => { 
-                    this.studentMsg = ''; 
-                    // Мгновенное обновление данных после отправки
-                    setTimeout(() => this.loadMessages(), 500);
-                });
-            },
-
-            isToday(date) {
-                const today = new Date();
-                return today.getDate() === date && today.getMonth() === new Date().getMonth();
-            },
-
-            init() {
-                this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
-                
-                // Загрузка групп
-                fetch(`${this.cloudUrl}?action=getGroups`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data && data.length > 0) {
-                            this.groups_list = data;
-                            localStorage.setItem('artel_groups', JSON.stringify(data));
-                            if (!this.activeGroup) this.activeGroup = this.groups_list[0];
-                        }
-                        // Загружаем сообщения сразу после получения групп
-                        this.loadMessages();
-                    });
-
-                const now = new Date();
-                this.currentMonthName = now.toLocaleString('ru', { month: 'long' });
-                const lastDay = new Date(2026, now.getMonth() + 1, 0).getDate();
-                this.daysInMonth = Array.from({length: lastDay}, (_, i) => i + 1);
-                let firstDay = new Date(2026, now.getMonth(), 1).getDay();
-                this.firstDayOffset = (firstDay === 0) ? 6 : firstDay - 1;
+        addGroup() {
+            let n = prompt("Группа:");
+            if (n) { 
+                this.groups_list.push(n.trim().toUpperCase()); 
+                localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
             }
-        }));
-    });
+        },
+
+        sendToCloud() {
+            if (!this.studentMsg.trim()) return;
+            const params = new URLSearchParams({ 
+                group: this.activeGroup, 
+                message: this.studentMsg, 
+                author: this.rank 
+            });
+            fetch("https://script.google.com/macros/s/AKfycbx79slkoWod5d9VOXGwdosSzO8Td62lbOilmsYQMED9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec", 
+            { method: 'POST', mode: 'no-cors', body: params })
+            .then(() => { 
+                this.studentMsg = ''; 
+                alert('Отправлено'); 
+            });
+        },
+
+        isToday(date) {
+            const today = new Date();
+            return today.getDate() === date && today.getMonth() === new Date().getMonth();
+        },
+
+        init() {
+            this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
+            if (this.groups_list.length > 0) this.activeGroup = this.groups_list[0];
+            
+            const now = new Date();
+            this.currentMonthName = now.toLocaleString('ru', { month: 'long' });
+            const lastDay = new Date(2026, now.getMonth() + 1, 0).getDate();
+            this.daysInMonth = Array.from({length: lastDay}, (_, i) => i + 1);
+            let firstDay = new Date(2026, now.getMonth(), 1).getDay();
+            this.firstDayOffset = (firstDay === 0) ? 6 : firstDay - 1;
+        }
+    }));
+});
 </script>
+</body>
+</html>    
