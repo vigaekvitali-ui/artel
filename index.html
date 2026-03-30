@@ -347,73 +347,100 @@ document.addEventListener('alpine:init', () => {
         days: Array.from({length: new Date(2026, new Date().getMonth() + 1, 0).getDate()}, (_, i) => i + 1),
         blanks: (new Date(2026, new Date().getMonth(), 1).getDay() || 7) - 1,
         activeGroup: '',
-        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "58ТО", "59ТО", "60ТО", "61ТО", "15ТМ", "7Б"]'),
-        newTask: '',
-        tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
+        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["54ТО", "55ТО", "57ТО", "15ТМ"]'),
         studentMsg: '',
+        
+        scriptURL: "https://script.google.com/macros/s/AKfycbx79sIkoWod5d9VOXGwdoSzO8Td62IbOilmsYQMEd9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec",
 
         isToday(d) { return new Date().getDate() === d; },
-        
+
         login() {
             let p = this.pass.trim();
-            if (p === '2026') { 
-                this.rank = 'Преподаватель'; 
-                localStorage.setItem('rank', 'Преподаватель'); 
-                this.pass = ''; this.tab = 1; 
-            }
-            else if (p === '0000') { 
-                this.rank = 'Админ'; 
-                localStorage.setItem('rank', 'Админ'); 
-                this.pass = ''; this.tab = 8; 
-            }
+            if (p === '2026') { this.rank = 'Мастодонт'; localStorage.setItem('rank', 'Мастодонт'); this.pass = ''; this.tab = 1; }
+            else if (p === '0000') { this.rank = 'Админ'; localStorage.setItem('rank', 'Админ'); this.pass = ''; this.tab = 8; }
             else { alert('Неверно'); this.pass = ''; }
         },
-        logout() { 
-            this.rank = 'Студент'; 
-            localStorage.setItem('rank', 'Студент'); 
-            this.tab = 1; 
+
+        logout() { this.rank = 'Студент'; localStorage.setItem('rank', 'Студент'); this.tab = 1; },
+
+        async loadGroups() {
+            try {
+                const response = await fetch(`${this.scriptURL}?action=getGroups&t=${Date.now()}`);
+                const cloudGroups = await response.json();
+                if (cloudGroups && cloudGroups.length > 0) {
+                    this.groups_list = cloudGroups;
+                    this.save();
+                    if (!this.activeGroup) this.activeGroup = this.groups_list[0];
+                }
+            } catch (e) { console.log("Облако занято..."); }
         },
 
         addGroup() {
             if (this.rank === 'Студент') return;
-            let n = prompt("Группа:");
+            let n = prompt("Новая группа:");
             if (n) { 
-                this.groups_list.push(n.trim().toUpperCase()); 
-                localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
+                const newG = n.trim().toUpperCase();
+                // Мгновенное обновление для скорости
+                this.groups_list.push(newG);
+                this.save();
+                fetch(`${this.scriptURL}?action=addGroup&name=${encodeURIComponent(newG)}`, { method: "POST", mode: "no-cors" });
             }
         },
-        addTask() {
-            if (this.rank === 'Студент' || !this.newTask.trim()) return;
-            if (!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
-            this.tasks_data[this.activeGroup].unshift({
-                id: Date.now(), 
-                text: this.newTask, 
-                time: new Date().toLocaleDateString()
-            });
-            localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
-            this.newTask = ''; 
+
+        editGroup(oldName) {
+            if (this.rank !== 'Админ') return;
+            let newName = prompt("Переименовать группу " + oldName + " в:", oldName);
+            if (newName && newName !== oldName) {
+                const n = newName.trim().toUpperCase();
+                // Меняем локально сразу
+                this.groups_list = this.groups_list.map(g => g === oldName ? n : g);
+                this.save();
+                if (this.activeGroup === oldName) this.activeGroup = n;
+                // Отправляем в облако
+                fetch(`${this.scriptURL}?action=editGroup&oldName=${encodeURIComponent(oldName)}&newName=${encodeURIComponent(n)}`, { method: "POST", mode: "no-cors" });
+            }
         },
+
+        removeGroup(name) {
+            if (this.rank !== 'Админ') return;
+            if (confirm('Удалить группу ' + name + ' из системы?')) { 
+                // Убираем локально сразу
+                this.groups_list = this.groups_list.filter(g => g !== name); 
+                this.save();
+                if (this.activeGroup === name) this.activeGroup = this.groups_list[0] || '';
+                // Запрос в облако
+                fetch(`${this.scriptURL}?action=delGroup&name=${encodeURIComponent(name)}`, { method: "POST", mode: "no-cors" });
+            }
+        },
+
         sendToCloud() {
-            if (!this.studentMsg.trim()) return;
-            const params = new URLSearchParams();
-            params.append('group', this.activeGroup);
-            params.append('message', this.studentMsg);
-            params.append('author', this.rank);
-            fetch("https://script.google.com/macros/s/AKfycbx79slkoWod5d9VOXGwdosSzO8Td62lbOilmsYQMED9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec", {
-                method: 'POST',
-                mode: 'no-cors',
-                body: params
-            }).then(() => {
-                this.studentMsg = ''; 
-                alert('Отправлено');
-            });
+            if (!this.studentMsg.trim() || !this.activeGroup) return;
+            const finalURL = `${this.scriptURL}?group=${encodeURIComponent(this.activeGroup)}&msg=${encodeURIComponent(this.studentMsg)}&rank=${encodeURIComponent(this.rank)}`;
+            fetch(finalURL, { method: "POST", mode: "no-cors" });
+            this.studentMsg = '';
+            setTimeout(() => {
+                const iframe = document.getElementById('cloudFrame');
+                if(iframe) iframe.src = iframe.src;
+            }, 1000);
         },
+
+        save() {
+            localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
+            localStorage.setItem('rank', this.rank);
+        },
+
         init() { 
             this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
-            this.activeGroup = this.groups_list[0] || '';
+            this.loadGroups();
+            setInterval(() => {
+                const iframe = document.getElementById('cloudFrame');
+                if (iframe) {
+                    const currentSrc = iframe.src.split('&cachebust=')[0];
+                    iframe.src = currentSrc + '&cachebust=' + Date.now();
+                }
+                this.loadGroups();
+            }, 30000);
         }
     }));
 });
 </script>
-</body>
-</html>
