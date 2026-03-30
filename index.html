@@ -300,38 +300,35 @@
     <template x-if="rank === 'Админ'">
         <div style="display: flex; flex-direction: column; gap: 15px;">
             
-            <div class="card" style="border-left: 5px solid #7c3aed; background: #f5f3ff; padding: 15px;">
-                <div style="font-weight: bold; color: #5b21b6; margin-bottom: 10px;">⚡ СЕССИЯ АДМИНИСТРАТОРА</div>
-                <button @click="logout()" style="width: 100%; background: #ef4444; color: white; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold;">ЗАВЕРШИТЬ РАБОТУ</button>
+            <div class="card" style="border-left: 5px solid #ef4444; background: #fff1f2; padding: 15px;">
+                <div style="font-weight: bold; color: #991b1b; margin-bottom: 10px;">⚡ СЕССИЯ АДМИНИСТРАТОРА</div>
+                <button @click="logout()" style="width: 100%; background: #ef4444; color: white; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold;">ВЫЙТИ</button>
             </div>
 
             <div class="card" style="border-top: 4px solid #3b82f6; padding: 15px;">
-                <h3 style="margin: 0 0 15px 0; font-size: 1rem; color: #1e3a8a; display: flex; align-items: center; gap: 8px;">
-                    <span>👥</span> Группы в облаке
-                </h3>
+                <h3 style="margin: 0 0 15px 0; font-size: 1rem; color: #1e3a8a;">👥 Группы в облаке</h3>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <template x-for="g in groups_list" :key="g">
                         <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                            <span x-text="g" style="font-weight: bold; font-family: 'Courier New', monospace; color: #334155;"></span>
+                            <span x-text="g" style="font-weight: bold; font-family: monospace;"></span>
                             <div style="display: flex; gap: 8px;">
-                                <button @click="editGroup(g)" style="background: #fbbf24; border: none; border-radius: 6px; padding: 8px; cursor: pointer; display: flex; align-items: center;" title="Изменить">✏️</button>
-                                <button @click="removeGroup(g)" style="background: #ef4444; border: none; border-radius: 6px; padding: 8px; cursor: pointer; display: flex; align-items: center;" title="Удалить">❌</button>
+                                <button @click="editGroup(g)" style="background: #fbbf24; border: none; border-radius: 6px; padding: 8px; cursor: pointer;">✏️</button>
+                                <button @click="removeGroup(g)" style="background: #ef4444; border: none; border-radius: 6px; padding: 8px; cursor: pointer;">❌</button>
                             </div>
                         </div>
                     </template>
                 </div>
-                <button @click="addGroup()" style="width: 100%; margin-top: 15px; padding: 14px; background: #10b981; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);">
-                    + ДОБАВИТЬ НОВУЮ ГРУППУ
+                <button @click="addGroup()" style="width: 100%; margin-top: 15px; padding: 14px; background: #10b981; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                    + ДОБАВИТЬ ГРУППУ
                 </button>
             </div>
 
             <div class="card" style="text-align: center; padding: 15px;">
-                <div style="font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; color: #64748b;">📲 QR-КОД ДЛЯ ВХОДА</div>
-                <div style="background: white; padding: 10px; display: inline-block; border: 1px solid #f1f5f9; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                <div style="font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; color: #64748b;">📲 QR-КОД АРТЕЛИ</div>
+                <div style="background: white; padding: 10px; display: inline-block; border: 1px solid #f1f5f9; border-radius: 12px;">
                     <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR" style="display: block;">
                 </div>
             </div>
-
         </div>
     </template>
 </div>
