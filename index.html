@@ -149,53 +149,51 @@
         <a href="https://stroy-technics.ru" target="_blank" class="res-btn" style="margin:0; justify-content:center;">Строй-Техника</a>
     </div>
 </div>
-<div x-show="tab === 4" class="space-y-4">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
-                <h2 style="margin:0; font-weight:bold;">📋 Зачетка</h2>
-                <template x-if="rank !== 'Студент'">
-                    <button @click="addGroup()" style="background:#22c55e; color:white; border:none; padding:8px 12px; border-radius:8px; font-size:0.75rem; font-weight:bold">+ Группа</button>
-                </template>
-            </div>
+<div class="page" :class="{ 'active': tab === 4 }">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
+        <h2 style="margin:0">📋 Зачетка</h2>
+        <template x-if="rank !== 'Студент'">
+            <button @click="addGroup()" style="background:#22c55e; color:white; border:none; padding:8px 12px; border-radius:8px; font-size:0.75rem; font-weight:bold">+ Группа</button>
+        </template>
+    </div>
 
-            <div class="card" style="border: 2px solid #f97316; background: #fff7ed; padding: 12px; margin-bottom: 15px;">
-                <div style="font-weight:bold; font-size:0.7rem; color:#c2410c; margin-bottom:5px text-uppercase">📢 ОБЩАЯ СВЯЗЬ (ОБЛАКО)</div>
-                <div style="display:flex; gap:5px">
-                    <input type="text" x-model="studentMsg" @keydown.enter="sendToCloud()" placeholder="Ваш вопрос..." style="flex:1; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem">
-                    <button @click="sendToCloud()" style="background:#f97316; color:white; border:none; padding:0 15px; border-radius:8px; font-weight:bold">📤</button>
-                </div>
-            </div>
+    <div class="card" style="border: 2px solid #f97316; background: #fff7ed; padding: 12px; margin-bottom: 15px;">
+        <div style="font-weight:bold; font-size:0.7rem; color:#c2410c; margin-bottom:5px">📢 ОБЩАЯ СВЯЗЬ (ОБЛАКО)</div>
+        <div style="display:flex; gap:5px">
+            <input type="text" x-model="studentMsg" @keydown.enter="sendToCloud()" placeholder="Ваш вопрос..." style="flex:1; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem">
+            <button @click="sendToCloud()" style="background:#f97316; color:white; border:none; padding:0 15px; border-radius:8px; font-weight:bold">📤</button>
+        </div>
+    </div>
 
-            <div class="group-tabs">
-                <template x-for="g in groups_list" :key="g">
-                    <button @click="activeGroup = g" :class="activeGroup === g ? 'active-group-btn' : 'group-btn'" x-text="g"></button>
-                </template>
-            </div>
+    <div class="group-tabs">
+        <template x-for="g in groups_list" :key="g">
+            <button @click="activeGroup = g" :class="activeGroup === g ? 'active-group-btn' : 'group-btn'" x-text="g"></button>
+        </template>
+    </div>
 
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
-                <b style="font-size:0.8rem" x-text="'События для ' + activeGroup"></b>
-            </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+        <b style="font-size:0.8rem" x-text="'События для ' + activeGroup"></b>
+    </div>
 
-            <div class="card" style="margin-top:20px; background:#f1f5f9; border:1px solid #cbd5e1; padding: 5px;">
-                <div style="font-weight:bold; font-size:0.65rem; color:#64748b; margin-bottom:5px; display:flex; justify-content:space-between; padding: 0 5px;">
-                    <span>📜 ЖУРНАЛ СООБЩЕНИЙ</span>
-                    <span style="color:#f97316; cursor:pointer; font-size:0.6rem;" @click="loadMessages()">🔄 ОБНОВИТЬ</span>
-                </div>
-                
-                <div style="width:100%; height:400px; overflow-y:auto; border-radius:8px; background:white; padding: 10px; box-sizing: border-box;">
-                    <template x-for="m in cloudMessages" :key="m[0]">
-                        <template x-if="m[1] === activeGroup">
-                            <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #f1f5f9;">
-                                <div style="display: flex; justify-content: space-between; font-size: 0.6rem; color: #94a3b8; margin-bottom: 3px;">
-                                    <span x-text="m[2]"></span>
-                                    <span x-text="new Date(m[0]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})"></span>
-                                </div>
-                                <div x-text="m[3]" style="font-size: 0.85rem; color: #1e293b; word-break: break-word;"></div>
-                            </div>
-                        </template>
-                    </template>
-                </div>
-            </div>
-        </div>
+    <div class="card" style="margin-top:20px; background:#f1f5f9; border:1px solid #cbd5e1; padding: 5px;">
+        <div style="font-weight:bold; font-size:0.65rem; color:#64748b; margin-bottom:5px; display:flex; justify-content:space-between; padding: 0 5px;">
+            <span>📜 ЖУРНАЛ СООБЩЕНИЙ (МГНОВЕННО)</span>
+            <span style="color:#f97316; cursor:pointer; font-size:0.6rem;" @click="loadMessages()">🔄 ОБНОВИТЬ</span>
+        </div>
+        
+        <div style="width:100%; height:400px; overflow-y:auto; border-radius:8px; background:white; padding: 10px; box-sizing: border-box;">
+            <template x-for="m in cloudMessages" :key="m[0]">
+                <template x-if="m[1] === activeGroup">
+                    <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #f1f5f9;">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.6rem; color: #94a3b8; margin-bottom: 3px;">
+                            <span x-text="m[2]"></span> <span x-text="new Date(m[0]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})"></span>
+                        </div>
+                        <div x-text="m[3]" style="font-size: 0.85rem; color: #1e293b; word-break: break-word;"></div> </div>
+                </template>
+            </template>
+        </div>
+    </div>
+</div>           
 <div class="page" :class="{ 'active': tab === 5 }">
     <div class="vpn-alert">⚠️ VPN необходим!</div>
     <h3 style="margin:0">💡 Промпт-Станция</h3>
