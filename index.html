@@ -58,9 +58,7 @@
             <div style="text-align: center; font-weight: bold; margin-bottom: 4px; text-transform: uppercase;" x-text="currentMonthName"></div>
             <div class="cal-grid">
                 <template x-for="h in ['П','В','С','Ч','П','С','В']"><div style="font-weight:bold;color:#94a3b8" x-text="h"></div></template>
-                
                 <template x-for="b in firstDayOffset"><div></div></template>
-                
                 <template x-for="d in daysInMonth">
                     <div :class="isToday(d) ? 'cal-today' : ''" x-text="d"></div>
                 </template>
@@ -71,24 +69,22 @@
         <input type="text" name="q" class="google-input" placeholder="Поиск в Google...">
         <button type="submit" class="google-btn">🔎</button>
     </form>
-    <a href="https://www.ngpedia.ru" target="_blank" class="res-btn" style="border-top: 3px solid #ea580c; text-align:center; padding:10px 5px;">
-        <span style="font-size:0.7rem; font-weight:bold;">⚙️ ДЕТАЛИ МАШИН</span>
-    </a>
+
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-    <a href="https://tehlib.com" target="_blank" class="res-btn" style="background:#f1f5f9; border-left:5px solid #1e293b; grid-column:span 2;">
-        <span style="display:block; font-size:0.6rem; color:#64748b; text-transform:uppercase; margin-bottom:2px;">Техническая литература</span>
-        📚 TEHLIB: МАШИНОСТРОЕНИЕ
-    </a>
-    <a href="https://dpva.ru" target="_blank" class="res-btn" style="border-top: 3px solid #ea580c; text-align:center; padding:10px 5px;">
-        <span style="font-size:0.7rem; font-weight:bold;">⚙️ СПРАВОЧНИК DPVA</span>
-    </a>
-    <a href="http://agrolib.ru" target="_blank" class="res-btn" style="border-top: 3px solid #16a34a; text-align:center; padding:10px 5px;">
-        <span style="font-size:0.7rem; font-weight:bold;">🚜 АГРО-БИБЛИОТЕКА</span>
-    </a>
-    
+        <a href="https://tehlib.com" target="_blank" class="res-btn" style="background:#f1f5f9; border-left:5px solid #1e293b; grid-column:span 2;">
+            <span style="display:block; font-size:0.6rem; color:#64748b; text-transform:uppercase; margin-bottom:2px;">Техническая литература</span>
+            📚 TEHLIB: МАШИНОСТРОЕНИЕ
+        </a>
+        <a href="https://dpva.ru" target="_blank" class="res-btn" style="border-top: 3px solid #ea580c; text-align:center; padding:10px 5px;">
+            <span style="font-size:0.7rem; font-weight:bold;">⚙️ СПРАВОЧНИК DPVA</span>
+        </a>
+        <a href="http://agrolib.ru" target="_blank" class="res-btn" style="border-top: 3px solid #16a34a; text-align:center; padding:10px 5px;">
+            <span style="font-size:0.7rem; font-weight:bold;">🚜 АГРО-БИБЛИОТЕКА</span>
+        </a>
         <a href="https://cyberleninka.ru" target="_blank" class="res-btn">📖 Ленинка</a>
         <a href="https://scholar.google.com" target="_blank" class="res-btn">🎓 Академия</a>
     </div>
+
     <h4 style="color:#64748b;margin:15px 0 5px;font-size:0.7rem;">📁 КАТАЛОГИ</h4>
     <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" class="res-btn" style="border-left:5px solid #22c55e">🚗 АВТО</a>
     <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" class="res-btn" style="border-left:5px solid #f59e0b">🚜 ТРАКТОРЫ</a>
