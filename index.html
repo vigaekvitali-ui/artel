@@ -303,33 +303,7 @@
         </template>
     </div>
 </div>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artel PWA</title>
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        [x-cloak] { display: none !important; }
-        /* Принудительно светлый стиль */
-        body { background-color: #ffffff !important; color: #1a1a1a; font-family: sans-serif; padding-bottom: 90px; }
-        .nav-bar { background: #f1f5f9; border-top: 1px solid #cbd5e1; position: fixed; bottom: 0; width: 100%; display: grid; z-index: 100; }
-        .nav-item { text-align: center; padding: 12px 2px; font-size: 0.6rem; color: #64748b; cursor: pointer; }
-        .nav-item.active { color: #2563eb; font-weight: bold; }
-        .nav-icon { display: block; font-size: 1.1rem; margin-bottom: 2px; }
-        .card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-    </style>
-</head>
-<body x-data="artel" x-init="init()" x-cloak>
-        <div x-show="tab === 4" class="space-y-4">
-            <h2 class="text-lg font-bold border-l-4 border-blue-600 pl-2">ЖУРНАЛ: <span x-text="activeGroup" class="text-blue-600"></span></h2>
-            <textarea x-model="studentMsg" placeholder="Введите текст сообщения..." class="w-full p-3 border-2 border-gray-200 rounded-lg h-40 focus:border-blue-500 outline-none"></textarea>
-            <button @click="sendToCloud()" class="w-full p-4 bg-blue-600 text-white rounded-xl font-bold shadow-lg active:scale-95 transition-transform">ОТПРАВИТЬ В ОБЛАКО 📤</button>
-        </div>
-
-        <div x-show="tab === 8" class="space-y-4">
+<div x-show="tab === 8" class="space-y-4">
             <h2 class="font-bold text-gray-800 border-b pb-2">⚙️ УПРАВЛЕНИЕ</h2>
             
             <template x-if="rank === 'Студент'">
@@ -359,23 +333,31 @@
                     </div>
                 </div>
             </template>
-        </div>
-    </div>
 
-    <nav class="nav-bar" style="grid-template-columns: repeat(8, 1fr);">
-        <div class="nav-item" :class="{'active': tab === 1}" @click="tab = 1"><span class="nav-icon">🏠</span>Домой</div>
-        <div class="nav-item" :class="{'active': tab === 2}" @click="tab = 2"><span class="nav-icon">📢</span>Доска</div>
-        <div class="nav-item" :class="{'active': tab === 3}" @click="tab = 3"><span class="nav-icon">🛠️</span>Тех</div>
-        <div class="nav-item" :class="{'active': tab === 4}" @click="tab = 4"><span class="nav-icon">📋</span>Зачет</div>
-        <div class="nav-item" :class="{'active': tab === 5}" @click="tab = 5"><span class="nav-icon">💡</span>Промт</div>
-        <div class="nav-item" :class="{'active': tab === 6}" @click="tab = 6"><span class="nav-icon">🤖</span>ИИ</div>
-        <div class="nav-item" :class="{'active': tab === 7}" @click="tab = 7">
-            <template x-if="rank === 'Мастодонт' || rank === 'Админ'">
-                <span><span class="nav-icon">🔔</span>Пер</span>
-            </template>
+            <div class="card bg-white flex flex-col items-center justify-center p-6">
+                <div style="font-weight:bold; font-size:0.7rem; color:#64748b; margin-bottom:10px">QR-КОД ДЛЯ ВХОДА</div>
+                <div id="qrcode" class="p-2 bg-white border border-gray-100 rounded-lg shadow-inner"></div>
+                <p class="text-[10px] text-gray-400 mt-2 text-center">Отсканируйте, чтобы быстро перейти к приложению</p>
+                
+                <script>
+                    function generateQR() {
+                        const qrContainer = document.getElementById("qrcode");
+                        if (qrContainer && qrContainer.innerHTML === "") {
+                            new QRCode(qrContainer, {
+                                text: window.location.href,
+                                width: 140,
+                                height: 140,
+                                colorDark : "#1e293b",
+                                colorLight : "#ffffff",
+                                correctLevel : QRCode.CorrectLevel.H
+                            });
+                        }
+                    }
+                    // Запуск через небольшую паузу для уверенности, что DOM готов
+                    setTimeout(generateQR, 1000);
+                </script>
+            </div>
         </div>
-        <div class="nav-item" :class="{'active': tab === 8}" @click="tab = 8"><span class="nav-icon">⚙️</span>Админ</div>
-    </nav>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('artel', () => ({
