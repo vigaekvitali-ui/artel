@@ -15,7 +15,6 @@
             -webkit-tap-highlight-color: transparent;
         }
         
-        /* Светлая тема (по умолчанию) */
         :root {
             --bg: #f1f5f9;
             --paper: #ffffff;
@@ -31,7 +30,6 @@
             --message-bg: #ffffff;
         }
         
-        /* Темная тема */
         body.dark {
             --bg: #0f172a;
             --paper: #1e293b;
@@ -44,7 +42,6 @@
             --message-bg: #1e293b;
         }
         
-        /* Цветная тема */
         body.colorful {
             --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --paper: rgba(255,255,255,0.95);
@@ -481,20 +478,6 @@
             to { transform: translateX(0); opacity: 1; }
         }
         
-        .activity-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            text-align: center;
-            margin-top: 10px;
-        }
-        
-        .stat-card {
-            background: var(--bg);
-            padding: 8px;
-            border-radius: 8px;
-        }
-        
         .vpn-alert {
             background: #fee2e2;
             color: #b91c1c;
@@ -523,12 +506,6 @@
         .drive-auto { border-left-color: #22c55e; }
         .drive-tractor { border-left-color: #f59e0b; }
         .drive-machinery { border-left-color: #3b82f6; }
-        
-        .last-seen {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
         
         .qr-code {
             text-align: center;
@@ -687,7 +664,7 @@
         </div>
     </div>
 
-    <!-- 4. ЗАЧЕТКА -->
+    <!-- 4. ЗАЧЕТКА (БЕЗ ГРУПП ПО УМОЛЧАНИЮ) -->
     <div class="page" :class="{ 'active': tab === 4 }">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
             <h2 style="margin:0;">📋 Зачетка</h2>
@@ -699,14 +676,16 @@
         
         <!-- Группы -->
         <div class="group-tabs" x-show="groups_list.length > 0">
-            <template x-for="g in groups_list">
+            <template x-for="g in groups_list" :key="g.name">
                 <div class="group-btn" :class="activeGroup === g.name ? 'active-group-btn' : ''" @click="selectGroup(g.name)">
                     <span x-text="g.name"></span>
                     <button class="delete-group-btn" @click.stop="deleteGroup(g.name)" x-show="canDeleteGroup(g.name)" title="Удалить группу">✖</button>
                 </div>
             </template>
         </div>
-        <div x-show="groups_list.length === 0" class="card" style="text-align:center; color:var(--text-secondary);">Нет групп. Создайте первую группу!</div>
+        <div x-show="groups_list.length === 0" class="card" style="text-align:center; color:var(--text-secondary);">
+            📭 Нет групп. Создайте первую группу!
+        </div>
         
         <!-- Поиск -->
         <div x-show="activeGroup" class="card">
@@ -925,14 +904,15 @@
                     <div>📁 Групп: <strong x-text="groups_list.length"></strong></div>
                     <div>💬 Сообщений: <strong x-text="groupMessages.length"></strong></div>
                 </div>
-                
-                <div class="card qr-code" x-show="rank === 'Админ'">
-                    <h4>📲 QR-КОД АРТЕЛИ</h4>
-                    <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR">
-                    <p style="font-size:0.65rem; margin-top:8px;">Отсканируйте для быстрого доступа</p>
-                </div>
             </div>
         </template>
+        
+        <!-- QR-код для ВСЕХ (вынесен за пределы условия) -->
+        <div class="card qr-code">
+            <h4>📲 QR-КОД АРТЕЛИ</h4>
+            <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR">
+            <p style="font-size:0.65rem; margin-top:8px;">Отсканируйте для быстрого доступа</p>
+        </div>
     </div>
 
     <nav class="nav-bar">
@@ -970,7 +950,7 @@ document.addEventListener('alpine:init', () => {
         facts: ["📚 Закон Мерфи: Если что-то может пойти не так, оно пойдет не так.", "🔧 Бритва Оккама: Не нужно множить сущее без необходимости.", "🚜 Если техника работает — не трогай её!", "💡 Простота — залог надежности.", "🎯 Закон Парето: 20% усилий дают 80% результата.", "⚡ Закон Паркинсона: Работа заполняет всё отведенное на неё время."],
         fact: "",
         
-        // Группы и сообщения
+        // Группы и сообщения - НЕТ ГРУПП ПО УМОЛЧАНИЮ
         groups_list: [],
         activeGroup: '',
         groupMessages: [],
@@ -986,7 +966,6 @@ document.addEventListener('alpine:init', () => {
         
         // Уведомления
         notification: { show: false, text: '' },
-        lastMessageCount: 0,
         
         // Локальный чат
         chatMsg: '',
@@ -1091,20 +1070,24 @@ document.addEventListener('alpine:init', () => {
         async loadGroups() {
             try {
                 const saved = localStorage.getItem('artel_groups');
-                if (saved) this.groups_list = JSON.parse(saved);
+                if (saved) {
+                    this.groups_list = JSON.parse(saved);
+                } else {
+                    this.groups_list = [];
+                }
                 
                 const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getGroups&sheetId=${SHEETS_CONFIG.groupsSheetId}&gid=${SHEETS_CONFIG.groupsGid}`);
                 const data = await response.json();
-                if (data.groups) {
+                if (data.groups && data.groups.length > 0) {
                     this.groups_list = data.groups.map(g => ({ name: g.name, createdBy: g.createdBy }));
                     localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
-                    if (!this.activeGroup && this.groups_list.length > 0) this.activeGroup = this.groups_list[0].name;
+                }
+                
+                if (this.groups_list.length > 0 && !this.activeGroup) {
+                    this.activeGroup = this.groups_list[0].name;
                 }
             } catch (error) {
                 console.error('Ошибка загрузки групп:', error);
-                if (this.groups_list.length === 0) {
-                    this.groups_list = [{ name: '57ТО', createdBy: 'system' }, { name: '15ТМ', createdBy: 'system' }];
-                }
             }
         },
         
@@ -1113,8 +1096,7 @@ document.addEventListener('alpine:init', () => {
             try {
                 const saved = localStorage.getItem(`group_messages_${this.activeGroup}`);
                 if (saved) {
-                    const oldMessages = JSON.parse(saved);
-                    this.groupMessages = oldMessages;
+                    this.groupMessages = JSON.parse(saved);
                 }
                 
                 const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getMessages&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&group=${encodeURIComponent(this.activeGroup)}`);
@@ -1168,15 +1150,20 @@ document.addEventListener('alpine:init', () => {
             try {
                 await fetch(`${SHEETS_CONFIG.scriptURL}?action=deleteGroup&sheetId=${SHEETS_CONFIG.groupsSheetId}&gid=${SHEETS_CONFIG.groupsGid}&groupName=${encodeURIComponent(groupName)}`);
                 await this.loadGroups();
-                if (this.activeGroup === groupName) this.activeGroup = this.groups_list[0]?.name || '';
+                if (this.activeGroup === groupName) {
+                    this.activeGroup = this.groups_list[0]?.name || '';
+                }
                 this.setSyncStatus('✓ Группа удалена', 'success');
                 this.showNotification(`Группа "${groupName}" удалена`);
             } catch (error) {
                 this.groups_list = this.groups_list.filter(g => g.name !== groupName);
                 localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
                 localStorage.removeItem(`group_messages_${groupName}`);
-                if (this.activeGroup === groupName) this.activeGroup = this.groups_list[0]?.name || '';
+                if (this.activeGroup === groupName) {
+                    this.activeGroup = this.groups_list[0]?.name || '';
+                }
                 this.setSyncStatus('✓ Группа удалена локально', 'success');
+                this.showNotification(`Группа "${groupName}" удалена`);
             }
             setTimeout(() => { this.syncStatusText = ''; }, 2000);
         },
@@ -1318,7 +1305,9 @@ document.addEventListener('alpine:init', () => {
             this.visitorCount = count;
             
             await this.loadGroups();
-            if (this.groups_list.length > 0 && !this.activeGroup) this.activeGroup = this.groups_list[0].name;
+            if (this.groups_list.length > 0 && !this.activeGroup) {
+                this.activeGroup = this.groups_list[0].name;
+            }
             await this.loadMessages();
             
             setInterval(() => {
