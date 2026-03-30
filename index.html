@@ -149,7 +149,14 @@
         <a href="https://stroy-technics.ru" target="_blank" class="res-btn" style="margin:0; justify-content:center;">Строй-Техника</a>
     </div>
 </div>
-<div class="page" :class="{ 'active': tab === 4 }">
+<div class="page" :class="{ 'active': tab === 4 }" x-init="
+    fetch('https://script.google.com/macros/s/AKfycbz73P7PZogOmyJSZS-sLU44MUOPWtxnaiVlreyOni7cRuoYwPrgYBKH7HT7mHbqqMLj_A/exec?action=getGroups')
+    .then(res => res.json())
+    .then(data => { 
+        groups_list = data; 
+        if(groups_list.length > 0) activeGroup = groups_list[0]; 
+    })
+">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
         <h2 style="margin:0">📋 Зачетка</h2>
         <template x-if="rank !== 'Студент'">
