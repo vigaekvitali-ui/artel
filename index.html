@@ -376,35 +376,27 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
-        // ГЛАВНОЕ ИЗМЕНЕНИЕ: Отправка через ваш личный Apps Script сервер
         sendToCloud() {
             if (!this.studentMsg.trim() || !this.activeGroup) {
                 alert("Выберите группу и напишите сообщение!");
                 return;
             }
-            
-            // Ваша ссылка на Apps Script сервер
             const scriptURL = "https://script.google.com/macros/s/AKfycbxSgsFqlqi6SjDFjWWMi0FU8Fk9KVEV31gOYlmaykL3Iq4wPQiOC0ZSdMEMkqwO9fLP-A/exec";
-            
-            // Формируем URL с параметрами для GET/POST запроса
             const finalURL = `${scriptURL}?group=${encodeURIComponent(this.activeGroup)}&msg=${encodeURIComponent(this.studentMsg)}&rank=${encodeURIComponent(this.rank)}`;
 
             fetch(finalURL, {
                 method: "POST",
-                mode: "no-cors" // Позволяет обойти политику безопасности браузера для Google Script
+                mode: "no-cors"
             })
             .then(() => {
-                alert("ОТПРАВЛЕНО В ОБЛАКО!");
                 this.studentMsg = '';
-                // Обновляем визуальный журнал через 2 секунды
-                setTimeout(() => {
-                    const iframe = document.getElementById('cloudFrame');
-                    if(iframe) iframe.src = iframe.src;
-                }, 2000);
+                // Принудительное обновление сразу после отправки
+                const iframe = document.getElementById('cloudFrame');
+                if(iframe) iframe.src = iframe.src;
             })
             .catch(err => {
                 console.error(err);
-                alert("Ошибка связи с сервером. Проверьте интернет.");
+                alert("Ошибка связи с сервером.");
             });
         },
 
@@ -429,6 +421,16 @@ document.addEventListener('alpine:init', () => {
         init() { 
             this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
             this.activeGroup = this.groups_list[0] || '';
+
+            // Таймер автообновления журнала (раз в 30 секунд)
+            setInterval(() => {
+                const iframe = document.getElementById('cloudFrame');
+                if (iframe) {
+                    // Перезагружаем iframe, добавляя метку времени, чтобы браузер не брал старую версию из кэша
+                    const currentSrc = iframe.src.split('&cachebust=')[0];
+                    iframe.src = currentSrc + '&cachebust=' + Date.now();
+                }
+            }, 30000);
         }
     }));
 });
