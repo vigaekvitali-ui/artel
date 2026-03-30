@@ -302,60 +302,55 @@
     </div>
 </div>
 <div x-show="tab === 8" class="space-y-4">
-            <h2 class="font-bold text-gray-800 border-b pb-2">⚙️ УПРАВЛЕНИЕ</h2>
-            
-            <template x-if="rank === 'Студент'">
-                <div class="card text-center border-t-4 border-blue-500">
-                    <p class="text-sm text-gray-500 mb-4">Авторизация для преподавателя:</p>
-                    <input type="password" x-model="pass" @keydown.enter="login()" placeholder="Код доступа" 
-                           class="w-full p-3 border-2 border-gray-200 rounded-lg text-center mb-4">
-                    <button @click="login()" class="w-full p-3 bg-blue-600 text-white font-bold rounded-lg">ВОЙТИ</button>
-                </div>
-            </template>
-
-            <template x-if="rank === 'Мастодонт'">
-                <div class="card border-l-4 border-blue-600 bg-blue-50">
-                    <div class="font-bold text-blue-900 mb-2">✅ СТАТУС: МАСТОДОНТ</div>
-                    <p class="text-xs text-blue-700 mb-4">Вам доступно редактирование групп и журналов.</p>
-                    <button @click="addGroup()" class="w-full p-3 bg-blue-600 text-white rounded-lg mb-3 shadow">ДОБАВИТЬ ГРУППУ</button>
-                    <button @click="logout()" class="w-full p-2 text-red-500 text-sm underline">ВЫЙТИ ИЗ СИСТЕМЫ</button>
-                </div>
-            </template>
-
-            <template x-if="rank === 'Админ'">
-                <div class="space-y-4">
-                    <div class="card border-l-4 border-purple-600 bg-purple-50">
-                        <div class="font-bold text-purple-900 mb-2 uppercase text-sm">⚡ РЕЖИМ АДМИНИСТРАТОРА</div>
-                        <button @click="addGroup()" class="w-full p-3 bg-purple-600 text-white rounded-lg mb-2 shadow">УПРАВЛЕНИЕ БАЗОЙ</button>
-                        <button @click="logout()" class="w-full p-2 text-red-500 text-sm underline">ВЫЙТИ</button>
-                    </div>
-                </div>
-            </template>
-
-            <div class="card bg-white flex flex-col items-center justify-center p-6">
-                <div style="font-weight:bold; font-size:0.7rem; color:#64748b; margin-bottom:10px">QR-КОД ДЛЯ ВХОДА</div>
-                <div id="qrcode" class="p-2 bg-white border border-gray-100 rounded-lg shadow-inner"></div>
-                <p class="text-[10px] text-gray-400 mt-2 text-center">Отсканируйте, чтобы быстро перейти к приложению</p>
-                
-                <script>
-                    function generateQR() {
-                        const qrContainer = document.getElementById("qrcode");
-                        if (qrContainer && qrContainer.innerHTML === "") {
-                            new QRCode(qrContainer, {
-                                text: window.location.href,
-                                width: 140,
-                                height: 140,
-                                colorDark : "#1e293b",
-                                colorLight : "#ffffff",
-                                correctLevel : QRCode.CorrectLevel.H
-                            });
-                        }
-                    }
-                    // Запуск через небольшую паузу для уверенности, что DOM готов
-                    setTimeout(generateQR, 1000);
-                </script>
-            </div>
+    <h2 class="font-bold text-gray-800 border-b pb-2 uppercase text-sm tracking-wider">⚙️ УПРАВЛЕНИЕ</h2>
+    
+    <template x-if="rank === 'Студент'">
+        <div class="card text-center border-t-4 border-blue-500">
+            <p class="text-xs text-gray-500 mb-3">Авторизация для преподавателя:</p>
+            <input type="password" x-model="pass" @keydown.enter="login()" placeholder="Код доступа" 
+                   class="w-full p-3 border-2 border-gray-100 rounded-lg text-center mb-3 text-lg tracking-widest outline-none focus:border-blue-400">
+            <button @click="login()" class="w-full p-3 bg-blue-600 text-white font-bold rounded-lg shadow-md active:bg-blue-700 transition-colors">ВОЙТИ</button>
         </div>
+    </template>
+
+    <template x-if="rank === 'Мастодонт' || rank === 'Админ'">
+        <div class="card border-l-4 border-blue-600 bg-blue-50 p-4">
+            <div class="font-bold text-blue-900 mb-1 text-sm uppercase">✅ ДОСТУП: <span x-text="rank"></span></div>
+            <p class="text-[10px] text-blue-700 mb-4 tracking-tight">Доступно редактирование групп и управление базой.</p>
+            <button @click="addGroup()" class="w-full p-3 bg-blue-600 text-white rounded-lg mb-3 shadow font-bold text-xs uppercase active:scale-95 transition-transform">ДОБАВИТЬ ГРУППУ</button>
+            <button @click="logout()" class="w-full p-2 text-red-500 text-[10px] uppercase font-bold tracking-widest hover:underline">ВЫЙТИ ИЗ СИСТЕМЫ</button>
+        </div>
+    </template>
+
+    <div class="card flex flex-col items-center justify-center p-6 bg-white border-dashed border-2 border-gray-200">
+        <div class="text-[10px] font-bold text-gray-400 uppercase mb-4 tracking-widest">БЫСТРЫЙ ВХОД (QR)</div>
+        
+        <div id="qrcode" class="p-3 bg-white border border-gray-100 rounded-2xl shadow-sm"></div>
+        
+        <p class="text-[9px] text-gray-400 mt-4 text-center leading-tight">
+            Отсканируйте камерой телефона,<br>чтобы мгновенно открыть Artel PWA
+        </p>
+
+        <script>
+            function drawQR() {
+                const container = document.getElementById("qrcode");
+                // Рисуем только если контейнер пуст, чтобы не дублировать
+                if (container && container.innerHTML === "") {
+                    new QRCode(container, {
+                        text: window.location.href,
+                        width: 130,
+                        height: 130,
+                        colorDark : "#1e293b",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+                }
+            }
+            // Запуск с задержкой, чтобы библиотека успела прогрузиться
+            setTimeout(drawQR, 1200);
+        </script>
+    </div>
+</div>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('artel', () => ({
