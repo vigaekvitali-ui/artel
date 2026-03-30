@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>АРТЕЛЬ 2026</title>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         [x-cloak] { display: none !important; }
         :root { --bg: #f1f5f9; --paper: #ffffff; --primary: #2563eb; --text: #1e293b; --border: #cbd5e1; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding-bottom: 100px; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; padding-bottom: 160px; }
         header { 
             background: var(--paper); padding: 10px 15px; display: flex; 
             justify-content: space-between; align-items: center; 
@@ -24,20 +23,27 @@
             padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: white; 
             font-size: 0.75rem; font-weight: bold; margin-bottom: 8px;
         }
+        .google-form { display: flex; gap: 5px; margin-bottom: 15px; }
+        .google-input { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px; outline: none; }
+        .google-btn { background: #4285f4; color: white; border: none; padding: 0 12px; border-radius: 8px; }
         .nav-bar { 
             position: fixed; bottom: 0; width: 100%; background: white; 
             display: grid; grid-template-columns: repeat(8, 1fr);
             border-top: 1px solid var(--border); z-index: 1000;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; padding: 10px 0; font-size: 0.55rem; color: #94a3b8; cursor: pointer; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; padding: 10px 0; font-size: 0.6rem; color: #94a3b8; cursor: pointer; border-bottom: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; }
         .nav-item.active { color: var(--primary); font-weight: bold; background: #f8fafc; }
         .nav-icon { font-size: 1.1rem; margin-bottom: 1px; }
-        
+        .hero-block { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 15px; }
         .mini-calendar { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 6px; width: 150px; font-size: 0.65rem; }
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
         .cal-today { background: var(--primary); color: white; border-radius: 4px; }
-        .prompt-text { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px; border-radius: 6px; font-size: 0.7rem; color: #475569; user-select: all; cursor: pointer; }
+        .fact-box { background: #eff6ff; border: 1px dashed var(--primary); border-radius: 6px; padding: 8px; font-size: 0.7rem; flex: 1; }
+        .prompt-text { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px; border-radius: 6px; font-size: 0.7rem; color: #475569; user-select: all; margin-top: 5px; cursor: pointer; }
+        .group-tabs { display: flex; overflow-x: auto; gap: 8px; margin-bottom: 10px; padding-bottom: 5px; }
+        .group-btn { flex: 0 0 auto; padding: 8px 12px; border: 1px solid var(--border); background: white; border-radius: 8px; font-size: 0.7rem; font-weight: bold; }
+        .active-group-btn { background: var(--primary); color: white; border-radius: 8px; padding: 8px 12px; font-size: 0.7rem; font-weight: bold; }
     </style>
 </head>
 <body x-data="artel" x-init="init()" x-cloak>
@@ -47,66 +53,59 @@
     <div style="font-size: 0.7rem; font-weight: bold; color: #64748b;" x-text="rank"></div>
 </header>
 
-<main class="max-w-md mx-auto">
-    <div class="page" :class="{ 'active': tab === 1 }">
-        <div class="flex justify-between gap-2 mb-4">
-            <div class="bg-blue-50 border border-dashed border-blue-600 rounded p-2 text-[0.7rem] flex-1" x-text="fact"></div>
-            <div class="mini-calendar">
-                <div class="text-center font-bold mb-1 uppercase" x-text="currentMonthName"></div>
-                <div class="cal-grid">
-                    <template x-for="h in ['П','В','С','Ч','П','С','В']"><div class="font-bold text-gray-400" x-text="h"></div></template>
-                    <template x-for="b in Array.from({length: firstDayOffset})"><div></div></template>
-                    <template x-for="d in daysInMonth"><div :class="isToday(d) ? 'cal-today' : ''" x-text="d"></div></template>
-                </div>
+<div class="page" :class="{ 'active': tab === 1 }">
+    <div class="hero-block">
+        <div class="fact-box" x-text="fact"></div>
+        <div class="mini-calendar">
+            <div style="text-align: center; font-weight: bold; margin-bottom: 4px; text-transform: uppercase;" x-text="currentMonthName"></div>
+            <div class="cal-grid">
+                <template x-for="h in ['П','В','С','Ч','П','С','В']"><div style="font-weight:bold;color:#94a3b8" x-text="h"></div></template>
+                <template x-for="b in Array.from({length: firstDayOffset})"><div></div></template>
+                <template x-for="d in daysInMonth"><div :class="isToday(d) ? 'cal-today' : ''" x-text="d"></div></template>
             </div>
         </div>
-        <form action="https://www.google.com/search" method="get" target="_blank" class="flex gap-1 mb-4">
-            <input type="text" name="q" class="flex-1 p-2 border border-gray-300 rounded-lg outline-none text-sm" placeholder="Поиск в Google...">
-            <button type="submit" class="bg-blue-500 text-white px-3 rounded-lg">🔎</button>
-        </form>
-        <div class="grid grid-cols-2 gap-2">
-            <a href="https://ogaek.by" target="_blank" class="res-btn col-span-2 bg-yellow-50">🏫 ОГАЭК</a>
-            <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" class="res-btn border-l-4 border-l-green-500">🚗 АВТО</a>
-            <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" class="res-btn border-l-4 border-l-orange-500">🚜 ТРАКТОРЫ</a>
-        </div>
     </div>
-
-    <div class="page" :class="{ 'active': tab === 2 }">
-        <h2 class="text-lg font-bold border-b pb-2 mb-4">📢 ИНФО-ЦЕНТР</h2>
-        <div class="grid grid-cols-2 gap-2">
-            <a href="https://ripo.by" target="_blank" class="res-btn">📢 РИПО</a>
-            <a href="https://glavpahar.ru" target="_blank" class="res-btn col-span-2">ГлавПахарь (Техника)</a>
-        </div>
+    <form action="https://www.google.com/search" method="get" target="_blank" class="google-form">
+        <input type="text" name="q" class="google-input" placeholder="Поиск в Google...">
+        <button type="submit" class="google-btn">🔎</button>
+    </form>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <a href="https://ogaek.by" target="_blank" class="res-btn" style="background:#fffbeb;grid-column:span 2;">🏫 ОГАЭК</a>
+        <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" class="res-btn" style="border-left:5px solid #22c55e">🚗 АВТО</a>
+        <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" class="res-btn" style="border-left:5px solid #f59e0b">🚜 ТРАКТОРЫ</a>
     </div>
+</div>
 
-    <div class="page" :class="{ 'active': tab === 4 }">
-        <h2 class="text-lg font-bold border-l-4 border-blue-600 pl-2 mb-4">ЖУРНАЛ: <span x-text="activeGroup" class="text-blue-600"></span></h2>
-        <div class="flex overflow-x-auto gap-2 mb-4 pb-2">
-            <template x-for="g in groups_list">
-                <button @click="activeGroup = g" :class="activeGroup === g ? 'bg-blue-600 text-white' : 'bg-white text-gray-600'" class="px-3 py-2 border rounded-lg text-xs font-bold whitespace-nowrap" x-text="g"></button>
-            </template>
-        </div>
-        <textarea x-model="studentMsg" placeholder="Введите сообщение..." class="w-full p-3 border-2 border-gray-200 rounded-lg h-32 mb-4 outline-none"></textarea>
-        <button @click="sendToCloud()" class="w-full p-3 bg-blue-600 text-white rounded-xl font-bold">ОТПРАВИТЬ 📤</button>
-    </div>
-
-    <div class="page" :class="{ 'active': tab === 8 }">
-        <h2 class="font-bold text-gray-800 border-b pb-2 mb-4">⚙️ УПРАВЛЕНИЕ</h2>
-        <template x-if="rank === 'Студент'">
-            <div class="card text-center">
-                <input type="password" x-model="pass" @keydown.enter="login()" placeholder="Код доступа" class="w-full p-3 border rounded-lg text-center mb-4">
-                <button @click="login()" class="w-full p-3 bg-blue-600 text-white font-bold rounded-lg">ВОЙТИ</button>
-            </div>
-        </template>
-        <template x-if="rank !== 'Студент'">
-            <div class="card bg-blue-50">
-                <div class="font-bold text-blue-900 mb-2 uppercase text-sm">Доступ: <span x-text="rank"></span></div>
-                <button @click="addGroup()" class="w-full p-3 bg-blue-600 text-white rounded-lg mb-3">ДОБАВИТЬ ГРУППУ</button>
-                <button @click="logout()" class="w-full p-2 text-red-500 text-sm underline">ВЫЙТИ</button>
-            </div>
+<div class="page" :class="{ 'active': tab === 4 }">
+    <h2 style="margin:0 0 15px 0; font-size: 1.2rem;">📋 Зачетка</h2>
+    <div class="group-tabs">
+        <template x-for="g in groups_list" :key="g">
+            <button @click="activeGroup = g" :class="activeGroup === g ? 'active-group-btn' : 'group-btn'" x-text="g"></button>
         </template>
     </div>
-</main>
+    <div class="card" style="border: 2px solid #f97316; background: #fff7ed; padding: 12px; margin-bottom: 15px;">
+        <div style="font-weight:bold; font-size:0.7rem; color:#c2410c; margin-bottom:5px">📢 СООБЩЕНИЕ ДЛЯ: <span x-text="activeGroup"></span></div>
+        <textarea x-model="studentMsg" placeholder="Ваш вопрос..." style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem; margin-bottom:10px;"></textarea>
+        <button @click="sendToCloud()" style="width:100%; background:#f97316; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold">ОТПРАВИТЬ В ОБЛАКО 📤</button>
+    </div>
+</div>
+
+<div class="page" :class="{ 'active': tab === 8 }">
+    <h2 style="margin:0 0 15px 0; font-size: 1.2rem;">⚙️ Управление</h2>
+    <template x-if="rank === 'Студент'">
+        <div class="card">
+            <input type="password" x-model="pass" @keydown.enter="login()" placeholder="Код доступа" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px; margin-bottom:10px;">
+            <button @click="login()" style="width:100%; background:var(--primary); color:white; border:none; padding:10px; border-radius:8px;">ВОЙТИ</button>
+        </div>
+    </template>
+    <template x-if="rank !== 'Студент'">
+        <div class="card">
+            <p style="font-weight:bold">Статус: <span x-text="rank"></span></p>
+            <button @click="addGroup()" style="background:#22c55e; color:white; border:none; padding:10px; border-radius:8px; width:100%; margin-bottom:10px;">+ Добавить группу</button>
+            <button @click="logout()" style="width:100%; background:none; border:none; color:red; text-decoration:underline; cursor:pointer">Выйти</button>
+        </div>
+    </template>
+</div>
 
 <nav class="nav-bar">
     <div class="nav-item" :class="{'active': tab === 1}" @click="tab = 1"><span class="nav-icon">🏠</span>Домой</div>
@@ -163,7 +162,7 @@ document.addEventListener('alpine:init', () => {
         },
         isToday(date) {
             const now = new Date();
-            return now.getDate() === date && now.getFullYear() === 2026;
+            return now.getDate() === date && now.getFullYear() === 2026 && now.getMonth() === new Date().getMonth();
         },
         init() {
             this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
