@@ -379,39 +379,58 @@ document.addEventListener('alpine:init', () => {
         addGroup() {
             if (this.rank === 'Студент') return;
             let n = prompt("Группа:");
-            if (n) { this.groups_list.push(n.trim().toUpperCase()); this.save(); }
+            if (n) { 
+                this.groups_list.push(n.trim().toUpperCase()); 
+                this.save(); 
+            }
         },
         removeGroup(name) {
             if (this.rank !== 'Админ') return;
-            if (confirm('Удалить?')) { this.groups_list = this.groups_list.filter(g => g !== name); this.save(); }
+            if (confirm('Удалить?')) { 
+                this.groups_list = this.groups_list.filter(g => g !== name); 
+                this.save(); 
+            }
         },
         addTask() {
             if (this.rank === 'Студент' || !this.newTask.trim()) return;
             if (!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
-            this.tasks_data[this.activeGroup].unshift({id: Date.now(), text: this.newTask, time: new Date().toLocaleDateString()});
-            this.newTask = ''; this.save();
+            this.tasks_data[this.activeGroup].unshift({
+                id: Date.now(), 
+                text: this.newTask, 
+                time: new Date().toLocaleDateString()
+            });
+            this.newTask = ''; 
+            this.save();
         },
         removeTask(id) {
             if (this.rank === 'Студент') return;
-            this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id); this.save();
+            this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id); 
+            this.save();
         },
         addChatMessage() {
             if (this.rank === 'Студент' || !this.chatMsg.trim()) return;
-            this.chat_history.unshift({id: Date.now(), text: this.chatMsg, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
-            this.chatMsg = ''; this.save();
+            this.chat_history.unshift({
+                id: Date.now(), 
+                text: this.chatMsg, 
+                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+            });
+            this.chatMsg = ''; 
+            this.save();
         },
         sendToCloud() {
             if (!this.studentMsg.trim()) return;
+            const params = new URLSearchParams();
+            params.append('group', this.activeGroup);
+            params.append('message', this.studentMsg);
+            params.append('author', this.rank);
+
             fetch("https://script.google.com/macros/s/AKfycbx79slkoWod5d9VOXGwdosSzO8Td62lbOilmsYQMED9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec", {
-                method: 'POST', 
-                mode: 'no-cors', 
-                body: JSON.stringify({
-                    group: this.activeGroup, 
-                    message: this.studentMsg,
-                    author: this.rank
-                })
+                method: 'POST',
+                mode: 'no-cors',
+                body: params
             });
-            this.studentMsg = ''; alert('Отправлено');
+            this.studentMsg = ''; 
+            alert('Отправлено');
         },
         save() {
             localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
