@@ -302,50 +302,45 @@
     </div>
 </div>
 <div x-show="tab === 8" class="space-y-4">
-    <h2 class="font-bold text-gray-800 border-b pb-2">⚙️ УПРАВЛЕНИЕ</h2>
-    
-    <template x-if="rank === 'Студент'">
-        <div class="card text-center border-t-4 border-blue-500">
-            <p class="text-sm text-gray-500 mb-4">Авторизация для преподавателя:</p>
-            <input type="password" x-model="pass" @keydown.enter="login()" placeholder="Код доступа" 
-                   class="w-full p-3 border-2 border-gray-200 rounded-lg text-center mb-4">
-            <button @click="login()" class="w-full p-3 bg-blue-600 text-white font-bold rounded-lg">ВОЙТИ</button>
-        </div>
-    </template>
+            <h2 class="font-bold text-gray-800 border-b pb-2">⚙️ УПРАВЛЕНИЕ</h2>
+            
+            <template x-if="rank === 'Студент'">
+                <div class="card text-center border-t-4 border-blue-500">
+                    <p class="text-sm text-gray-500 mb-4">Авторизация для преподавателя:</p>
+                    <input type="password" x-model="pass" @keydown.enter="login()" placeholder="Код доступа" 
+                           class="w-full p-3 border-2 border-gray-200 rounded-lg text-center mb-4">
+                    <button @click="login()" class="w-full p-3 bg-blue-600 text-white font-bold rounded-lg">ВОЙТИ</button>
+                </div>
+            </template>
 
-    <template x-if="rank === 'Мастодонт'">
-        <div class="card border-l-4 border-blue-600 bg-blue-50">
-            <div class="font-bold text-blue-900 mb-2">✅ СТАТУС: МАСТОДОНТ</div>
-            <p class="text-xs text-blue-700 mb-4">Вам доступно редактирование групп и журналов.</p>
-            <button @click="addGroup()" class="w-full p-3 bg-blue-600 text-white rounded-lg mb-3 shadow">ДОБАВИТЬ ГРУППУ</button>
-            <button @click="logout()" class="w-full p-2 text-red-500 text-sm underline">ВЫЙТИ ИЗ СИСТЕМЫ</button>
-        </div>
-    </template>
+            <template x-if="rank === 'Мастодонт'">
+                <div class="card border-l-4 border-blue-600 bg-blue-50">
+                    <div class="font-bold text-blue-900 mb-2">✅ СТАТУС: МАСТОДОНТ</div>
+                    <p class="text-xs text-blue-700 mb-4">Вам доступно редактирование групп и журналов.</p>
+                    <button @click="addGroup()" class="w-full p-3 bg-blue-600 text-white rounded-lg mb-3 shadow">ДОБАВИТЬ ГРУППУ</button>
+                    <button @click="logout()" class="w-full p-2 text-red-500 text-sm underline">ВЫЙТИ ИЗ СИСТЕМЫ</button>
+                </div>
+            </template>
 
-    <template x-if="rank === 'Админ'">
-        <div class="space-y-4">
-            <div class="card border-l-4 border-purple-600 bg-purple-50">
-                <div class="font-bold text-purple-900 mb-2 uppercase text-sm">⚡ РЕЖИМ АДМИНИСТРАТОРА</div>
-                <button @click="addGroup()" class="w-full p-3 bg-purple-600 text-white rounded-lg mb-2 shadow">УПРАВЛЕНИЕ БАЗОЙ</button>
-                <button @click="logout()" class="w-full p-2 text-red-500 text-sm underline">ВЫЙТИ</button>
-            </div>
-        </div>
-    </template>
+            <template x-if="rank === 'Админ'">
+                <div class="card border-l-4 border-purple-600 bg-purple-50">
+                    <div class="font-bold text-purple-900 mb-2 uppercase text-sm">⚡ РЕЖИМ АДМИНИСТРАТОРА</div>
+                    <button @click="addGroup()" class="w-full p-3 bg-purple-600 text-white rounded-lg mb-2 shadow">УПРАВЛЕНИЕ БАЗОЙ</button>
+                    <button @click="logout()" class="w-full p-2 text-red-500 text-sm underline">ВЫЙТИ</button>
+                </div>
+            </template>
 
-    <div class="card text-center">
-        <div style="font-weight:bold; font-size:0.7rem; color:#64748b; margin-bottom:10px">QR-КОД ДЛЯ ВХОДА</div>
-        <div id="qrcode" style="display:inline-block; padding:10px; background:white;"></div>
-        <script>
-            // Простая функция без лишних проверок
-            setTimeout(() => {
-                const q = document.getElementById("qrcode");
-                if (q && q.innerHTML === "") {
-                    new QRCode(q, { text: window.location.href, width: 128, height: 128 });
-                }
-            }, 1000);
-        </script>
+            <div id="qrcode" style="display:flex; justify-content:center; margin-top:10px;"></div>
+            <script>
+                setTimeout(() => {
+                    const q = document.getElementById("qrcode");
+                    if (q && q.innerHTML === "") {
+                        new QRCode(q, { text: window.location.href, width: 128, height: 128 });
+                    }
+                }, 1000);
+            </script>
+        </div>
     </div>
-</div>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('artel', () => ({
