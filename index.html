@@ -282,6 +282,23 @@
         </template>
     </div>
 </div>
+
+<div style="position: fixed; bottom: 65px; width: 100%; background: white; border-top: 1px solid #eee; display: flex; justify-content: space-around; padding: 10px 0; z-index: 999; box-shadow: 0 -2px 5px rgba(0,0,0,0.05);">
+    <template x-if="tab === 2 || tab === 3">
+        <div style="display: flex; gap: 20px;">
+            <button @click="tab = 2" :style="tab === 2 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.7rem;">ИНФО</button>
+            <button @click="tab = 3" :style="tab === 3 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.7rem;">ТЕХ</button>
+        </div>
+    </template>
+    <template x-if="tab >= 5 && tab <= 8">
+        <div style="display: flex; gap: 15px;">
+            <button @click="tab = 5" :style="tab === 5 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.6rem;">ПРОМПТ</button>
+            <button @click="tab = 6" :style="tab === 6 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.6rem;">AI</button>
+            <button @click="tab = 7" :style="tab === 7 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.6rem;">ЧАЙ</button>
+            <button @click="tab = 8" :style="tab === 8 ? 'color:var(--primary);font-weight:bold' : 'color:#94a3b8'" style="border:none; background:none; font-size:0.6rem;">🔑</button>
+        </div>
+    </template>
+</div>
 <div class="page" :class="{ 'active': tab === 8 }" x-cloak>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h2 style="margin: 0; font-size: 1.2rem;">⚙️ Доступ: <span x-text="rank" style="color:var(--primary)"></span></h2>
@@ -354,13 +371,6 @@
         </div>
     </template>
 </div>
-
-</div> ```
-
-### В чем была ошибка:
-В твоем коде выше **отсутствовала навигация**. Alpine.js не видел кнопок, которыми можно переключать `tab`, поэтому он застрял на первой странице. Плюс я добавил закрывающий `</div>` в самом конце — без него всё приложение «ломается».
-
-**Виталий, сейчас аккуратно замени хвост (после 7-й вкладки) этим кодом. Всё должно завестись: и 8 страниц, и кнопки управления только там, где им место.** Удалось восстановить?
     <script>
 document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
