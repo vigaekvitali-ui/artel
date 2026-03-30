@@ -149,14 +149,7 @@
         <a href="https://stroy-technics.ru" target="_blank" class="res-btn" style="margin:0; justify-content:center;">Строй-Техника</a>
     </div>
 </div>
-<div class="page" :class="{ 'active': tab === 4 }" x-init="
-    fetch('https://script.google.com/macros/s/AKfycbz73P7PZogOmyJSZS-sLU44MUOPWtxnaiVlreyOni7cRuoYwPrgYBKH7HT7mHbqqMLj_A/exec?action=getGroups')
-    .then(res => res.json())
-    .then(data => { 
-        groups_list = data; 
-        if(groups_list.length > 0) activeGroup = groups_list[0]; 
-    })
-">
+<div class="page" :class="{ 'active': tab === 4 }">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
         <h2 style="margin:0">📋 Зачетка</h2>
         <template x-if="rank !== 'Студент'">
@@ -184,13 +177,20 @@
 
     <div class="card" style="margin-top:20px; background:#f1f5f9; border:1px solid #cbd5e1; padding: 5px;">
         <div style="font-weight:bold; font-size:0.65rem; color:#64748b; margin-bottom:5px; display:flex; justify-content:space-between; padding: 0 5px;">
-            <span>📜 ЖУРНАЛ СООБЩЕНИЙ (ОБЛАКО)</span>
-            <span style="color:#f97316; cursor:pointer; font-size:0.6rem;" onclick="document.getElementById('cloudFrame').src += ''">🔄 ОБНОВИТЬ</span>
+            <span>📜 ЖУРНАЛ СООБЩЕНИЙ (МГНОВЕННО)</span>
+            <span style="color:#f97316; cursor:pointer; font-size:0.6rem;" @click="loadMessages()">🔄 ОБНОВИТЬ</span>
         </div>
-        <iframe id="cloudFrame" 
-                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQEOqRDxXItz4wtqIa_ufa47hEX1sHu6fIHRY-O_d6WyO_XX8CCxNpKMHYr0_YhJqeXK1nHnsqDBdHC/pubhtml?gid=758036400&single=true&widget=false&headers=false&chrome=false" 
-                style="width:100%; height:400px; border:none; border-radius:8px; background:white;">
-        </iframe>
+        
+        <div style="width:100%; height:400px; overflow-y:auto; border-radius:8px; background:white; padding: 10px; box-sizing: border-box;">
+            <template x-for="m in cloudMessages" :key="m[0]">
+                <template x-if="m[1] === activeGroup">
+                    <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #f1f5f9;">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.6rem; color: #94a3b8; margin-bottom: 3px;">
+                            <span x-text="m[2]"></span> <span x-text="new Date(m[0]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})"></span> </div>
+                        <div x-text="m[3]" style="font-size: 0.85rem; color: #1e293b; word-break: break-word;"></div> </div>
+                </template>
+            </template>
+        </div>
     </div>
 </div>
 <div class="page" :class="{ 'active': tab === 5 }">
@@ -387,11 +387,13 @@
             groups_list: JSON.parse(localStorage.getItem('artel_groups') || '[]'),
             studentMsg: '',
             
+            // НОВОЕ: список для мгновенных сообщений
+            cloudMessages: [],
+            
             daysInMonth: [],
             firstDayOffset: 0,
             currentMonthName: '',
             currentYear: 2026,
-            // ТВОЯ АКТУАЛЬНАЯ ССЫЛКА
             cloudUrl: "https://script.google.com/macros/s/AKfycbz73P7PZogOmyJSZS-sLU44MUOPWtxnaiVlreyOni7cRuoYwPrgYBKH7HT7mHbqqMLj_A/exec",
 
             login() {
@@ -409,7 +411,6 @@
                 this.tab = 1; 
             },
 
-            // ИСПРАВЛЕНО: Теперь добавляет и в локалку, и в таблицу
             addGroup() {
                 let n = prompt("Группа:");
                 if (n) { 
@@ -418,26 +419,28 @@
                         this.groups_list.push(newGroupName); 
                         localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
                         this.activeGroup = newGroupName;
-                        
-                        // Отправка в таблицу (лист Groups)
                         fetch(`${this.cloudUrl}?action=addGroup&name=${encodeURIComponent(newGroupName)}`, { method: 'POST', mode: 'no-cors' });
                     }
                 }
             },
 
-            // ИСПРАВЛЕНО: Теперь шлет данные, которые понимает твой Apps Script
+            // НОВОЕ: Функция быстрой загрузки сообщений
+            loadMessages() {
+                fetch(`${this.cloudUrl}?action=getMessages`)
+                    .then(res => res.json())
+                    .then(data => { this.cloudMessages = data; })
+                    .catch(e => console.log('Ошибка загрузки чата'));
+            },
+
             sendToCloud() {
                 if (!this.studentMsg.trim() || !this.activeGroup) return;
-                
-                // Используем параметры, которые ожидает твой handleMessage (group, msg, rank)
                 const url = `${this.cloudUrl}?group=${encodeURIComponent(this.activeGroup)}&msg=${encodeURIComponent(this.studentMsg)}&rank=${encodeURIComponent(this.rank)}`;
                 
                 fetch(url, { method: 'POST', mode: 'no-cors' })
                 .then(() => { 
                     this.studentMsg = ''; 
-                    // Обновляем iframe
-                    const frame = document.getElementById('cloudFrame');
-                    if(frame) frame.src += '';
+                    // Мгновенно обновляем список сообщений вместо ожидания iframe
+                    setTimeout(() => this.loadMessages(), 500);
                 });
             },
 
@@ -449,7 +452,7 @@
             init() {
                 this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
                 
-                // ЗАГРУЗКА ГРУПП ПРИ СТАРТЕ (СИНХРОНИЗАЦИЯ)
+                // Загрузка групп
                 fetch(`${this.cloudUrl}?action=getGroups`)
                     .then(res => res.json())
                     .then(data => {
@@ -458,11 +461,10 @@
                             localStorage.setItem('artel_groups', JSON.stringify(data));
                             if (!this.activeGroup) this.activeGroup = this.groups_list[0];
                         }
-                    })
-                    .catch(err => {
-                        // Если нет инета, берем из локалки
-                        if (this.groups_list.length > 0) this.activeGroup = this.groups_list[0];
                     });
+
+                // НОВОЕ: Загрузка сообщений при старте
+                this.loadMessages();
                 
                 const now = new Date();
                 this.currentMonthName = now.toLocaleString('ru', { month: 'long' });
