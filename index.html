@@ -351,11 +351,7 @@ document.addEventListener('alpine:init', () => {
         newTask: '',
         tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
         studentMsg: '',
-        chatMsg: '',
-        chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
 
-        isToday(d) { return new Date().getDate() === d; },
-        
         login() {
             let p = this.pass.trim();
             if (p === '2026') { 
@@ -394,8 +390,8 @@ document.addEventListener('alpine:init', () => {
                 text: this.newTask, 
                 time: new Date().toLocaleDateString()
             });
-            this.newTask = ''; 
             localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
+            this.newTask = ''; 
         },
 
         sendToCloud() {
