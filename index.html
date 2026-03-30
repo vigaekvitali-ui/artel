@@ -3,69 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>АРТЕЛЬ 2026</title>
+    <title>АРТЕЛЬ 2026 - 8 вкладок</title>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
         [x-cloak] { display: none !important; }
-        :root { --bg: #f1f5f9; --paper: #ffffff; --primary: #2563eb; --text: #1e293b; --border: #cbd5e1; }
+        * { box-sizing: border-box; }
         
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; padding-bottom: 70px; font-size: 13px; display: flex; justify-content: center; }
+        :root { 
+            --bg: #f1f5f9; 
+            --paper: #ffffff; 
+            --primary: #2563eb; 
+            --primary-dark: #1e40af;
+            --text: #1e293b; 
+            --border: #cbd5e1;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
         
-        .app-container { width: 100%; max-width: 650px; background: var(--paper); min-height: 100vh; box-shadow: 0 0 15px rgba(0,0,0,0.1); position: relative; }
-
-        header { background: var(--paper); padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); position: sticky; top: 0; z-index: 1000; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            margin: 0; 
+            padding-bottom: 70px; 
+            font-size: 13px; 
+        }
         
-        .page { display: none; padding: 10px; }
+        .app-container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: var(--paper); 
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        header { 
+            background: var(--paper); 
+            padding: 12px 16px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 3px solid var(--primary); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-weight: 900;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .rank-badge {
+            background: var(--bg);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .page { display: none; padding: 16px; animation: fadeIn 0.3s ease; }
         .active { display: block !important; }
-        
-        .card { background: var(--paper); border: 1px solid var(--border); border-radius: 6px; padding: 10px; margin-bottom: 8px; }
-        
-        .grid-box { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-        .span-2 { grid-column: span 2; }
-
-        .res-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: white; font-size: 0.75rem; font-weight: bold; transition: all 0.2s; }
-        .res-btn:hover { background: #f8fafc; transform: translateY(-1px); }
-        
-        .google-form { display: flex; gap: 5px; margin-bottom: 10px; }
-        .google-input { flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 6px; outline: none; }
-        .google-btn { background: #4285f4; color: white; border: none; padding: 0 12px; border-radius: 6px; cursor: pointer; transition: opacity 0.2s; }
-        .google-btn:hover { opacity: 0.9; }
-
-        .nav-bar { position: fixed; bottom: 0; width: 100%; max-width: 650px; background: white; display: grid; grid-template-columns: repeat(auto-fit, minmax(45px, 1fr)); border-top: 1px solid var(--border); height: 55px; z-index: 1000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.6rem; color: #94a3b8; cursor: pointer; transition: all 0.2s; }
-        .nav-item.active { color: var(--primary); font-weight: bold; background: #f8fafc; }
-
-        .hero-block { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
-        .mini-calendar { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 8px; width: 140px; font-size: 0.6rem; }
-        .cal-header { text-align: center; font-weight: bold; margin-bottom: 6px; text-transform: uppercase; color: var(--primary); cursor: pointer; user-select: none; }
-        .cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 4px; }
-        .cal-nav-btn { background: none; border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; cursor: pointer; font-size: 0.65rem; transition: all 0.2s; }
-        .cal-nav-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
-        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
-        .cal-day { padding: 4px 0; border-radius: 3px; cursor: pointer; transition: all 0.2s; }
-        .cal-day:hover { background: #e2e8f0; }
-        .cal-today { background: var(--primary); color: white; font-weight: bold; }
-        .cal-other-month { color: #cbd5e1; }
-        .fact-box { background: #eff6ff; border: 1px dashed var(--primary); border-radius: 6px; padding: 6px; font-size: 0.7rem; flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; font-style: italic; cursor: pointer; transition: all 0.2s; }
-        .fact-box:hover { background: #dbeafe; transform: scale(0.98); }
-        
-        .group-tabs { display: flex; overflow-x: auto; gap: 5px; margin-bottom: 8px; padding-bottom: 5px; }
-        .group-btn { padding: 6px 10px; border: 1px solid var(--border); background: white; border-radius: 6px; font-size: 0.65rem; font-weight: bold; white-space: nowrap; cursor: pointer; transition: all 0.2s; }
-        .active-group-btn { background: var(--primary); color: white; border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: bold; }
-        
-        .task-time { font-size: 0.55rem; color: #94a3b8; margin-top: 2px; }
-        .delete-btn { color: #ef4444; border: none; background: none; font-size: 1.2rem; cursor: pointer; padding: 0 4px; transition: transform 0.2s; }
-        .delete-btn:hover { transform: scale(1.1); }
         
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .card { animation: fadeIn 0.3s ease-out; }
         
-        @media (max-width: 480px) {
-            .hero-block { flex-direction: column; }
-            .mini-calendar { width: 100%; }
+        .card { 
+            background: var(--paper); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 12px; 
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--text);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+            border: none;
+        }
+        
+        .input {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        
+        .input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+        
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 600px;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(10px);
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            border-top: 1px solid var(--border);
+            z-index: 1000;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 8px 0;
+            font-size: 0.55rem;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+        }
+        
+        .nav-item span:first-child { font-size: 1.1rem; }
+        
+        .nav-item.active {
+            color: var(--primary);
+            background: linear-gradient(135deg, rgba(37,99,235,0.1), transparent);
+            border-top: 2px solid var(--primary);
+        }
+        
+        /* Календарь */
+        .calendar {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .calendar-nav-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+        
+        .calendar-day {
+            padding: 8px 4px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+        }
+        
+        .calendar-day.today {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .calendar-day.other-month {
+            color: #cbd5e1;
+        }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .task-text {
+            flex: 1;
+        }
+        
+        .task-text.completed {
+            text-decoration: line-through;
+            color: #94a3b8;
+        }
+        
+        .group-tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+        }
+        
+        .group-btn {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        
+        .active-group-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .vpn-alert {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .prompt-text {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            margin-top: 5px;
+            cursor: pointer;
+            user-select: all;
+        }
+        
+        @media (max-width: 550px) {
+            .nav-item span:first-child { font-size: 0.9rem; }
+            .nav-item span:last-child { font-size: 0.45rem; }
+            .grid-3 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -73,183 +295,322 @@
 
 <div class="app-container">
     <header>
-        <div style="font-weight: 900; color: var(--primary); font-size: 1.2rem;">АРТЕЛЬ 2026</div>
-        <div style="font-size: 0.65rem; font-weight: bold; color: #64748b;" x-text="rank"></div>
+        <div class="logo">🏭 АРТЕЛЬ 2026</div>
+        <div class="rank-badge" x-text="rank"></div>
     </header>
 
-    <!-- Главная страница -->
+    <!-- 1. ГЛАВНАЯ -->
     <div class="page" :class="{ 'active': tab === 1 }">
-        <div class="hero-block">
-            <div class="fact-box" @click="refreshFact" x-text="fact">📖</div>
-            <div class="mini-calendar">
-                <div class="cal-nav">
-                    <button class="cal-nav-btn" @click="prevMonth">◀</button>
-                    <div class="cal-header" @click="resetToToday" x-text="monthYear"></div>
-                    <button class="cal-nav-btn" @click="nextMonth">▶</button>
-                </div>
-                <div class="cal-grid">
-                    <template x-for="dayName in ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']">
-                        <div style="font-weight:bold; color:#94a3b8; font-size:0.6rem;" x-text="dayName"></div>
-                    </template>
-                    <template x-for="day in calendarDays">
-                        <div class="cal-day" :class="{ 'cal-today': day.isToday, 'cal-other-month': !day.isCurrentMonth }" x-text="day.day"></div>
-                    </template>
-                </div>
+        <div class="calendar">
+            <div class="calendar-header">
+                <button class="calendar-nav-btn" @click="prevMonth">◀</button>
+                <h3 style="margin:0" x-text="monthYear"></h3>
+                <button class="calendar-nav-btn" @click="nextMonth">▶</button>
+            </div>
+            <div class="calendar-grid">
+                <template x-for="dayName in ['Пн','Вт','Ср','Чт','Пт','Сб','Вс']">
+                    <div style="font-weight:bold; font-size:0.7rem;" x-text="dayName"></div>
+                </template>
+                <template x-for="day in calendarDays">
+                    <div class="calendar-day" :class="{ 'today': day.isToday, 'other-month': !day.isCurrentMonth }" x-text="day.day"></div>
+                </template>
             </div>
         </div>
         
-        <form action="https://www.google.com/search" method="get" target="_blank" class="google-form">
-            <input type="text" name="q" class="google-input" placeholder="Поиск в Google..." autocomplete="off">
-            <button type="submit" class="google-btn">🔎</button>
-        </form>
-
-        <div class="grid-box">
-            <a href="https://ogaek.by" target="_blank" class="res-btn span-2" style="background:#fffbeb; justify-content:center">🏫 ОГАЭК</a>
-            <a href="https://cyberleninka.ru" target="_blank" class="res-btn">📖 Ленинка</a>
-            <a href="https://scholar.google.com" target="_blank" class="res-btn">🎓 Академия</a>
+        <div class="card" style="margin-top:12px">
+            <div style="font-weight:bold; margin-bottom:8px">📖 Факт дня</div>
+            <div x-text="fact" @click="refreshFact" style="cursor:pointer; padding:8px; background:var(--bg); border-radius:8px"></div>
         </div>
+        
+        <div class="grid-2">
+            <a href="https://ogaek.by" target="_blank" class="btn btn-primary">🏫 ОГАЭК</a>
+            <a href="https://scholar.google.com" target="_blank" class="btn">🎓 Google Scholar</a>
+            <a href="https://cyberleninka.ru" target="_blank" class="btn">📚 КиберЛенинка</a>
+            <a href="https://elibrary.ru" target="_blank" class="btn">📖 eLibrary</a>
+        </div>
+        
+        <form action="https://www.google.com/search" method="get" target="_blank" style="display:flex; gap:8px">
+            <input type="text" name="q" class="input" style="flex:1" placeholder="Поиск в Google...">
+            <button type="submit" class="btn btn-primary">🔍</button>
+        </form>
+    </div>
 
-        <div style="display: flex; flex-direction: column; gap: 5px;">
-            <a href="https://www.drom.ru/catalog/" target="_blank" class="res-btn" style="border-left:5px solid #22c55e">🚗 АВТО / ГСМ</a>
-            <a href="https://www.traktor.by/" target="_blank" class="res-btn" style="border-left:5px solid #f59e0b">🚜 ТРАКТОРЫ</a>
-            <a href="https://www.agro-burse.ru/equipment/" target="_blank" class="res-btn" style="border-left:5px solid #3b82f6">⚙️ С/Х МАШИНЫ</a>
+    <!-- 2. ИНФО-ЦЕНТР -->
+    <div class="page" :class="{ 'active': tab === 2 }">
+        <h2 style="margin:0 0 15px 0; font-size: 1.1rem;">📢 ИНФО-ЦЕНТР</h2>
+        
+        <div class="card">
+            <h4 style="color:#ef4444; margin:0 0 8px;">🏛️ ОБРАЗОВАНИЕ (РБ)</h4>
+            <div class="grid-2">
+                <a href="https://edu.gov.by/news/" target="_blank" class="btn">Минобр</a>
+                <a href="https://ripo.by" target="_blank" class="btn">РИПО</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4 style="color:#16a34a; margin:0 0 8px;">🌾 АГРО-СЕКТОР</h4>
+            <div class="grid-2">
+                <a href="https://www.sb.by/sections/selkhoz/" target="_blank" class="btn">Сельхоз.BY</a>
+                <a href="https://belmarket.by" target="_blank" class="btn">Белрынок</a>
+                <a href="https://glavpahar.ru" target="_blank" class="btn span-2">ГлавПахарь</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4 style="color:#2563eb; margin:0 0 8px;">🌍 ТЕХНОЛОГИИ МИРА</h4>
+            <div class="grid-2">
+                <a href="https://www.futurefarming.com" target="_blank" class="btn">Future Farming</a>
+                <a href="https://www.zr.ru" target="_blank" class="btn">За Рулем</a>
+            </div>
         </div>
     </div>
 
-    <!-- Зачет (группы и задачи) -->
-    <div class="page" :class="{ 'active': tab === 4 }">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
-            <h3 style="margin:0">📋 Группы</h3>
-            <button @click="addGroup()" x-show="canEdit" style="background:#22c55e; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:0.6rem; cursor:pointer;">+ ГРУППА</button>
+    <!-- 3. ТЕХ-БАЗА -->
+    <div class="page" :class="{ 'active': tab === 3 }">
+        <h2 style="margin:0 0 15px 0;">🛠️ ТЕХ-БАЗА</h2>
+        
+        <div class="card">
+            <h4>📐 ВЫЧИСЛЕНИЯ</h4>
+            <a href="https://www.online-calculator.com/full-screen-calculator/" target="_blank" class="btn btn-primary">Калькулятор</a>
         </div>
+        
+        <div class="card">
+            <h4>🚜 ЗАВОДЫ РБ</h4>
+            <div class="grid-3">
+                <a href="https://belarus-tractor.com/ru/" target="_blank" class="btn">МТЗ</a>
+                <a href="https://www.gomselmash.by/ru/" target="_blank" class="btn">Гомсельмаш</a>
+                <a href="https://maz.by" target="_blank" class="btn">МАЗ</a>
+                <a href="https://belaz.by" target="_blank" class="btn">БЕЛАЗ</a>
+                <a href="https://lidselmash.by" target="_blank" class="btn">Лидсельмаш</a>
+                <a href="https://www.bobruiskagromash.by" target="_blank" class="btn">Бобруйскагромаш</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>💾 ИНЖЕНЕРНЫЕ БАЗЫ</h4>
+            <div class="grid-2">
+                <a href="https://tebx.ru" target="_blank" class="btn">ТЕБХ</a>
+                <a href="https://podshypnik.info" target="_blank" class="btn">Подшипники</a>
+                <a href="https://znaytovar.ru" target="_blank" class="btn">ГОСТы</a>
+                <a href="https://stroy-technics.ru" target="_blank" class="btn">Строй-Техника</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. ЗАЧЕТКА -->
+    <div class="page" :class="{ 'active': tab === 4 }">
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px">
+            <h2 style="margin:0">📋 Зачетка</h2>
+            <button @click="addGroup" x-show="canEdit" class="btn btn-success" style="padding:6px 12px">+ Группа</button>
+        </div>
+        
         <div class="group-tabs">
             <template x-for="g in groups_list">
                 <button @click="activeGroup = g" :class="activeGroup === g ? 'active-group-btn' : 'group-btn'" x-text="g"></button>
             </template>
         </div>
+        
         <template x-if="canEdit">
-            <div class="card" style="display:flex; gap:5px; background:#f8fafc">
-                <input type="text" x-model="newTask" @keydown.enter="addTask()" placeholder="Новая запись..." style="flex:1; padding:8px; border:1px solid var(--border); border-radius:6px;">
-                <button @click="addTask()" class="google-btn">ДОБАВИТЬ</button>
+            <div class="card" style="display:flex; gap:8px">
+                <input type="text" x-model="newTask" class="input" style="flex:1" placeholder="Новая задача..." @keydown.enter="addTask">
+                <button @click="addTask" class="btn btn-primary">Добавить</button>
             </div>
         </template>
-        <div style="margin-top:10px">
+        
+        <div>
             <template x-for="task in (tasks_data[activeGroup] || [])" :key="task.id">
-                <div class="card" style="display:flex; justify-content:space-between; align-items:center; padding:8px;">
-                    <div style="flex:1">
-                        <div style="font-weight:bold" x-text="task.text"></div>
-                        <div class="task-time" x-text="task.time"></div>
-                    </div>
-                    <button @click="removeTask(task.id)" x-show="canEdit" class="delete-btn" title="Удалить">✖</button>
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox" x-model="task.completed" @change="saveTasks">
+                    <div class="task-text" :class="{ 'completed': task.completed }" x-text="task.text"></div>
+                    <button @click="removeTask(task.id)" x-show="canEdit" style="color:var(--danger); background:none; border:none; font-size:1.2rem; cursor:pointer">✖</button>
                 </div>
             </template>
-            <div x-show="!tasks_data[activeGroup] || tasks_data[activeGroup].length === 0" class="card" style="text-align:center; color:#94a3b8;">
-                Нет записей
+            <div x-show="!tasks_data[activeGroup] || tasks_data[activeGroup].length === 0" class="card" style="text-align:center; color:#94a3b8">
+                Нет задач
             </div>
         </div>
     </div>
 
-    <!-- Переменка (только для Мастодонт и Админ) -->
-    <div class="page" :class="{ 'active': tab === 7 }">
-        <template x-if="isMaster">
-            <div>
-                <h4 style="margin:0 0 10px">☕ ПЕРЕМЕНКА</h4>
-                <div class="grid-box">
-                    <a href="https://radiopotok.ru/belarus" target="_blank" class="res-btn">🇧🇾 Радио</a>
-                    <a href="https://youtube.com" target="_blank" class="res-btn">🎬 YouTube</a>
-                    <a href="https://t.me/artel_channel" target="_blank" class="res-btn">📱 Telegram</a>
-                </div>
-                <div class="card" style="margin-top:15px; border:2px solid var(--primary)">
-                    <b>💬 КОММЕНТАРИИ:</b>
-                    <div style="display:flex; gap:5px; margin:8px 0">
-                        <input type="text" x-model="chatMsg" @keydown.enter="addChatMessage()" class="google-input" placeholder="Написать сообщение...">
-                        <button @click="addChatMessage()" class="google-btn">📤</button>
-                    </div>
-                    <div style="max-height:200px; overflow-y:auto; font-size:0.7rem">
-                        <template x-for="(m, idx) in chat_history" :key="idx">
-                            <div style="padding:6px; border-bottom:1px solid #eee; word-break:break-word;">
-                                <span style="color:#2563eb; font-weight:bold;" x-text="m.author + ': '"></span>
-                                <span x-text="m.text"></span>
-                                <div style="font-size:0.55rem; color:#94a3b8; margin-top:2px;" x-text="m.time"></div>
-                            </div>
-                        </template>
-                        <div x-show="chat_history.length === 0" style="text-align:center; color:#94a3b8; padding:20px;">
-                            Пока нет сообщений
-                        </div>
-                    </div>
-                </div>
+    <!-- 5. ПРОМТ-СТАНЦИЯ -->
+    <div class="page" :class="{ 'active': tab === 5 }">
+        <div class="vpn-alert">⚠️ VPN необходим для некоторых сервисов</div>
+        
+        <div class="card">
+            <h4>🌐 VPN СЕРВИСЫ</h4>
+            <div class="grid-3">
+                <a href="https://protonvpn.com" target="_blank" class="btn">Proton VPN</a>
+                <a href="https://psiphon.ca" target="_blank" class="btn">Psiphon</a>
+                <a href="https://1.1.1.1" target="_blank" class="btn">Cloudflare</a>
             </div>
-        </template>
+        </div>
+        
+        <div class="card">
+            <h4>🤠 ПРОМПТ-СЕРВИСЫ</h4>
+            <div class="grid-2">
+                <a href="https://promptcowboy.com" target="_blank" class="btn">PromptCowboy</a>
+                <a href="https://prompthero.com" target="_blank" class="btn">PromptHero</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>📋 ШАБЛОНЫ ПРОМПТОВ</h4>
+            <div class="prompt-text" @click="$event.target.select()">
+                Действуй как эксперт в области автомеханики. Составь план занятия на тему [ТЕМА].
+            </div>
+            <div class="prompt-text" @click="$event.target.select()" style="margin-top:8px">
+                Симптомы: [ОПИСАНИЕ]. Составь пошаговый алгоритм диагностики.
+            </div>
+        </div>
     </div>
 
-    <!-- Администрирование -->
+    <!-- 6. ИИ-СЕРВИСЫ -->
+    <div class="page" :class="{ 'active': tab === 6 }">
+        <div class="vpn-alert">⚠️ VPN необходим для большинства сервисов</div>
+        
+        <div class="card">
+            <h4>🧠 ТЕКСТ / КОД</h4>
+            <div class="grid-2">
+                <a href="https://chatgpt.com" target="_blank" class="btn">ChatGPT</a>
+                <a href="https://gemini.google.com" target="_blank" class="btn">Gemini</a>
+                <a href="https://claude.ai" target="_blank" class="btn">Claude AI</a>
+                <a href="https://chat.deepseek.com" target="_blank" class="btn">DeepSeek</a>
+                <a href="https://perplexity.ai" target="_blank" class="btn span-2">Perplexity</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</h4>
+            <div class="grid-2">
+                <a href="https://leonardo.ai" target="_blank" class="btn">Leonardo</a>
+                <a href="https://fusionbrain.ai" target="_blank" class="btn">Kandinsky</a>
+                <a href="https://ideogram.ai" target="_blank" class="btn">Ideogram</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>🛠️ ИНЖЕНЕРИЯ / ПРЕЗЕНТЫ</h4>
+            <div class="grid-2">
+                <a href="https://gamma.app" target="_blank" class="btn">Gamma</a>
+                <a href="https://napkin.ai" target="_blank" class="btn">Napkin</a>
+                <a href="https://wolframalpha.com" target="_blank" class="btn">WolframAlpha</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. ПЕРЕМЕНКА -->
+    <div class="page" :class="{ 'active': tab === 7 }">
+        <h2 style="margin:0 0 15px 0;">🔔 ПЕРЕМЕНКА</h2>
+        
+        <div class="grid-3">
+            <a href="https://radiopotok.ru/belarus" target="_blank" class="btn">🎵 Радио</a>
+            <a href="https://www.youtube.com" target="_blank" class="btn">📺 YouTube</a>
+            <a href="https://pikabu.ru" target="_blank" class="btn">🦎 Пикабу</a>
+        </div>
+        
+        <div class="card">
+            <h4>🎮 МИНИ-ИГРА</h4>
+            <div style="text-align:center">
+                <div x-text="gameMessage" style="margin-bottom:8px"></div>
+                <input type="number" x-model="guess" class="input" style="width:80px; text-align:center" placeholder="1-10">
+                <button @click="checkGuess" class="btn btn-primary" style="margin-top:8px">Угадать</button>
+                <button @click="resetGame" class="btn" style="margin-top:8px">Новая игра</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>💬 ЧАТ АРТЕЛИ</h4>
+            <div style="display:flex; gap:8px; margin-bottom:12px">
+                <input type="text" x-model="chatMsg" class="input" style="flex:1" placeholder="Сообщение..." @keydown.enter="addChatMessage">
+                <button @click="addChatMessage" class="btn btn-primary">📤</button>
+            </div>
+            <div style="max-height:250px; overflow-y:auto">
+                <template x-for="msg in chat_history" :key="msg.id">
+                    <div style="padding:8px; border-bottom:1px solid var(--border)">
+                        <strong style="color:var(--primary)" x-text="msg.author"></strong>
+                        <span style="font-size:0.6rem; color:#94a3b8" x-text="' ' + msg.time"></span>
+                        <div x-text="msg.text" style="margin-top:4px"></div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. НАСТРОЙКИ -->
     <div class="page" :class="{ 'active': tab === 8 }">
         <template x-if="rank === 'Студент'">
             <div class="card" style="text-align:center">
-                <input type="password" x-model="pass" @keydown.enter="login()" placeholder="Введите код доступа" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:6px; text-align:center; margin-bottom:10px">
-                <button @click="login()" class="google-btn" style="width:100%; padding:10px">ВОЙТИ</button>
+                <input type="password" x-model="pass" class="input" style="width:100%; margin-bottom:12px" placeholder="Код доступа" @keydown.enter="login">
+                <button @click="login" class="btn btn-primary" style="width:100%">Войти</button>
+                <div style="margin-top:12px; font-size:0.7rem; color:#94a3b8">Коды: 2026 (Мастодонт), 0000 (Админ)</div>
             </div>
         </template>
+        
         <template x-if="rank !== 'Студент'">
-            <div class="card" style="text-align:center">
-                <p>👤 Ваш ранг: <b x-text="rank"></b></p>
-                <p>🛠️ Доступны все функции редактирования</p>
-                <button @click="logout()" style="width:100%; background:#ef4444; color:white; border:none; padding:10px; border-radius:6px; font-weight:bold; cursor:pointer;">ВЫЙТИ</button>
+            <div>
+                <div class="card">
+                    <h4>⚙️ НАСТРОЙКИ</h4>
+                    <div>Ваш ранг: <strong x-text="rank"></strong></div>
+                    <button @click="clearAllData" class="btn" style="margin-top:12px; background:var(--danger); color:white">Очистить данные</button>
+                    <button @click="logout" class="btn" style="margin-top:8px; width:100%">Выйти</button>
+                </div>
+                
+                <div class="card">
+                    <h4>📊 СТАТИСТИКА</h4>
+                    <div>Групп: <strong x-text="groups_list.length"></strong></div>
+                    <div>Задач: <strong x-text="totalTasks"></strong></div>
+                    <div>Сообщений: <strong x-text="chat_history.length"></strong></div>
+                </div>
             </div>
         </template>
     </div>
 
     <nav class="nav-bar">
-        <div class="nav-item" :class="{'active': tab === 1}" @click="tab = 1"><span>🏠</span>Дом</div>
-        <div class="nav-item" :class="{'active': tab === 4}" @click="tab = 4"><span>📋</span>Зачет</div>
-        <div class="nav-item" :class="{'active': tab === 8}" @click="tab = 8"><span>⚙️</span>Адм</div>
-        <template x-if="isMaster">
-            <div class="nav-item" :class="{'active': tab === 7}" @click="tab = 7"><span>🔔</span>Пер</div>
-        </template>
+        <button class="nav-item" :class="{ 'active': tab === 1 }" @click="tab = 1"><span>🏠</span><span>Главная</span></button>
+        <button class="nav-item" :class="{ 'active': tab === 2 }" @click="tab = 2"><span>📢</span><span>Доска</span></button>
+        <button class="nav-item" :class="{ 'active': tab === 3 }" @click="tab = 3"><span>🛠️</span><span>Тех</span></button>
+        <button class="nav-item" :class="{ 'active': tab === 4 }" @click="tab = 4"><span>📋</span><span>Зачет</span></button>
+        <button class="nav-item" :class="{ 'active': tab === 5 }" @click="tab = 5"><span>💡</span><span>Промт</span></button>
+        <button class="nav-item" :class="{ 'active': tab === 6 }" @click="tab = 6"><span>🤖</span><span>ИИ</span></button>
+        <button class="nav-item" :class="{ 'active': tab === 7 }" @click="tab = 7"><span>🔔</span><span>Пер</span></button>
+        <button class="nav-item" :class="{ 'active': tab === 8 }" @click="tab = 8"><span>⚙️</span><span>Админ</span></button>
     </nav>
 </div>
 
 <script>
 document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
-        // UI состояние
+        // UI
         tab: 1,
         rank: localStorage.getItem('rank') || 'Студент',
         pass: '',
         
         // Календарь
         currentDate: new Date(),
-        
-        // Факты
         facts: [
-            "📚 Знание — сила",
-            "🔧 Ремонт начинается с диагностики",
-            "⚡ Лучший день — сегодня",
-            "🚜 Без труда не выловишь и рыбку из пруда",
-            "💡 Идея стоит дороже, чем её реализация",
-            "🎯 Цель без плана — просто мечта",
-            "🔨 Мастерство приходит с опытом",
-            "📈 Успех — это 1% вдохновения и 99% труда"
+            "📚 Знание — сила! Учиться никогда не поздно.",
+            "🔧 Лучший ремонт — профилактика.",
+            "🚜 Трактор — друг человека!",
+            "💡 80% успеха — это просто появиться на паре.",
+            "🎯 Цель без плана — просто мечта."
         ],
         fact: "",
         
         // Группы и задачи
-        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "15ТМ"]'),
+        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "15ТМ", "21ЭМ"]'),
         activeGroup: '',
         newTask: '',
         tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
         
-        // Чат
+        // Чат и игра
         chatMsg: '',
         chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
+        guess: '',
+        gameMessage: 'Угадай число от 1 до 10',
+        secretNumber: Math.floor(Math.random() * 10) + 1,
         
-        // Computed свойства
+        // Computed
         get canEdit() {
             return this.rank !== 'Студент';
-        },
-        
-        get isMaster() {
-            return this.rank === 'Мастодонт' || this.rank === 'Админ';
         },
         
         get monthYear() {
@@ -259,52 +620,32 @@ document.addEventListener('alpine:init', () => {
         get calendarDays() {
             const year = this.currentDate.getFullYear();
             const month = this.currentDate.getMonth();
-            const firstDayOfMonth = new Date(year, month, 1);
-            const startDayOfWeek = firstDayOfMonth.getDay() || 7; // 1 = Пн, 7 = Вс
+            const firstDay = new Date(year, month, 1);
+            const startOffset = (firstDay.getDay() || 7) - 1;
             const daysInMonth = new Date(year, month + 1, 0).getDate();
-            
-            // Получаем дни предыдущего месяца для заполнения начала календаря
             const prevMonthDays = new Date(year, month, 0).getDate();
             const days = [];
-            
-            // Дни предыдущего месяца
-            for (let i = startDayOfWeek - 1; i > 0; i--) {
-                const day = prevMonthDays - i + 1;
-                days.push({
-                    day: day,
-                    isCurrentMonth: false,
-                    isToday: false,
-                    fullDate: new Date(year, month - 1, day)
-                });
-            }
-            
-            // Дни текущего месяца
             const today = new Date();
+            
+            for (let i = startOffset; i > 0; i--) {
+                days.push({ day: prevMonthDays - i + 1, isCurrentMonth: false, isToday: false });
+            }
             for (let i = 1; i <= daysInMonth; i++) {
-                const date = new Date(year, month, i);
-                const isToday = date.getDate() === today.getDate() &&
-                               date.getMonth() === today.getMonth() &&
-                               date.getFullYear() === today.getFullYear();
-                days.push({
-                    day: i,
-                    isCurrentMonth: true,
-                    isToday: isToday,
-                    fullDate: date
-                });
+                const isToday = i === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+                days.push({ day: i, isCurrentMonth: true, isToday: isToday });
             }
-            
-            // Дни следующего месяца (чтобы заполнить сетку до 42 ячеек - 6 строк)
-            const remaining = 42 - days.length;
-            for (let i = 1; i <= remaining; i++) {
-                days.push({
-                    day: i,
-                    isCurrentMonth: false,
-                    isToday: false,
-                    fullDate: new Date(year, month + 1, i)
-                });
+            while (days.length < 42) {
+                days.push({ day: days.length - daysInMonth - startOffset + 1, isCurrentMonth: false, isToday: false });
             }
-            
             return days;
+        },
+        
+        get totalTasks() {
+            let total = 0;
+            for (let group in this.tasks_data) {
+                total += this.tasks_data[group].length;
+            }
+            return total;
         },
         
         // Методы календаря
@@ -316,93 +657,60 @@ document.addEventListener('alpine:init', () => {
             this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
         },
         
-        resetToToday() {
-            this.currentDate = new Date();
-        },
-        
-        // Методы фактов
         refreshFact() {
-            const randomIndex = Math.floor(Math.random() * this.facts.length);
-            this.fact = this.facts[randomIndex];
-        },
-        
-        // Инициализация
-        init() {
-            this.activeGroup = this.groups_list[0] || '';
-            this.refreshFact();
-            
-            // Слушаем изменения в localStorage для синхронизации между вкладками
-            window.addEventListener('storage', (e) => {
-                if (e.key === 'artel_groups') {
-                    this.groups_list = JSON.parse(e.newValue);
-                }
-                if (e.key === 'artel_tasks') {
-                    this.tasks_data = JSON.parse(e.newValue);
-                }
-                if (e.key === 'artel_chat') {
-                    this.chat_history = JSON.parse(e.newValue);
-                }
-                if (e.key === 'rank') {
-                    this.rank = e.newValue;
-                }
-            });
+            this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
         },
         
         // Авторизация
         login() {
-            if (this.pass === '2026') {
-                this.rank = 'Мастодонт';
-            } else if (this.pass === '0000') {
-                this.rank = 'Админ';
-            } else {
-                alert('Неверный код доступа');
-                return;
-            }
+            if (this.pass === '2026') this.rank = 'Мастодонт';
+            else if (this.pass === '0000') this.rank = 'Админ';
+            else { alert('Неверный код'); return; }
             localStorage.setItem('rank', this.rank);
             this.pass = '';
             this.tab = 1;
         },
         
         logout() {
-            if (confirm('Выйти из учетной записи?')) {
+            if (confirm('Выйти?')) {
                 this.rank = 'Студент';
                 localStorage.setItem('rank', 'Студент');
                 this.tab = 1;
             }
         },
         
-        // Управление группами
-        addGroup() {
-            let n = prompt("Введите название группы:");
-            if (n && n.trim()) {
-                const groupName = n.trim().toUpperCase();
-                if (!this.groups_list.includes(groupName)) {
-                    this.groups_list.push(groupName);
-                    this.saveGroups();
-                    this.activeGroup = groupName;
-                } else {
-                    alert('Такая группа уже существует');
-                }
+        clearAllData() {
+            if (confirm('Очистить все данные? Отменить нельзя!')) {
+                localStorage.clear();
+                location.reload();
             }
         },
         
-        // Управление задачами
+        // Группы и задачи
+        addGroup() {
+            let n = prompt('Название группы:');
+            if (n && n.trim()) {
+                this.groups_list.push(n.trim().toUpperCase());
+                this.saveGroups();
+                if (!this.activeGroup) this.activeGroup = this.groups_list[0];
+            }
+        },
+        
         addTask() {
             if (!this.newTask.trim()) return;
-            if (!this.tasks_data[this.activeGroup]) {
-                this.tasks_data[this.activeGroup] = [];
-            }
-            this.tasks_data[this.activeGroup].unshift({
+            if (!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
+            this.tasks_data[this.activeGroup].push({
                 id: Date.now(),
                 text: this.newTask.trim(),
-                time: new Date().toLocaleString('ru')
+                completed: false,
+                time: new Date().toLocaleString()
             });
             this.newTask = '';
             this.saveTasks();
         },
         
         removeTask(id) {
-            if (confirm('Удалить эту запись?')) {
+            if (confirm('Удалить задачу?')) {
                 this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id);
                 this.saveTasks();
             }
@@ -412,15 +720,38 @@ document.addEventListener('alpine:init', () => {
         addChatMessage() {
             if (!this.chatMsg.trim()) return;
             this.chat_history.unshift({
+                id: Date.now(),
                 text: this.chatMsg.trim(),
                 author: this.rank,
-                time: new Date().toLocaleString('ru')
+                time: new Date().toLocaleTimeString()
             });
             this.chatMsg = '';
             this.saveChat();
         },
         
-        // Сохранение в localStorage
+        // Игра
+        checkGuess() {
+            const num = parseInt(this.guess);
+            if (isNaN(num) || num < 1 || num > 10) {
+                this.gameMessage = 'Введи число от 1 до 10!';
+            } else if (num === this.secretNumber) {
+                this.gameMessage = '🎉 Поздравляю! Ты угадал! 🎉';
+                this.secretNumber = Math.floor(Math.random() * 10) + 1;
+            } else if (num < this.secretNumber) {
+                this.gameMessage = `📈 Загаданное число больше ${num}`;
+            } else {
+                this.gameMessage = `📉 Загаданное число меньше ${num}`;
+            }
+            this.guess = '';
+        },
+        
+        resetGame() {
+            this.secretNumber = Math.floor(Math.random() * 10) + 1;
+            this.gameMessage = 'Новая игра! Угадай число от 1 до 10';
+            this.guess = '';
+        },
+        
+        // Сохранение
         saveGroups() {
             localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
         },
@@ -431,6 +762,20 @@ document.addEventListener('alpine:init', () => {
         
         saveChat() {
             localStorage.setItem('artel_chat', JSON.stringify(this.chat_history));
+        },
+        
+        // Инициализация
+        init() {
+            this.refreshFact();
+            this.activeGroup = this.groups_list[0] || '';
+            
+            // Синхронизация между вкладками
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'artel_groups') this.groups_list = JSON.parse(e.newValue);
+                if (e.key === 'artel_tasks') this.tasks_data = JSON.parse(e.newValue);
+                if (e.key === 'artel_chat') this.chat_history = JSON.parse(e.newValue);
+                if (e.key === 'rank') this.rank = e.newValue;
+            });
         }
     }));
 });
