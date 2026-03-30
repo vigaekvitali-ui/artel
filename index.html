@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>АРТЕЛЬ 2026</title>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         [x-cloak] { display: none !important; }
         :root { --bg: #f1f5f9; --paper: #ffffff; --primary: #2563eb; --text: #1e293b; --border: #cbd5e1; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; padding-bottom: 160px; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; padding-bottom: 120px; }
         header { 
             background: var(--paper); padding: 10px 15px; display: flex; 
             justify-content: space-between; align-items: center; 
@@ -65,6 +66,16 @@
             </div>
         </div>
     </div>
+
+    <div class="card flex justify-between items-center mb-4">
+        <span class="text-xs text-gray-500 uppercase">Активная группа:</span>
+        <select x-model="activeGroup" class="p-1 bg-white border border-gray-200 rounded font-bold text-blue-600 text-sm">
+            <template x-for="g in groups_list">
+                <option :value="g" x-text="g"></option>
+            </template>
+        </select>
+    </div>
+
     <form action="https://www.google.com/search" method="get" target="_blank" class="google-form">
         <input type="text" name="q" class="google-input" placeholder="Поиск в Google...">
         <button type="submit" class="google-btn">🔎</button>
@@ -93,7 +104,7 @@
         <h4 style="color:#16a34a; font-size:0.65rem; margin:0 0 8px; text-transform:uppercase;">🌾 АГРО-СЕКТОР (РБ)</h4>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
             <a href="https://www.sb.by/sections/selkhoz/" target="_blank" class="res-btn">Сельхоз.BY</a>
-            <a href="https://glavpahar.ru" target="_blank" class="res-btn" style="grid-column: span 2;">ГлавПахарь</a>
+            <a href="https://glavpahar.ru" target="_blank" class="res-btn" style="grid-column: span 2;">ГлавПахарь (Техника)</a>
         </div>
     </div>
     <div>
@@ -113,6 +124,7 @@
         <a href="https://www.gomselmash.by/ru/" target="_blank" class="res-btn">Гомсельмаш</a>
         <a href="https://maz.by/ru/products/trucks" target="_blank" class="res-btn">МАЗ</a>
         <a href="https://belaz.by/ru/" target="_blank" class="res-btn">БЕЛАЗ</a>
+        <a href="https://minprom.gov.by/predpriyatiya/" target="_blank" class="res-btn" style="grid-column: span 2; background: #f1f5f9;">📦 Реестр Минпрома</a>
     </div>
     <h4 style="color:#64748b; font-size:0.7rem; margin:0 0 8px; text-transform:uppercase;">💾 ИНЖЕНЕРНЫЕ БАЗЫ</h4>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
@@ -122,23 +134,23 @@
 </div>
 
 <div class="page" :class="{ 'active': tab === 4 }">
-    <h2 style="margin:0 0 15px 0; font-size: 1.2rem;">📋 Зачетка</h2>
+    <h2 style="margin:0 0 15px 0; font-size: 1.2rem;">📋 ЖУРНАЛ: <span x-text="activeGroup" class="text-blue-600"></span></h2>
+    <div class="card border-2 border-orange-500 bg-orange-50 p-4 mb-4">
+        <textarea x-model="studentMsg" placeholder="Введите текст сообщения..." class="w-full p-3 border border-gray-200 rounded-lg h-32 mb-3 outline-none focus:border-orange-500"></textarea>
+        <button @click="sendToCloud()" class="w-full p-3 bg-orange-500 text-white font-bold rounded-lg shadow">ОТПРАВИТЬ В ОБЛАКО 📤</button>
+    </div>
     <div class="group-tabs">
         <template x-for="g in groups_list" :key="g">
             <button @click="activeGroup = g" :class="activeGroup === g ? 'active-group-btn' : 'group-btn'" x-text="g"></button>
         </template>
     </div>
-    <div class="card" style="border: 2px solid #f97316; background: #fff7ed; padding: 12px;">
-        <div style="font-weight:bold; font-size:0.7rem; color:#c2410c; margin-bottom:5px">📢 ОБЩАЯ СВЯЗЬ: <span x-text="activeGroup"></span></div>
-        <textarea x-model="studentMsg" placeholder="Введите текст сообщения..." style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem; margin-bottom:10px;"></textarea>
-        <button @click="sendToCloud()" style="width:100%; background:#f97316; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold">ОТПРАВИТЬ 📤</button>
-    </div>
+    <iframe id="cloudFrame" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQEOqRDxXItz4wtqIa_ufa47hEX1sHu6fIHRY-O_d6WyO_XX8CCxNpKMHYr0_YhJqeXK1nHnsqDBdHC/pubhtml?gid=758036400&single=true&widget=false&headers=false&chrome=false" style="width:100%; height:300px; border:none; border-radius:8px; background:white; margin-top:15px;"></iframe>
 </div>
 
 <div class="page" :class="{ 'active': tab === 5 }">
     <div class="vpn-alert">⚠️ VPN необходим!</div>
     <h3 style="margin:0">💡 Промпт-Станция</h3>
-    <div class="card" style="margin-top:15px">
+    <div class="card mt-4">
         <b>👨‍🏫 Для лекций:</b>
         <div class="prompt-text">Действуй как эксперт в области автомеханики. Составь план занятия на тему [ТЕМА].</div>
         <br><b>🛠️ Диагностика:</b>
@@ -158,27 +170,35 @@
 
 <div class="page" :class="{ 'active': tab === 7 }">
     <h2 style="margin:0 0 15px 0; font-size: 1.2rem;">🔔 ПЕРЕМЕНКА</h2>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-        <a href="https://radiopotok.ru/belarus" target="_blank" class="res-btn">🇧🇾 БелРадио</a>
-        <a href="https://www.youtube.com" target="_blank" class="res-btn">🎬 YouTube</a>
-        <a href="https://pikabu.ru" target="_blank" class="res-btn">🦎 Пикабу</a>
-        <a href="https://www.yaplakal.com" target="_blank" class="res-btn">🤣 ЯПлакалъ</a>
-    </div>
+    <template x-if="rank !== 'Мастодонт' && rank !== 'Админ'">
+        <div class="card text-center py-10">
+            <div class="text-3xl mb-2">🔒</div>
+            <div class="text-sm text-gray-500">Доступно только для преподавателей.</div>
+        </div>
+    </template>
+    <template x-if="rank === 'Мастодонт' || rank === 'Админ'">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <a href="https://radiopotok.ru/belarus" target="_blank" class="res-btn">🇧🇾 БелРадио</a>
+            <a href="https://www.youtube.com" target="_blank" class="res-btn">🎬 YouTube</a>
+            <a href="https://pikabu.ru" target="_blank" class="res-btn">🦎 Пикабу</a>
+            <a href="https://www.yaplakal.com" target="_blank" class="res-btn">🤣 ЯПлакалъ</a>
+        </div>
+    </template>
 </div>
 
 <div class="page" :class="{ 'active': tab === 8 }">
-    <h2 style="margin:0 0 15px 0; font-size: 1.2rem;">⚙️ Управление</h2>
+    <h2 style="margin:0 0 15px 0; font-size: 1.2rem;">⚙️ УПРАВЛЕНИЕ</h2>
     <template x-if="rank === 'Студент'">
         <div class="card">
-            <input type="password" x-model="pass" @keydown.enter="login()" placeholder="Код доступа" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px; margin-bottom:10px;">
-            <button @click="login()" style="width:100%; background:var(--primary); color:white; border:none; padding:10px; border-radius:8px;">ВОЙТИ</button>
+            <input type="password" x-model="pass" @keydown.enter="login()" placeholder="Код доступа" class="w-full p-3 border border-gray-200 rounded-lg mb-3 text-center">
+            <button @click="login()" class="w-full p-3 bg-blue-600 text-white font-bold rounded-lg">ВОЙТИ</button>
         </div>
     </template>
     <template x-if="rank !== 'Студент'">
-        <div class="card">
-            <p>Статус: <b x-text="rank"></b></p>
-            <button @click="addGroup()" style="background:#22c55e; color:white; border:none; padding:10px; border-radius:8px; width:100%; margin-bottom:10px;">+ Группа</button>
-            <button @click="logout()" style="width:100%; background:none; color:red; cursor:pointer">Выйти</button>
+        <div class="card border-l-4 border-blue-600 bg-blue-50">
+            <p class="font-bold mb-4">Статус: <span x-text="rank" class="text-blue-600 uppercase"></span></p>
+            <button @click="addGroup()" class="w-full p-3 bg-blue-600 text-white rounded-lg mb-3">ДОБАВИТЬ ГРУППУ</button>
+            <button @click="logout()" class="w-full p-2 text-red-500 text-xs underline">ВЫЙТИ</button>
         </div>
     </template>
 </div>
@@ -200,10 +220,10 @@ document.addEventListener('alpine:init', () => {
         tab: 1,
         rank: localStorage.getItem('rank') || 'Студент',
         pass: '',
-        fact: "",
+        fact: "Синяя изолента - основа инженерии",
         facts: ["Бритва Оккама", "Закон Мерфи", "Павел Сухой", "Жорес Алферов", "Синяя изолента - основа инженерии"],
         activeGroup: '',
-        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["54TO", "61TO"]'),
+        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["54TO", "61TO", "20E"]'),
         studentMsg: '',
         daysInMonth: [],
         firstDayOffset: 0,
