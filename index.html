@@ -368,7 +368,6 @@ document.addEventListener('alpine:init', () => {
             }
             else { alert('Неверно'); this.pass = ''; }
         },
-
         logout() { 
             this.rank = 'Студент'; 
             localStorage.setItem('rank', 'Студент'); 
@@ -383,7 +382,6 @@ document.addEventListener('alpine:init', () => {
                 localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
             }
         },
-
         addTask() {
             if (this.rank === 'Студент' || !this.newTask.trim()) return;
             if (!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
@@ -395,14 +393,12 @@ document.addEventListener('alpine:init', () => {
             localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
             this.newTask = ''; 
         },
-
         sendToCloud() {
             if (!this.studentMsg.trim()) return;
             const params = new URLSearchParams();
             params.append('group', this.activeGroup);
             params.append('message', this.studentMsg);
             params.append('author', this.rank);
-
             fetch("https://script.google.com/macros/s/AKfycbx79slkoWod5d9VOXGwdosSzO8Td62lbOilmsYQMED9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec", {
                 method: 'POST',
                 mode: 'no-cors',
@@ -412,7 +408,6 @@ document.addEventListener('alpine:init', () => {
                 alert('Отправлено');
             });
         },
-
         init() { 
             this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
             this.activeGroup = this.groups_list[0] || '';
