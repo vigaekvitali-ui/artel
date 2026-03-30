@@ -286,68 +286,60 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h2 style="margin: 0; font-size: 1.2rem;">⚙️ Доступ: <span x-text="rank" style="color:var(--primary)"></span></h2>
     </div>
+
     <template x-if="rank === 'Студент'">
         <div class="card" style="border-top: 4px solid var(--border); padding: 20px; text-align: center;">
             <div style="font-size: 2rem; margin-bottom: 10px;">🔐</div>
             <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 15px;">Для расширенного доступа введите код:</p>
             <input type="password" x-model="pass" @keydown.enter="login()" placeholder="****" 
                    style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; text-align: center; font-size: 1.2rem; margin-bottom: 15px; outline: none;">
-            <button @click="login()" style="width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%;">ПОДТВЕРДИТЬ</button>
+            <button @click="login()" style="width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold;">ПОДТВЕРДИТЬ</button>
         </div>
     </template>
+
     <template x-if="rank === 'Мастодонт'">
         <div class="card" style="border-left: 5px solid #2563eb; background: #f0f7ff;">
             <div style="font-weight: bold; color: #1e40af; margin-bottom: 10px;">✅ РЕЖИМ ПРЕПОДАВАТЕЛЯ</div>
             <p style="font-size: 0.7rem; color: #3b82f6;">Доступ к зачетке и переменке открыт.</p>
-            <button @click="logout()" style="width: 100%; background: #ef4444; color: white; padding: 10px; border-radius: 8px; margin-top: 15px; border: none;">ВЫЙТИ</button>
+            <button @click="logout()" style="width: 100%; background: #ef4444; color: white; padding: 10px; border-radius: 8px; margin-top: 15px; border: none; cursor: pointer;">ВЫЙТИ</button>
         </div>
     </template>
+
     <template x-if="rank === 'Админ'">
-        <div>
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            
             <div class="card" style="border-left: 5px solid #7c3aed; background: #f5f3ff;">
                 <div style="font-weight: bold; color: #5b21b6; margin-bottom: 10px;">⚡ РЕЖИМ АДМИНИСТРАТОРА</div>
-                <button @click="logout()" style="width: 100%; background: #ef4444; color: white; padding: 10px; border-radius: 8px; margin-top: 5px; border: none;">ВЫЙТИ</button>
+                <button @click="logout()" style="width: 100%; background: #ef4444; color: white; padding: 10px; border-radius: 8px; border: none; cursor: pointer;">ВЫЙТИ</button>
             </div>
+
+            <div class="card" style="border-top: 4px solid #3b82f6;">
+                <h3 style="margin: 0 0 15px 0; font-size: 1rem; color: #1e3a8a;">⚙️ Группы в облаке</h3>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <template x-for="g in groups_list" :key="g">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                            <span x-text="g" style="font-weight: bold; font-family: monospace;"></span>
+                            <div style="display: flex; gap: 5px;">
+                                <button @click="editGroup(g)" style="background: #fbbf24; border: none; border-radius: 4px; padding: 6px 10px; cursor: pointer;">✏️</button>
+                                <button @click="removeGroup(g)" style="background: #ef4444; border: none; border-radius: 4px; padding: 6px 10px; cursor: pointer;">❌</button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <button @click="addGroup()" style="width: 100%; margin-top: 15px; padding: 12px; background: #10b981; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                    + ДОБАВИТЬ ГРУППУ
+                </button>
+            </div>
+
             <div class="card" style="text-align: center;">
                 <div style="font-weight: bold; font-size: 0.8rem; margin-bottom: 10px;">📲 QR-КОД АРТЕЛИ</div>
                 <div style="background: white; padding: 10px; display: inline-block; border: 1px solid #eee; border-radius: 8px;">
                     <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR" style="display: block;">
                 </div>
             </div>
+
         </div>
     </template>
-</div>
-<nav class="nav-bar" style="grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));">
-    <div class="nav-item" :class="{'active': tab === 1}" @click="tab = 1"><span class="nav-icon">🏠</span>Домой</div>
-    <div class="nav-item" :class="{'active': tab === 2}" @click="tab = 2"><span class="nav-icon">📢</span>Доска</div>
-    <div class="nav-item" :class="{'active': tab === 3}" @click="tab = 3"><span class="nav-icon">🛠️</span>Тех</div>
-    <div class="nav-item" :class="{'active': tab === 4}" @click="tab = 4"><span class="nav-icon">📋</span>Зачетка</div>
-    <div class="nav-item" :class="{'active': tab === 5}" @click="tab = 5"><span class="nav-icon">💡</span>Промт</div>
-    <div class="nav-item" :class="{'active': tab === 6}" @click="tab = 6"><span class="nav-icon">🤖</span>ИИ</div>
-    <template x-if="rank === 'Мастодонт' || rank === 'Админ'">
-        <div class="nav-item" :class="{'active': tab === 7}" @click="tab = 7"><span class="nav-icon">🔔</span>Переменка</div>
-    </template>
-    <div class="nav-item" :class="{'active': tab === 8}" @click="tab = 8"><span class="nav-icon">⚙️</span>Админ</div>
-</nav>
-<div x-show="rank === 'Админ'" style="margin: 20px; padding: 15px; border: 2px dashed #3b82f6; border-radius: 10px; background: #f8fafc;">
-    <h3 style="margin-top: 0; color: #1e3a8a;">⚙️ Управление группами (Облако)</h3>
-    
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-        <template x-for="g in groups_list" :key="g">
-            <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 8px 12px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <span x-text="g" style="font-weight: bold; font-family: monospace;"></span>
-                
-                <div style="display: flex; gap: 5px;">
-                    <button @click="editGroup(g)" style="background: #fbbf24; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer;">✏️</button>
-                    <button @click="removeGroup(g)" style="background: #ef4444; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer;">❌</button>
-                </div>
-            </div>
-        </template>
-    </div>
-
-    <button @click="addGroup()" style="width: 100%; margin-top: 15px; padding: 10px; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
-        + ДОБАВИТЬ ГРУППУ
-    </button>
 </div>
     <script>
 document.addEventListener('alpine:init', () => {
