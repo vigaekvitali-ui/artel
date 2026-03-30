@@ -352,6 +352,8 @@ document.addEventListener('alpine:init', () => {
         tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
         studentMsg: '',
 
+        isToday(d) { return new Date().getDate() === d; },
+        
         login() {
             let p = this.pass.trim();
             if (p === '2026') { 
@@ -405,9 +407,10 @@ document.addEventListener('alpine:init', () => {
                 method: 'POST',
                 mode: 'no-cors',
                 body: params
+            }).then(() => {
+                this.studentMsg = ''; 
+                alert('Отправлено');
             });
-            this.studentMsg = ''; 
-            alert('Отправлено');
         },
 
         init() { 
