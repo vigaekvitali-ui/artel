@@ -357,11 +357,25 @@ document.addEventListener('alpine:init', () => {
         isToday(d) { return new Date().getDate() === d; },
         login() {
             let p = this.pass.trim();
-            if (p === '2026') { this.rank = 'Мастодонт'; localStorage.setItem('rank', 'Мастодонт'); this.pass = ''; this.tab = 1; }
-            else if (p === '0000') { this.rank = 'Админ'; localStorage.setItem('rank', 'Админ'); this.pass = ''; this.tab = 8; }
+            if (p === '2026') { 
+                this.rank = 'Преподаватель'; 
+                localStorage.setItem('rank', 'Преподаватель'); 
+                this.pass = ''; 
+                this.tab = 1; 
+            }
+            else if (p === '0000') { 
+                this.rank = 'Админ'; 
+                localStorage.setItem('rank', 'Админ'); 
+                this.pass = ''; 
+                this.tab = 8; 
+            }
             else { alert('Неверно'); this.pass = ''; }
         },
-        logout() { this.rank = 'Студент'; localStorage.setItem('rank', 'Студент'); this.tab = 1; },
+        logout() { 
+            this.rank = 'Студент'; 
+            localStorage.setItem('rank', 'Студент'); 
+            this.tab = 1; 
+        },
         addGroup() {
             if (this.rank === 'Студент') return;
             let n = prompt("Группа:");
@@ -371,16 +385,6 @@ document.addEventListener('alpine:init', () => {
             if (this.rank !== 'Админ') return;
             if (confirm('Удалить?')) { this.groups_list = this.groups_list.filter(g => g !== name); this.save(); }
         },
-        addTask() {
-            if (this.rank === 'Студент' || !this.newTask.trim()) return;
-            if (!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
-            this.tasks_data[this.activeGroup].unshift({id: Date.now(), text: this.newTask, time: new Date().toLocaleDateString()});
-            this.newTask = ''; this.save();
-        },
-        removeTask(id) {
-            if (this.rank === 'Студент') return;
-            this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id); this.save();
-        },
         addChatMessage() {
             if (this.rank === 'Студент' || !this.chatMsg.trim()) return;
             this.chat_history.unshift({id: Date.now(), text: this.chatMsg, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
@@ -389,7 +393,11 @@ document.addEventListener('alpine:init', () => {
         sendToCloud() {
             if (!this.studentMsg.trim()) return;
             fetch("https://script.google.com/macros/s/AKfycbx79slkoWod5d9VOXGwdosSzO8Td62lbOilmsYQMED9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec", {
-                method: 'POST', mode: 'no-cors', body: JSON.stringify({group: this.activeGroup, message: this.studentMsg})
+                method: 'POST', mode: 'no-cors', body: JSON.stringify({
+                    group: this.activeGroup, 
+                    message: this.studentMsg,
+                    author: this.rank
+                })
             });
             this.studentMsg = ''; alert('Отправлено');
         },
