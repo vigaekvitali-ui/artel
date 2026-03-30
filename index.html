@@ -282,8 +282,6 @@
         </template>
     </div>
 </div>
-
-
 <div class="page" :class="{ 'active': tab === 8 }" x-cloak>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h2 style="margin: 0; font-size: 1.2rem;">⚙️ Доступ: <span x-text="rank" style="color:var(--primary)"></span></h2>
@@ -337,25 +335,67 @@
 
     <div class="nav-item" :class="{'active': tab === 8}" @click="tab = 8"><span class="nav-icon">⚙️</span>Админ</div>
 </nav>
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('artel', () => ({
+        // --- СОСТОЯНИЕ ---
+        tab: 1,
+        rank: localStorage.getItem('artel_rank') || 'Студент',
+        pass: '',
+        fact: "Синяя изолента — основа инженерии",
+        facts: [
+            "Бритва Оккама: не плоди сущности без необходимости", 
+            "Закон Мерфи: если гайка может упасть в поддон, она упадет", 
+            "Павел Сухой — гений советской авиации из Глубокого", 
+            "Жорес Алферов — нобелевский лауреат из Витебска", 
+            "Синяя изолента — основа инженерии"
+        ],
+        month: new Intl.DateTimeFormat('ru', { month: 'long' }).format(new Date()),
+        days: Array.from({ length: new Date(2026, new Date().getMonth() + 1, 0).getDate() }, (_, i) => i + 1),
+        blanks: (new Date(2026, new Date().getMonth(), 1).getDay() || 7) - 1,
+        
+        activeGroup: '',
+        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "15ТМ", "60ТО"]'),
+        
+        studentMsg: '',
+        chatMsg: '',
+        chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
+        tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
 
-|| !this.chatMsg.trim()) return;
-            this.chat_history.unshift({
-                id: Date.now(), 
-                text: this.chatMsg, 
-                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
-            });
-            this.chatMsg = ''; 
-            this.save();
+        // --- МЕТОДЫ ---
+        isToday(d) { 
+            return new Date().getDate() === d && new Date().getMonth() === new Date().getMonth(); 
         },
-        clearChat() {
-            if (confirm('Очистить историю чата?')) {
-                this.chat_history = [];
-                this.save();
+
+        login() {
+            let p = this.pass.trim();
+            if (p === '2026') { 
+                this.rank = 'Мастодонт'; 
+                localStorage.setItem('artel_rank', 'Мастодонт'); 
+                this.pass = ''; 
+                this.tab = 1; 
+            } else if (p === '0000') { 
+                this.rank = 'Админ'; 
+                localStorage.setItem('artel_rank', 'Админ'); 
+                this.pass = ''; 
+                this.tab = 8; 
+            } else { 
+                alert('Код неверный'); 
+                this.pass = ''; 
             }
         },
+
+        logout() { 
+            this.rank = 'Студент'; 
+            localStorage.setItem('artel_rank', 'Студент'); 
+            this.tab = 1; 
+        },
+
         sendToCloud() {
             if (!this.studentMsg.trim()) return;
+            // Твой рабочий URL из скрипта Google
             const url = "https://script.google.com/macros/s/AKfycbx79slkoWod5d9VOXGwdosSzO8Td62lbOilmsYQMED9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec";
+            
             fetch(url, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -363,18 +403,50 @@
                 body: JSON.stringify({
                     group: this.activeGroup,
                     message: this.studentMsg,
-                    rank: this.rank
+                    rank: this.rank,
+                    date: new Date().toLocaleString()
                 })
             });
+            
             this.studentMsg = '';
-            alert('Отправлено в облако');
+            alert('Сообщение отправлено в журнал');
         },
+
+        addChatMessage() {
+            if (this.rank === 'Студент' || !this.chatMsg.trim()) return;
+            this.chat_history.unshift({
+                id: Date.now(),
+                text: this.chatMsg,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
+            this.chatMsg = '';
+            this.save();
+        },
+
+        addGroup() {
+            if (this.rank === 'Студент') return;
+            let n = prompt("Введите номер новой группы:");
+            if (n && n.trim()) {
+                this.groups_list.push(n.trim().toUpperCase());
+                this.save();
+            }
+        },
+
+        removeGroup(name) {
+            if (this.rank !== 'Админ') return;
+            if (confirm(`Удалить группу ${name}?`)) {
+                this.groups_list = this.groups_list.filter(g => g !== name);
+                this.save();
+            }
+        },
+
         save() {
             localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
-            localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
             localStorage.setItem('artel_chat', JSON.stringify(this.chat_history));
+            localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
         },
-        init() { 
+
+        init() {
             this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
             this.activeGroup = this.groups_list[0] || '';
         }
@@ -383,3 +455,4 @@
 </script>
 </body>
 </html>
+
