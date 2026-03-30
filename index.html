@@ -347,7 +347,7 @@ document.addEventListener('alpine:init', () => {
         days: Array.from({length: new Date(2026, new Date().getMonth() + 1, 0).getDate()}, (_, i) => i + 1),
         blanks: (new Date(2026, new Date().getMonth(), 1).getDay() || 7) - 1,
         activeGroup: '',
-        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "15ТМ"]'),
+        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "58ТО", "59ТО", "60ТО", "61ТО", "15ТМ", "7Б"]'),
         newTask: '',
         tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
         studentMsg: '',
@@ -385,6 +385,16 @@ document.addEventListener('alpine:init', () => {
             if (this.rank !== 'Админ') return;
             if (confirm('Удалить?')) { this.groups_list = this.groups_list.filter(g => g !== name); this.save(); }
         },
+        addTask() {
+            if (this.rank === 'Студент' || !this.newTask.trim()) return;
+            if (!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
+            this.tasks_data[this.activeGroup].unshift({id: Date.now(), text: this.newTask, time: new Date().toLocaleDateString()});
+            this.newTask = ''; this.save();
+        },
+        removeTask(id) {
+            if (this.rank === 'Студент') return;
+            this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id); this.save();
+        },
         addChatMessage() {
             if (this.rank === 'Студент' || !this.chatMsg.trim()) return;
             this.chat_history.unshift({id: Date.now(), text: this.chatMsg, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
@@ -393,7 +403,9 @@ document.addEventListener('alpine:init', () => {
         sendToCloud() {
             if (!this.studentMsg.trim()) return;
             fetch("https://script.google.com/macros/s/AKfycbx79slkoWod5d9VOXGwdosSzO8Td62lbOilmsYQMED9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec", {
-                method: 'POST', mode: 'no-cors', body: JSON.stringify({
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify({
                     group: this.activeGroup, 
                     message: this.studentMsg,
                     author: this.rank
