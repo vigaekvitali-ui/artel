@@ -306,23 +306,6 @@
     </style>
 </head>
 <body x-data="artel" x-init="init()" x-cloak>
-
-    <div class="max-w-md mx-auto p-4">
-        <div x-show="tab === 1" class="space-y-4">
-            <h1 class="text-center text-xl font-black border-b-2 border-blue-600 pb-2">ARTEL PROJECT</h1>
-            <div class="p-3 bg-blue-50 border border-blue-100 rounded text-sm italic text-blue-800" x-text="fact"></div>
-            <div class="card flex justify-between items-center">
-                <span class="text-gray-500">Доступ:</span>
-                <span class="font-bold text-blue-600 uppercase" x-text="rank"></span>
-            </div>
-            <label class="block text-xs font-bold text-gray-400 uppercase">Выберите группу:</label>
-            <select x-model="activeGroup" class="w-full p-3 bg-white border-2 border-gray-200 rounded-lg">
-                <template x-for="g in groups_list">
-                    <option :value="g" x-text="g"></option>
-                </template>
-            </select>
-        </div>
-
         <div x-show="tab === 4" class="space-y-4">
             <h2 class="text-lg font-bold border-l-4 border-blue-600 pl-2">ЖУРНАЛ: <span x-text="activeGroup" class="text-blue-600"></span></h2>
             <textarea x-model="studentMsg" placeholder="Введите текст сообщения..." class="w-full p-3 border-2 border-gray-200 rounded-lg h-40 focus:border-blue-500 outline-none"></textarea>
