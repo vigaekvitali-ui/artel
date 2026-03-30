@@ -330,6 +330,7 @@
     <div class="nav-item" :class="{'active': tab === 8}" @click="tab = 8"><span class="nav-icon">⚙️</span>Админ</div>
 </nav>
 <script>
+<script>
 document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
         tab: 1,
@@ -348,6 +349,9 @@ document.addEventListener('alpine:init', () => {
         chatMsg: '',
         chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
         
+        // Ссылка на твой скрипт (оставлена прежняя)
+        scriptURL: "https://script.google.com/macros/s/AKfycbxSgsFqlqi6SjDFjWWMi0FU8Fk9KVEV31gOYlmaykL3Iq4wPQiOC0ZSdMEMkqwO9fLP-A/exec",
+
         isToday(d) { return new Date().getDate() === d; },
 
         login() {
@@ -359,20 +363,42 @@ document.addEventListener('alpine:init', () => {
 
         logout() { this.rank = 'Студент'; localStorage.setItem('rank', 'Студент'); this.tab = 1; },
 
+        // ЗАГРУЗКА ГРУПП ИЗ ОБЛАКА
+        async loadGroups() {
+            try {
+                const response = await fetch(`${this.scriptURL}?action=getGroups`);
+                const cloudGroups = await response.json();
+                if (cloudGroups && cloudGroups.length > 0) {
+                    this.groups_list = cloudGroups;
+                    localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
+                    if (!this.activeGroup) this.activeGroup = this.groups_list[0];
+                }
+            } catch (e) { console.log("Облако групп пока недоступно"); }
+        },
+
+        // ДОБАВЛЕНИЕ ГРУППЫ (В ОБЛАКО)
         addGroup() {
             if (this.rank === 'Студент') return;
-            let n = prompt("Добавить группу:");
+            let n = prompt("Новая группа для всех устройств:");
             if (n) { 
-                this.groups_list.push(n.trim().toUpperCase()); 
-                this.save(); 
+                const newG = n.trim().toUpperCase();
+                this.groups_list.push(newG);
+                this.save();
+                // Отправка команды в Apps Script
+                fetch(`${this.scriptURL}?action=addGroup&name=${encodeURIComponent(newG)}`, {
+                    method: "POST", mode: "no-cors"
+                }).then(() => { setTimeout(() => this.loadGroups(), 2000); });
             }
         },
 
         removeGroup(name) {
             if (this.rank !== 'Админ') return;
-            if (confirm('Удалить группу?')) { 
+            if (confirm('Удалить группу везде?')) { 
                 this.groups_list = this.groups_list.filter(g => g !== name); 
-                this.save(); 
+                this.save();
+                fetch(`${this.scriptURL}?action=delGroup&name=${encodeURIComponent(name)}`, {
+                    method: "POST", mode: "no-cors"
+                });
             }
         },
 
@@ -381,55 +407,34 @@ document.addEventListener('alpine:init', () => {
                 alert("Выберите группу и напишите сообщение!");
                 return;
             }
-            const scriptURL = "https://script.google.com/macros/s/AKfycbxSgsFqlqi6SjDFjWWMi0FU8Fk9KVEV31gOYlmaykL3Iq4wPQiOC0ZSdMEMkqwO9fLP-A/exec";
-            const finalURL = `${scriptURL}?group=${encodeURIComponent(this.activeGroup)}&msg=${encodeURIComponent(this.studentMsg)}&rank=${encodeURIComponent(this.rank)}`;
-
-            fetch(finalURL, {
-                method: "POST",
-                mode: "no-cors"
-            })
+            const finalURL = `${this.scriptURL}?group=${encodeURIComponent(this.activeGroup)}&msg=${encodeURIComponent(this.studentMsg)}&rank=${encodeURIComponent(this.rank)}`;
+            fetch(finalURL, { method: "POST", mode: "no-cors" })
             .then(() => {
                 this.studentMsg = '';
-                // Принудительное обновление сразу после отправки
                 const iframe = document.getElementById('cloudFrame');
                 if(iframe) iframe.src = iframe.src;
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Ошибка связи с сервером.");
             });
-        },
-
-        addTask() {
-            if (this.rank === 'Студент' || !this.newTask.trim()) return;
-            if (!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
-            this.tasks_data[this.activeGroup].unshift({id: Date.now(), text: this.newTask, time: new Date().toLocaleDateString()});
-            this.newTask = ''; this.save();
-        },
-
-        removeTask(id) {
-            if (this.rank === 'Студент') return;
-            this.tasks_data[this.activeGroup] = this.tasks_data[this.activeGroup].filter(t => t.id !== id); this.save();
         },
 
         save() {
             localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
             localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
-            localStorage.setItem('artel_chat', JSON.stringify(this.chat_history));
         },
 
         init() { 
             this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
             this.activeGroup = this.groups_list[0] || '';
+            this.loadGroups(); // Тянем группы при старте
 
-            // Таймер автообновления журнала (раз в 30 секунд)
             setInterval(() => {
+                // Обновляем журнал
                 const iframe = document.getElementById('cloudFrame');
                 if (iframe) {
-                    // Перезагружаем iframe, добавляя метку времени, чтобы браузер не брал старую версию из кэша
                     const currentSrc = iframe.src.split('&cachebust=')[0];
                     iframe.src = currentSrc + '&cachebust=' + Date.now();
                 }
+                // Синхронизируем группы раз в 30 сек
+                this.loadGroups();
             }, 30000);
         }
     }));
