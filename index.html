@@ -74,6 +74,7 @@
             font-size: 14px;
             line-height: 1.5;
             padding-bottom: 70px;
+            min-height: 100vh;
             transition: all 0.3s ease;
         }
         
@@ -83,10 +84,8 @@
         
         .app-container { 
             width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--paper); 
             min-height: 100vh;
+            background: var(--paper); 
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
         
@@ -151,6 +150,7 @@
             display: none; 
             padding: 16px; 
             animation: fadeIn 0.3s ease;
+            width: 100%;
         }
         
         .active { display: block !important; }
@@ -251,8 +251,6 @@
             grid-template-columns: repeat(8, 1fr);
             border-top: 1px solid var(--border);
             z-index: 1000;
-            max-width: 800px;
-            margin: 0 auto;
         }
         
         .nav-item {
@@ -282,7 +280,7 @@
             border-radius: 12px;
             padding: 12px;
             margin-bottom: 16px;
-            max-width: 50%;
+            max-width: 300px;
             margin: 0 auto 16px auto;
         }
         
@@ -430,17 +428,6 @@
             color: white;
         }
         
-        .file-attachment {
-            margin-top: 8px;
-            padding: 6px 10px;
-            background: var(--bg);
-            border-radius: 6px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.7rem;
-        }
-        
         .search-box {
             margin-bottom: 12px;
             display: flex;
@@ -518,13 +505,9 @@
         }
         
         @media (max-width: 600px) {
-            .calendar { max-width: 80%; }
+            .calendar { max-width: 250px; }
             .nav-item span:first-child { font-size: 0.9rem; }
             .nav-item span:last-child { font-size: 0.45rem; }
-        }
-        
-        @media (max-width: 480px) {
-            .calendar { max-width: 100%; }
         }
     </style>
 </head>
@@ -664,7 +647,7 @@
         </div>
     </div>
 
-    <!-- 4. ЗАЧЕТКА (БЕЗ ГРУПП ПО УМОЛЧАНИЮ) -->
+    <!-- 4. ЗАЧЕТКА (ИСПРАВЛЕНА) -->
     <div class="page" :class="{ 'active': tab === 4 }">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
             <h2 style="margin:0;">📋 Зачетка</h2>
@@ -687,16 +670,8 @@
             📭 Нет групп. Создайте первую группу!
         </div>
         
-        <!-- Поиск -->
-        <div x-show="activeGroup" class="card">
-            <div class="search-box">
-                <input type="text" x-model="searchQuery" class="input" placeholder="🔍 Поиск по сообщениям...">
-                <button @click="searchQuery = ''" class="btn" x-show="searchQuery">✖</button>
-            </div>
-        </div>
-        
-        <!-- Сообщения -->
-        <div x-show="activeGroup" class="card">
+        <!-- Сообщения (показываем только если есть активная группа) -->
+        <div x-show="activeGroup && activeGroup !== ''" class="card">
             <div style="font-weight:bold; margin-bottom:12px;">💬 ЧАТ ГРУППЫ: <span x-text="activeGroup"></span></div>
             <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
                 <input type="text" x-model="newMessage" class="input" style="flex:1" placeholder="Ваше сообщение..." @keydown.enter="sendMessage">
@@ -704,8 +679,8 @@
                 <button @click="sendMessage" class="btn btn-primary">Отправить</button>
             </div>
             
-            <div style="max-height: 400px; overflow-y: auto;">
-                <template x-for="msg in filteredMessages" :key="msg.id">
+            <div style="max-height: 450px; overflow-y: auto;">
+                <template x-for="msg in groupMessages" :key="msg.id">
                     <div class="message-item" :class="{ 'pinned': msg.pinned }">
                         <div>
                             <span class="message-author" x-text="msg.author"></span>
@@ -714,9 +689,6 @@
                             <span x-show="msg.pinned" style="font-size:0.6rem; background:var(--warning); color:white; padding:2px 6px; border-radius:4px; margin-left:8px;">📌</span>
                         </div>
                         <div class="message-text" x-text="msg.text"></div>
-                        <div x-show="msg.file" class="file-attachment">
-                            📎 <a :href="msg.file" target="_blank" x-text="msg.fileName || 'Вложение'"></a>
-                        </div>
                         <div class="reaction-buttons">
                             <span class="reaction" @click="addReaction(msg.id, '👍')">👍 <span x-text="msg.reactions?.👍 || 0"></span></span>
                             <span class="reaction" @click="addReaction(msg.id, '❤️')">❤️ <span x-text="msg.reactions?.❤️ || 0"></span></span>
@@ -729,8 +701,8 @@
                         </div>
                     </div>
                 </template>
-                <div x-show="filteredMessages.length === 0" style="text-align:center; padding:20px; color:var(--text-secondary);">
-                    Нет сообщений
+                <div x-show="groupMessages.length === 0" style="text-align:center; padding:20px; color:var(--text-secondary);">
+                    Нет сообщений. Напишите первое!
                 </div>
             </div>
         </div>
@@ -752,7 +724,7 @@
         <div x-show="notification.show" class="notification" x-text="notification.text" x-transition.duration.300ms></div>
     </div>
 
-    <!-- 5. ПРОМТ-СТАНЦИЯ (полная версия) -->
+    <!-- 5. ПРОМТ-СТАНЦИЯ -->
     <div class="page" :class="{ 'active': tab === 5 }">
         <div class="vpn-alert">⚠️ VPN необходим для некоторых сервисов</div>
         
@@ -796,7 +768,7 @@
         </div>
     </div>
 
-    <!-- 6. ИИ-СЕРВИСЫ (полная версия) -->
+    <!-- 6. ИИ-СЕРВИСЫ -->
     <div class="page" :class="{ 'active': tab === 6 }">
         <div class="vpn-alert">⚠️ VPN необходим для большинства сервисов</div>
         
@@ -907,7 +879,6 @@
             </div>
         </template>
         
-        <!-- QR-код для ВСЕХ (вынесен за пределы условия) -->
         <div class="card qr-code">
             <h4>📲 QR-КОД АРТЕЛИ</h4>
             <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR">
@@ -928,6 +899,7 @@
 </div>
 
 <script>
+// Google Sheets API конфигурация
 const SHEETS_CONFIG = {
     groupsSheetId: '1y3vUKkOuj5dGFO2q4nzLD5EbB7f1X9fd3QAtFYjR1uM',
     messagesSheetId: '1y3vUKkOuj5dGFO2q4nzLD5EbB7f1X9fd3QAtFYjR1uM',
@@ -950,14 +922,13 @@ document.addEventListener('alpine:init', () => {
         facts: ["📚 Закон Мерфи: Если что-то может пойти не так, оно пойдет не так.", "🔧 Бритва Оккама: Не нужно множить сущее без необходимости.", "🚜 Если техника работает — не трогай её!", "💡 Простота — залог надежности.", "🎯 Закон Парето: 20% усилий дают 80% результата.", "⚡ Закон Паркинсона: Работа заполняет всё отведенное на неё время."],
         fact: "",
         
-        // Группы и сообщения - НЕТ ГРУПП ПО УМОЛЧАНИЮ
+        // Группы и сообщения
         groups_list: [],
         activeGroup: '',
         groupMessages: [],
         newMessage: '',
         newGroupName: '',
         showCreateModal: false,
-        searchQuery: '',
         
         // Синхронизация
         syncing: false,
@@ -989,14 +960,6 @@ document.addEventListener('alpine:init', () => {
         
         get canPinMessage() {
             return this.rank === 'Админ';
-        },
-        
-        get filteredMessages() {
-            let filtered = [...this.groupMessages];
-            if (this.searchQuery) {
-                filtered = filtered.filter(m => m.text.toLowerCase().includes(this.searchQuery.toLowerCase()));
-            }
-            return filtered;
         },
         
         canDeleteGroup(groupName) { return this.rank === 'Админ'; },
@@ -1097,11 +1060,13 @@ document.addEventListener('alpine:init', () => {
                 const saved = localStorage.getItem(`group_messages_${this.activeGroup}`);
                 if (saved) {
                     this.groupMessages = JSON.parse(saved);
+                } else {
+                    this.groupMessages = [];
                 }
                 
                 const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getMessages&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&group=${encodeURIComponent(this.activeGroup)}`);
                 const data = await response.json();
-                if (data.messages) {
+                if (data.messages && data.messages.length > 0) {
                     this.groupMessages = data.messages.map(m => ({ ...m, reactions: m.reactions || {}, pinned: m.pinned || false }));
                     localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages));
                 }
@@ -1170,6 +1135,10 @@ document.addEventListener('alpine:init', () => {
         
         async sendMessage() {
             if (!this.newMessage.trim()) return;
+            if (!this.activeGroup) {
+                alert('Выберите группу!');
+                return;
+            }
             
             const message = {
                 id: Date.now(),
