@@ -335,33 +335,82 @@
 
     <div class="nav-item" :class="{'active': tab === 8}" @click="tab = 8"><span class="nav-icon">⚙️</span>Админ</div>
 </nav>
-sendToCloud() {
-            if (!this.studentMsg.trim()) return;
-            
-            // Твой рабочий URL из Google Таблиц
-            const url = "https://script.google.com/macros/s/AKfycbx79slkoWod5d9VOXGwdosSzO8Td62lbOilmsYQMED9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec";
-            
-            fetch(url, {
-                method: 'POST',
-                mode: 'no-cors', // Важно для Google Script
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    group: this.activeGroup,
-                    message: this.studentMsg,
-                    author: this.rank // Здесь будет 'Админ' или 'Преподаватель'
-                })
-            });
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('artel', () => ({
+        tab: 1,
+        rank: localStorage.getItem('rank') || 'Студент',
+        pass: '',
+        fact: "Синяя изолента - основа инженерии",
+        facts: ["Бритва Оккама", "Закон Мерфи", "Павел Сухой", "Жорес Алферов", "Синяя изолента - основа инженерии"],
+        month: new Intl.DateTimeFormat('ru', {month: 'long'}).format(new Date()),
+        days: Array.from({length: new Date(2026, new Date().getMonth() + 1, 0).getDate()}, (_, i) => i + 1),
+        blanks: (new Date(2026, new Date().getMonth(), 1).getDay() || 7) - 1,
+        activeGroup: '',
+        groups_list: JSON.parse(localStorage.getItem('artel_groups') || '["57ТО", "58ТО", "59ТО", "60ТО", "61ТО", "15ТМ", "7Б"]'),
+        newTask: '',
+        tasks_data: JSON.parse(localStorage.getItem('artel_tasks') || '{}'),
+        studentMsg: '',
 
-            this.studentMsg = ''; 
-            alert('Отправлено в облако');
+        isToday(d) { return new Date().getDate() === d; },
+        
+        login() {
+            let p = this.pass.trim();
+            if (p === '2026') { 
+                this.rank = 'Преподаватель'; 
+                localStorage.setItem('rank', 'Преподаватель'); 
+                this.pass = ''; this.tab = 1; 
+            }
+            else if (p === '0000') { 
+                this.rank = 'Админ'; 
+                localStorage.setItem('rank', 'Админ'); 
+                this.pass = ''; this.tab = 8; 
+            }
+            else { alert('Неверно'); this.pass = ''; }
         },
 
-        save() {
-            localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
+        logout() { 
+            this.rank = 'Студент'; 
+            localStorage.setItem('rank', 'Студент'); 
+            this.tab = 1; 
+        },
+
+        addGroup() {
+            if (this.rank === 'Студент') return;
+            let n = prompt("Группа:");
+            if (n) { 
+                this.groups_list.push(n.trim().toUpperCase()); 
+                localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
+            }
+        },
+
+        addTask() {
+            if (this.rank === 'Студент' || !this.newTask.trim()) return;
+            if (!this.tasks_data[this.activeGroup]) this.tasks_data[this.activeGroup] = [];
+            this.tasks_data[this.activeGroup].unshift({
+                id: Date.now(), 
+                text: this.newTask, 
+                time: new Date().toLocaleDateString()
+            });
             localStorage.setItem('artel_tasks', JSON.stringify(this.tasks_data));
-            localStorage.setItem('artel_chat', JSON.stringify(this.chat_history));
+            this.newTask = ''; 
+        },
+
+        sendToCloud() {
+            if (!this.studentMsg.trim()) return;
+            const params = new URLSearchParams();
+            params.append('group', this.activeGroup);
+            params.append('message', this.studentMsg);
+            params.append('author', this.rank);
+
+            fetch("https://script.google.com/macros/s/AKfycbx79slkoWod5d9VOXGwdosSzO8Td62lbOilmsYQMED9O1ebSr9uaID4_8XTNJTG5rsweyQ/exec", {
+                method: 'POST',
+                mode: 'no-cors',
+                body: params
+            }).then(() => {
+                this.studentMsg = ''; 
+                alert('Отправлено');
+            });
         },
 
         init() { 
