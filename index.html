@@ -388,14 +388,16 @@
             groups_list: JSON.parse(localStorage.getItem('artel_groups') || '[]'),
             studentMsg: '',
             
-            // НОВОЕ: список для мгновенных сообщений
+            // Список для мгновенных сообщений
             cloudMessages: [],
             
             daysInMonth: [],
             firstDayOffset: 0,
             currentMonthName: '',
             currentYear: 2026,
-            cloudUrl: "https://script.google.com/macros/s/AKfycbz73P7PZogOmyJSZS-sLU44MUOPWtxnaiVlreyOni7cRuoYwPrgYBKH7HT7mHbqqMLj_A/exec",
+            
+            // ИСПРАВЛЕНО: Твоя актуальная ссылка из последнего развертывания
+            cloudUrl: "https://script.google.com/macros/s/AKfycbx9KfpXYhowHjClW3PxX7IfFS2VrpCkmM1tDLIHp1o3hvwq0R22mK23FU4BlzJvUojH4Q/exec",
 
             login() {
                 let p = this.pass.trim();
@@ -425,11 +427,13 @@
                 }
             },
 
-            // НОВОЕ: Функция быстрой загрузки сообщений
+            // Функция быстрой загрузки сообщений
             loadMessages() {
                 fetch(`${this.cloudUrl}?action=getMessages`)
                     .then(res => res.json())
-                    .then(data => { this.cloudMessages = data; })
+                    .then(data => { 
+                        this.cloudMessages = data; 
+                    })
                     .catch(e => console.log('Ошибка загрузки чата'));
             },
 
@@ -440,7 +444,7 @@
                 fetch(url, { method: 'POST', mode: 'no-cors' })
                 .then(() => { 
                     this.studentMsg = ''; 
-                    // Мгновенно обновляем список сообщений вместо ожидания iframe
+                    // Мгновенное обновление данных после отправки
                     setTimeout(() => this.loadMessages(), 500);
                 });
             },
@@ -462,11 +466,10 @@
                             localStorage.setItem('artel_groups', JSON.stringify(data));
                             if (!this.activeGroup) this.activeGroup = this.groups_list[0];
                         }
+                        // Загружаем сообщения сразу после получения групп
+                        this.loadMessages();
                     });
 
-                // НОВОЕ: Загрузка сообщений при старте
-                this.loadMessages();
-                
                 const now = new Date();
                 this.currentMonthName = now.toLocaleString('ru', { month: 'long' });
                 const lastDay = new Date(2026, now.getMonth() + 1, 0).getDate();
