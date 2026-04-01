@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>АРТЕЛЬ 2026 - Полная версия</title>
+    <title>АРТЕЛЬ 2026 — Мультипортал</title>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
         [x-cloak] { display: none !important; }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-        
         :root {
             --bg: #f1f5f9;
             --paper: #ffffff;
@@ -37,7 +35,6 @@
             --btn-border: #cbd5e1;
             --btn-text: #1e293b;
         }
-        
         body.dark {
             --bg: #0f172a;
             --paper: #1e293b;
@@ -57,7 +54,6 @@
             --btn-border: #334155;
             --btn-text: #f1f5f9;
         }
-        
         body.colorful {
             --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --paper: rgba(255,255,255,0.95);
@@ -77,17 +73,14 @@
             --btn-border: #e5e7eb;
             --btn-text: #1f2937;
         }
-        
         body.colorful .app-container {
             background: rgba(255,255,255,0.95);
         }
-        
         body.colorful .card,
         body.colorful .calendar,
         body.colorful .input {
             background: rgba(255,255,255,0.9);
         }
-        
         body { 
             background: var(--bg); 
             color: var(--text); 
@@ -100,14 +93,12 @@
             min-height: 100vh;
             transition: all 0.3s ease;
         }
-        
         .app-container { 
             width: 100%;
             min-height: 100vh;
             background: var(--paper); 
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
-        
         header { 
             background: var(--paper); 
             padding: 12px 16px; 
@@ -120,7 +111,6 @@
             z-index: 1000;
             backdrop-filter: blur(10px);
         }
-        
         .logo {
             font-weight: 900;
             font-size: 1.2rem;
@@ -129,7 +119,6 @@
             background-clip: text;
             color: transparent;
         }
-        
         .rank-badge {
             background: var(--bg);
             padding: 4px 12px;
@@ -138,7 +127,6 @@
             font-weight: bold;
             color: var(--primary);
         }
-        
         .theme-selector {
             display: flex;
             gap: 6px;
@@ -146,7 +134,6 @@
             padding: 4px;
             border-radius: 20px;
         }
-        
         .theme-btn {
             width: 28px;
             height: 28px;
@@ -155,30 +142,24 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
         .theme-btn.active {
             border-color: var(--primary);
             transform: scale(1.1);
         }
-        
         .theme-light { background: #f1f5f9; border: 1px solid #cbd5e1; }
         .theme-dark { background: #0f172a; }
         .theme-colorful { background: linear-gradient(135deg, #667eea, #764ba2); }
-        
         .page { 
             display: none; 
             padding: 16px; 
             animation: fadeIn 0.3s ease;
             width: 100%;
         }
-        
         .active { display: block !important; }
-        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
         .card { 
             background: var(--paper); 
             border: 1px solid var(--border); 
@@ -187,27 +168,25 @@
             margin-bottom: 16px;
             transition: all 0.2s;
         }
-        
         .grid-2 { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
             gap: 12px; 
             margin-bottom: 16px; 
         }
-        
         .grid-3 { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); 
             gap: 10px; 
             margin-bottom: 16px; 
         }
-        
         .btn {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 12px;
+            gap: 4px;
+            padding: 10px;
             border-radius: 10px;
             border: 1px solid var(--btn-border);
             background: var(--btn-bg);
@@ -219,30 +198,32 @@
             color: var(--btn-text);
             text-align: center;
         }
-        
+        .btn span:first-child { font-size: 1.1rem; }
+        .btn small {
+            font-size: 0.65rem;
+            font-weight: normal;
+            color: var(--text-secondary);
+        }
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        
         .btn-primary {
             background: var(--primary);
             color: white;
             border: none;
         }
-        
+        .btn-primary small { color: rgba(255,255,255,0.8); }
         .btn-success {
             background: var(--success);
             color: white;
             border: none;
         }
-        
         .btn-danger {
             background: var(--danger);
             color: white;
             border: none;
         }
-        
         .input {
             padding: 12px;
             border: 1px solid var(--border);
@@ -253,7 +234,6 @@
             background: var(--paper);
             color: var(--text);
         }
-        
         .nav-bar {
             position: fixed;
             bottom: 0;
@@ -266,7 +246,6 @@
             border-top: 1px solid var(--border);
             z-index: 1000;
         }
-        
         .nav-item {
             display: flex;
             flex-direction: column;
@@ -281,14 +260,12 @@
             border: none;
             transition: all 0.2s;
         }
-        
         .nav-item span:first-child { font-size: 1rem; }
         .nav-item.active {
             color: var(--nav-active);
             border-top: 2px solid var(--primary);
             background: var(--hover);
         }
-        
         .calendar {
             background: var(--paper);
             border-radius: 12px;
@@ -297,14 +274,12 @@
             max-width: 300px;
             margin: 0 auto 16px auto;
         }
-        
         .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
         }
-        
         .calendar-nav-btn {
             padding: 4px 12px;
             border: 1px solid var(--border);
@@ -313,26 +288,22 @@
             cursor: pointer;
             color: var(--text);
         }
-        
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 2px;
             text-align: center;
         }
-        
         .calendar-day {
             padding: 6px 2px;
             border-radius: 6px;
             font-size: 0.7rem;
             color: var(--text);
         }
-        
         .calendar-day.today {
             background: var(--primary);
             color: white;
         }
-        
         .group-tabs {
             display: flex;
             overflow-x: auto;
@@ -340,7 +311,6 @@
             margin-bottom: 16px;
             padding-bottom: 5px;
         }
-        
         .group-btn {
             padding: 8px 16px;
             border: 1px solid var(--border);
@@ -355,13 +325,11 @@
             gap: 6px;
             color: var(--text);
         }
-        
         .active-group-btn {
             background: var(--primary);
             color: white;
             border: none;
         }
-        
         .delete-group-btn {
             background: none;
             border: none;
@@ -370,7 +338,6 @@
             font-size: 1rem;
             padding: 0 4px;
         }
-        
         .message-item {
             padding: 12px;
             border-bottom: 1px solid var(--border);
@@ -379,35 +346,29 @@
             position: relative;
             color: var(--text);
         }
-        
         .message-item.pinned {
             background: linear-gradient(135deg, rgba(245,158,11,0.1), transparent);
             border-left: 3px solid var(--warning);
         }
-        
         .message-author {
             font-weight: bold;
             color: var(--primary);
         }
-        
         .message-time {
             font-size: 0.6rem;
             color: var(--text-secondary);
             margin-left: 8px;
         }
-        
         .message-text {
             margin-top: 6px;
             word-break: break-word;
         }
-        
         .message-actions {
             margin-top: 8px;
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
         }
-        
         .message-action-btn {
             background: none;
             border: none;
@@ -418,18 +379,15 @@
             transition: all 0.2s;
             color: var(--text-secondary);
         }
-        
         .message-action-btn.edit { color: var(--warning); }
         .message-action-btn.delete { color: var(--danger); }
         .message-action-btn.pin { color: var(--primary); }
         .message-action-btn:hover { background: var(--bg); }
-        
         .reaction-buttons {
             display: flex;
             gap: 8px;
             margin-top: 8px;
         }
-        
         .reaction {
             background: var(--bg);
             padding: 4px 8px;
@@ -442,12 +400,10 @@
             gap: 4px;
             color: var(--text);
         }
-        
         .reaction:hover {
             background: var(--primary);
             color: white;
         }
-        
         .sync-status {
             font-size: 0.7rem;
             text-align: center;
@@ -455,11 +411,9 @@
             padding: 5px;
             border-radius: 6px;
         }
-        
         .sync-status.syncing { background: var(--warning); color: white; }
         .sync-status.success { background: var(--success); color: white; }
         .sync-status.error { background: var(--danger); color: white; }
-        
         .notification {
             position: fixed;
             bottom: 80px;
@@ -473,12 +427,10 @@
             max-width: 300px;
             font-size: 0.8rem;
         }
-        
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
-        
         .vpn-alert {
             background: #fee2e2;
             color: #b91c1c;
@@ -489,7 +441,6 @@
             border-radius: 8px;
             margin-bottom: 15px;
         }
-        
         .no-vpn-alert {
             background: #dcfce7;
             color: #166534;
@@ -500,7 +451,6 @@
             border-radius: 8px;
             margin-bottom: 15px;
         }
-        
         .prompt-text {
             background: var(--bg);
             padding: 10px;
@@ -511,7 +461,6 @@
             font-size: 0.7rem;
             color: var(--text);
         }
-        
         .drive-folder {
             justify-content: flex-start;
             border-left: 5px solid;
@@ -519,17 +468,14 @@
         .drive-auto { border-left-color: #22c55e; }
         .drive-tractor { border-left-color: #f59e0b; }
         .drive-machinery { border-left-color: #3b82f6; }
-        
         .qr-code {
             text-align: center;
             padding: 10px;
         }
-        
         .qr-code img {
             max-width: 150px;
             border-radius: 12px;
         }
-        
         .vpn-badge {
             display: inline-block;
             font-size: 0.6rem;
@@ -538,27 +484,22 @@
             margin-left: 8px;
             font-weight: normal;
         }
-        
         .vpn-required {
             background: #fee2e2;
             color: #b91c1c;
         }
-        
         .vpn-free {
             background: #dcfce7;
             color: #166534;
         }
-        
         body.dark .vpn-required {
             background: #7f1a1a;
             color: #fecaca;
         }
-        
         body.dark .vpn-free {
             background: #14532d;
             color: #bbf7d0;
         }
-        
         .category-title {
             font-size: 0.85rem;
             font-weight: bold;
@@ -570,11 +511,9 @@
             gap: 8px;
             color: var(--text);
         }
-        
         .category-title:first-of-type {
             margin-top: 0;
         }
-        
         .section-title {
             font-size: 1rem;
             font-weight: bold;
@@ -585,7 +524,6 @@
             flex-wrap: wrap;
             color: var(--text);
         }
-        
         @media (max-width: 600px) {
             .calendar { max-width: 250px; }
             .nav-item span:first-child { font-size: 0.9rem; }
@@ -662,7 +600,7 @@
             <a href="https://www.litres.ru" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📚 ЛитРес</a>
             <a href="https://cyberleninka.ru" target="_blank" rel="noopener noreferrer" class="btn">📖 КиберЛенинка</a>
             <a href="https://elibrary.ru" target="_blank" rel="noopener noreferrer" class="btn">📚 eLibrary</a>
-            <a href="https://www.rsl.ru" target="_blank" rel="noopener noreferrer" class="btn">🏛️ РГБ</a>
+            <a href="https://library.bsu.by/index.php/services/152-opac" target="_blank" rel="noopener noreferrer" class="btn">📘 Фундаментальная библиотека БГУ</a>
         </div>
         
         <form action="https://www.google.com/search" method="get" target="_blank" style="display:flex; gap:8px;">
@@ -671,12 +609,11 @@
         </form>
     </div>
 
-    <!-- 2. ИНФО-ЦЕНТР -->
+    <!-- 2. ИНФО-ЦЕНТР (без изменений) -->
     <div class="page" :class="{ 'active': tab === 2 }">
         <div class="card">
             <a href="https://www.ventusky.com/?p=54.02;25.90;8" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 20px;">🌤️ ПОГОДА (VENTUSKY)</a>
         </div>
-        
         <div class="card"><h4 style="color:#ef4444;">🏛️ ОБРАЗОВАНИЕ (РБ)</h4>
             <div class="grid-2">
                 <a href="https://edu.gov.by/news/" target="_blank" rel="noopener noreferrer" class="btn">Минобр</a>
@@ -685,7 +622,6 @@
                 <a href="https://www.bntu.by" target="_blank" rel="noopener noreferrer" class="btn">БНТУ</a>
             </div>
         </div>
-        
         <div class="card"><h4 style="color:#16a34a;">🚜 ПРОИЗВОДИТЕЛИ ТЕХНИКИ РБ</h4>
             <div class="grid-2">
                 <a href="https://belarus-tractor.com/ru/" target="_blank" rel="noopener noreferrer" class="btn">МТЗ</a>
@@ -696,7 +632,6 @@
                 <a href="https://www.legmash.by" target="_blank" rel="noopener noreferrer" class="btn">Легмаш</a>
             </div>
         </div>
-        
         <div class="card"><h4 style="color:#16a34a;">🌾 АГРО-СЕКТОР</h4>
             <div class="grid-2">
                 <a href="https://www.sb.by/sections/selkhoz/" target="_blank" rel="noopener noreferrer" class="btn">Сельхоз.BY</a>
@@ -705,7 +640,6 @@
                 <a href="https://agrobelarus.by" target="_blank" rel="noopener noreferrer" class="btn">АгроБеларусь</a>
             </div>
         </div>
-        
         <div class="card"><h4 style="color:#2563eb;">🌍 ТЕХНОЛОГИИ МИРА</h4>
             <div class="grid-2">
                 <a href="https://www.futurefarming.com" target="_blank" rel="noopener noreferrer" class="btn">Future Farming</a>
@@ -713,7 +647,6 @@
                 <a href="https://www.agritechnica.com" target="_blank" rel="noopener noreferrer" class="btn">Agritechnica</a>
             </div>
         </div>
-        
         <div class="card"><h4 style="color:#64748b;">📡 МОНИТОРИНГ</h4>
             <div class="grid-2">
                 <a href="https://myfin.by/currency/oshmyany" target="_blank" rel="noopener noreferrer" class="btn">Курсы валют</a>
@@ -721,11 +654,10 @@
         </div>
     </div>
 
-    <!-- 3. ТЕХПОМОЩЬ -->
+    <!-- 3. ТЕХПОМОЩЬ (без изменений) -->
     <div class="page" :class="{ 'active': tab === 3 }">
         <h2 style="margin-bottom:16px;">🛠️ ТЕХПОМОЩЬ</h2>
         <div class="card"><a href="https://www.online-calculator.com/full-screen-calculator/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📐 КАЛЬКУЛЯТОР</a></div>
-        
         <div class="card"><h4>🏭 ЗАВОДЫ РБ (ПРОМЫШЛЕННОСТЬ)</h4>
             <div class="grid-3">
                 <a href="https://maz.by" target="_blank" rel="noopener noreferrer" class="btn">МАЗ</a>
@@ -734,7 +666,6 @@
                 <a href="https://minprom.gov.by/predpriyatiya/" target="_blank" rel="noopener noreferrer" class="btn span-full">Все заводы (Реестр)</a>
             </div>
         </div>
-        
         <div class="card"><h4>💾 ИНЖЕНЕРНЫЕ БАЗЫ ДАННЫХ</h4>
             <div class="grid-2">
                 <a href="https://tebx.ru" target="_blank" rel="noopener noreferrer" class="btn">ТЕБХ</a>
@@ -747,7 +678,7 @@
         </div>
     </div>
 
-    <!-- 4. ЗАЧЕТКА (С ДОСКАМИ И ТЕСТАМИ) -->
+    <!-- 4. ЗАЧЕТКА (с досками и тестами) -->
     <div class="page" :class="{ 'active': tab === 4 }">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
             <h2 style="margin:0;">📋 Зачетка</h2>
@@ -756,7 +687,6 @@
                 <button @click="syncAll" class="btn" :disabled="syncing">🔄</button>
             </div>
         </div>
-        
         <div class="group-tabs" x-show="groups_list.length > 0">
             <template x-for="g in groups_list" :key="g.name">
                 <div class="group-btn" :class="activeGroup === g.name ? 'active-group-btn' : ''" @click="selectGroup(g.name)">
@@ -765,10 +695,7 @@
                 </div>
             </template>
         </div>
-        <div x-show="groups_list.length === 0" class="card" style="text-align:center; color:var(--text-secondary);">
-            📭 Нет групп. Создайте первую группу!
-        </div>
-        
+        <div x-show="groups_list.length === 0" class="card" style="text-align:center; color:var(--text-secondary);">📭 Нет групп. Создайте первую группу!</div>
         <div x-show="activeGroup && activeGroup !== ''" class="card">
             <div style="font-weight:bold; margin-bottom:12px;">💬 ЧАТ ГРУППЫ: <span x-text="activeGroup"></span></div>
             <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
@@ -776,300 +703,99 @@
                 <button @click="attachFile" class="btn">📎</button>
                 <button @click="sendMessage" class="btn btn-primary">Отправить</button>
             </div>
-            
             <div style="max-height: 350px; overflow-y: auto;">
                 <template x-for="msg in groupMessages" :key="msg.id">
                     <div class="message-item" :class="{ 'pinned': msg.pinned }">
-                        <div>
-                            <span class="message-author" x-text="msg.author"></span>
-                            <span class="message-time" x-text="msg.time"></span>
-                            <span x-show="msg.edited" style="font-size:0.6rem;">(ред.)</span>
-                            <span x-show="msg.pinned" style="font-size:0.6rem; background:var(--warning); color:white; padding:2px 6px; border-radius:4px; margin-left:8px;">📌</span>
-                        </div>
+                        <div><span class="message-author" x-text="msg.author"></span><span class="message-time" x-text="msg.time"></span><span x-show="msg.edited" style="font-size:0.6rem;">(ред.)</span><span x-show="msg.pinned" style="font-size:0.6rem; background:var(--warning); color:white; padding:2px 6px; border-radius:4px; margin-left:8px;">📌</span></div>
                         <div class="message-text" x-text="msg.text"></div>
-                        <div class="reaction-buttons">
-                            <span class="reaction" @click="addReaction(msg.id, '👍')">👍 <span x-text="msg.reactions?.👍 || 0"></span></span>
-                            <span class="reaction" @click="addReaction(msg.id, '❤️')">❤️ <span x-text="msg.reactions?.❤️ || 0"></span></span>
-                            <span class="reaction" @click="addReaction(msg.id, '😂')">😂 <span x-text="msg.reactions?.😂 || 0"></span></span>
-                        </div>
-                        <div class="message-actions">
-                            <button class="message-action-btn edit" @click="editMessage(msg)" x-show="canEditMessage(msg)">✏️ Редактировать</button>
-                            <button class="message-action-btn delete" @click="deleteMessage(msg.id)" x-show="canEditMessage(msg)">🗑️ Удалить</button>
-                            <button class="message-action-btn pin" @click="togglePin(msg.id)" x-show="canPinMessage">📌 Закрепить</button>
-                        </div>
+                        <div class="reaction-buttons"><span class="reaction" @click="addReaction(msg.id, '👍')">👍 <span x-text="msg.reactions?.👍 || 0"></span></span><span class="reaction" @click="addReaction(msg.id, '❤️')">❤️ <span x-text="msg.reactions?.❤️ || 0"></span></span><span class="reaction" @click="addReaction(msg.id, '😂')">😂 <span x-text="msg.reactions?.😂 || 0"></span></span></div>
+                        <div class="message-actions"><button class="message-action-btn edit" @click="editMessage(msg)" x-show="canEditMessage(msg)">✏️ Редактировать</button><button class="message-action-btn delete" @click="deleteMessage(msg.id)" x-show="canEditMessage(msg)">🗑️ Удалить</button><button class="message-action-btn pin" @click="togglePin(msg.id)" x-show="canPinMessage">📌 Закрепить</button></div>
                     </div>
                 </template>
-                <div x-show="groupMessages.length === 0" style="text-align:center; padding:20px; color:var(--text-secondary);">
-                    Нет сообщений. Напишите первое!
-                </div>
+                <div x-show="groupMessages.length === 0" style="text-align:center; padding:20px; color:var(--text-secondary);">Нет сообщений. Напишите первое!</div>
             </div>
         </div>
-        
-        <!-- ДОСКИ И ТЕСТЫ -->
-        <div class="card">
-            <div class="section-title">📌 ИНТЕРАКТИВНЫЕ ДОСКИ</div>
-            <div class="grid-2">
-                <a href="https://miro.com" target="_blank" rel="noopener noreferrer" class="btn">Miro</a>
-                <a href="https://padlet.com/dashboard" target="_blank" rel="noopener noreferrer" class="btn">Padlet</a>
-                <a href="https://www.conceptboard.com" target="_blank" rel="noopener noreferrer" class="btn">Conceptboard</a>
-                <a href="https://www.whiteboard.microsoft.com" target="_blank" rel="noopener noreferrer" class="btn">Microsoft Whiteboard</a>
-                <a href="https://jamboard.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Jamboard</a>
-                <a href="https://explaineverything.com" target="_blank" rel="noopener noreferrer" class="btn">Explain Everything</a>
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="section-title">📝 ТЕСТЫ И ОПРОСЫ</div>
-            <div class="grid-2">
-                <a href="https://onlinetestpad.com" target="_blank" rel="noopener noreferrer" class="btn">Онлайн Тест Пад</a>
-                <a href="https://quizlet.com" target="_blank" rel="noopener noreferrer" class="btn">Quizlet</a>
-                <a href="https://kahoot.com" target="_blank" rel="noopener noreferrer" class="btn">Kahoot!</a>
-                <a href="https://forms.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Формы</a>
-                <a href="https://www.classmarker.com" target="_blank" rel="noopener noreferrer" class="btn">ClassMarker</a>
-                <a href="https://quizizz.com" target="_blank" rel="noopener noreferrer" class="btn">Quizizz</a>
-            </div>
-        </div>
-        
+        <div class="card"><div class="section-title">📌 ИНТЕРАКТИВНЫЕ ДОСКИ</div><div class="grid-2"><a href="https://miro.com" target="_blank" rel="noopener noreferrer" class="btn">Miro</a><a href="https://padlet.com/dashboard" target="_blank" rel="noopener noreferrer" class="btn">Padlet</a><a href="https://www.conceptboard.com" target="_blank" rel="noopener noreferrer" class="btn">Conceptboard</a><a href="https://www.whiteboard.microsoft.com" target="_blank" rel="noopener noreferrer" class="btn">Microsoft Whiteboard</a><a href="https://jamboard.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Jamboard</a><a href="https://explaineverything.com" target="_blank" rel="noopener noreferrer" class="btn">Explain Everything</a></div></div>
+        <div class="card"><div class="section-title">📝 ТЕСТЫ И ОПРОСЫ</div><div class="grid-2"><a href="https://onlinetestpad.com" target="_blank" rel="noopener noreferrer" class="btn">Онлайн Тест Пад</a><a href="https://quizlet.com" target="_blank" rel="noopener noreferrer" class="btn">Quizlet</a><a href="https://kahoot.com" target="_blank" rel="noopener noreferrer" class="btn">Kahoot!</a><a href="https://forms.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Формы</a><a href="https://www.classmarker.com" target="_blank" rel="noopener noreferrer" class="btn">ClassMarker</a><a href="https://quizizz.com" target="_blank" rel="noopener noreferrer" class="btn">Quizizz</a></div></div>
         <div class="sync-status" :class="syncStatusClass" x-text="syncStatusText" x-show="syncStatusText"></div>
-        
-        <div x-show="showCreateModal" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:2000;">
-            <div class="card" style="width:90%; max-width:300px;">
-                <h4>Создать группу</h4>
-                <input type="text" x-model="newGroupName" class="input" style="margin:10px 0;" placeholder="Название группы">
-                <div style="display:flex; gap:8px;">
-                    <button @click="createGroup" class="btn btn-primary">Создать</button>
-                    <button @click="showCreateModal = false" class="btn">Отмена</button>
-                </div>
-            </div>
-        </div>
-        
+        <div x-show="showCreateModal" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:2000;"><div class="card" style="width:90%; max-width:300px;"><h4>Создать группу</h4><input type="text" x-model="newGroupName" class="input" style="margin:10px 0;" placeholder="Название группы"><div style="display:flex; gap:8px;"><button @click="createGroup" class="btn btn-primary">Создать</button><button @click="showCreateModal = false" class="btn">Отмена</button></div></div></div>
         <div x-show="notification.show" class="notification" x-text="notification.text" x-transition.duration.300ms></div>
     </div>
 
-    <!-- 5. ПРОМТ-СТАНЦИЯ -->
+    <!-- 5. ПРОМТ-СТАНЦИЯ (добавлены новые сервисы) -->
     <div class="page" :class="{ 'active': tab === 5 }">
         <div class="vpn-alert">⚠️ VPN необходим для некоторых сервисов</div>
-        
-        <div class="card"><h4>🌐 VPN СЕРВИСЫ</h4>
-            <div class="grid-3">
-                <a href="https://protonvpn.com" target="_blank" rel="noopener noreferrer" class="btn">Proton VPN</a>
-                <a href="https://psiphon.ca" target="_blank" rel="noopener noreferrer" class="btn">Psiphon</a>
-                <a href="https://www.urban-vpn.com" target="_blank" rel="noopener noreferrer" class="btn">Urban VPN</a>
-                <a href="https://windscribe.com" target="_blank" rel="noopener noreferrer" class="btn">Windscribe</a>
-                <a href="https://1.1.1.1" target="_blank" rel="noopener noreferrer" class="btn">Cloudflare</a>
-                <a href="https://browsec.com" target="_blank" rel="noopener noreferrer" class="btn">Browsec</a>
-            </div>
-        </div>
-        
-        <div class="card"><h4>🤠 ПРОМПТ-СЕРВИСЫ</h4>
-            <div class="grid-2">
-                <a href="https://promptcowboy.com" target="_blank" rel="noopener noreferrer" class="btn">PromptCowboy</a>
-                <a href="https://prompthero.com" target="_blank" rel="noopener noreferrer" class="btn">PromptHero</a>
-                <a href="https://autoprompt.cc" target="_blank" rel="noopener noreferrer" class="btn">AutoPrompt</a>
-                <a href="https://xn--80aaafbnn2b7a.xn--p1ai/" target="_blank" rel="noopener noreferrer" class="btn">Нейросеть.рф</a>
-            </div>
-        </div>
-        
-        <div class="card"><h4>🛡️ АНТИПЛАГИАТ</h4>
-            <div class="grid-2">
-                <a href="https://text.ru" target="_blank" rel="noopener noreferrer" class="btn">Text.ru</a>
-                <a href="https://gptzero.me" target="_blank" rel="noopener noreferrer" class="btn">GPTZero</a>
-            </div>
-        </div>
-        
-        <div class="card"><h4>📋 ШАБЛОНЫ ПРОМПТОВ</h4>
-            <div class="prompt-text" onclick="navigator.clipboard.writeText(this.innerText); alert('Скопировано!')">
-                Действуй как эксперт в области автомеханики. Составь план занятия на тему [ТЕМА]. Добавь 3 вопроса для проверки и одну задачу по диагностике поломки.
-            </div>
-            <div class="prompt-text" onclick="navigator.clipboard.writeText(this.innerText); alert('Скопировано!')">
-                Симптомы: [ОПИСАНИЕ]. Ошибки: [КОДЫ]. Составь пошаговый алгоритм проверки узлов, начиная с самых вероятных.
-            </div>
-            <div class="prompt-text" onclick="navigator.clipboard.writeText(this.innerText); alert('Скопировано!')">
-                Составь техническое описание для [НАЗВАНИЕ УЗЛА]. Включи: назначение, устройство, принцип работы, возможные неисправности.
-            </div>
-        </div>
+        <div class="card"><h4>🌐 VPN СЕРВИСЫ</h4><div class="grid-3"><a href="https://protonvpn.com" target="_blank" rel="noopener noreferrer" class="btn">Proton VPN</a><a href="https://psiphon.ca" target="_blank" rel="noopener noreferrer" class="btn">Psiphon</a><a href="https://www.urban-vpn.com" target="_blank" rel="noopener noreferrer" class="btn">Urban VPN</a><a href="https://windscribe.com" target="_blank" rel="noopener noreferrer" class="btn">Windscribe</a><a href="https://1.1.1.1" target="_blank" rel="noopener noreferrer" class="btn">Cloudflare</a><a href="https://browsec.com" target="_blank" rel="noopener noreferrer" class="btn">Browsec</a></div></div>
+        <div class="card"><h4>🤠 ПРОМПТ-СЕРВИСЫ</h4><div class="grid-2"><a href="https://promptcowboy.com" target="_blank" rel="noopener noreferrer" class="btn">PromptCowboy</a><a href="https://prompthero.com" target="_blank" rel="noopener noreferrer" class="btn">PromptHero</a><a href="https://autoprompt.cc" target="_blank" rel="noopener noreferrer" class="btn">AutoPrompt</a><a href="https://xn--80aaafbnn2b7a.xn--p1ai/" target="_blank" rel="noopener noreferrer" class="btn">Нейросеть.рф</a><a href="https://promptden.com/inspiration/canon+all" target="_blank" rel="noopener noreferrer" class="btn">Prompt Cannon<br><small>коллекция промтов</small></a><a href="https://neuralwriter.com/ru/" target="_blank" rel="noopener noreferrer" class="btn">NeuralWriter<br><small>перефразирование, очеловечивание</small></a><a href="https://gpt-prompt.ru" target="_blank" rel="noopener noreferrer" class="btn">GPT-Prompt<br><small>конструктор промтов</small></a><a href="https://websim.com/@3321616/prompt-generator" target="_blank" rel="noopener noreferrer" class="btn">Маяк Окко<br><small>генератор промтов</small></a></div></div>
+        <div class="card"><h4>🛡️ АНТИПЛАГИАТ</h4><div class="grid-2"><a href="https://text.ru" target="_blank" rel="noopener noreferrer" class="btn">Text.ru</a><a href="https://gptzero.me" target="_blank" rel="noopener noreferrer" class="btn">GPTZero</a></div></div>
+        <div class="card"><h4>📋 ШАБЛОНЫ ПРОМПТОВ</h4><div class="prompt-text" onclick="navigator.clipboard.writeText(this.innerText); alert('Скопировано!')">Действуй как эксперт в области автомеханики. Составь план занятия на тему [ТЕМА]. Добавь 3 вопроса для проверки и одну задачу по диагностике поломки.</div><div class="prompt-text" onclick="navigator.clipboard.writeText(this.innerText); alert('Скопировано!')">Симптомы: [ОПИСАНИЕ]. Ошибки: [КОДЫ]. Составь пошаговый алгоритм проверки узлов, начиная с самых вероятных.</div><div class="prompt-text" onclick="navigator.clipboard.writeText(this.innerText); alert('Скопировано!')">Составь техническое описание для [НАЗВАНИЕ УЗЛА]. Включи: назначение, устройство, принцип работы, возможные неисправности.</div></div>
     </div>
 
-    <!-- 6. ИИ-СЕРВИСЫ (ПРОВЕРЕННЫЕ РАБОЧИЕ) -->
+    <!-- 6. ИИ-СЕРВИСЫ (полностью обновлено: все прежние + новые + описания) -->
     <div class="page" :class="{ 'active': tab === 6 }">
-        <div class="vpn-alert">⚠️ Эти сервисы требуют VPN для доступа из Беларуси</div>
-        
-        <div class="card">
-            <div class="section-title">
-                🌍 ТРЕБУЮТ VPN
-                <span class="vpn-badge vpn-required">🔒 VPN нужен</span>
+        <!-- Арены ИИ -->
+        <div class="card" style="border: 2px solid var(--primary); background: var(--category-bg);">
+            <div class="section-title">🏆 AI ARENA — СРАВНЕНИЕ МОДЕЛЕЙ <span class="vpn-badge" style="background: var(--primary); color: white;">⭐ Топ ресурс</span></div>
+            <div class="grid-2">
+                <a href="https://chat.lmsys.org" target="_blank" rel="noopener noreferrer" class="btn">🌍 Chatbot Arena<br><small>сравни 100+ моделей, рейтинг Elo</small></a>
+                <a href="https://llmarena.ru" target="_blank" rel="noopener noreferrer" class="btn">🇷🇺 LLM Arena<br><small>рейтинг на русском, 49 моделей</small></a>
             </div>
-            
+        </div>
+
+        <!-- VPN -->
+        <div class="vpn-alert">⚠️ Эти сервисы требуют VPN для доступа из Беларуси</div>
+        <div class="card">
+            <div class="section-title">🌍 ТРЕБУЮТ VPN <span class="vpn-badge vpn-required">🔒 VPN нужен</span></div>
             <div class="category-title">📝 ТЕКСТОВЫЕ ИИ</div>
             <div class="grid-2">
-                <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" class="btn">ChatGPT</a>
-                <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Gemini</a>
-                <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="btn">Claude AI</a>
-                <a href="https://chat.deepseek.com" target="_blank" rel="noopener noreferrer" class="btn">DeepSeek</a>
-                <a href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer" class="btn">Perplexity AI</a>
-                <a href="https://chat.qwen.ai" target="_blank" rel="noopener noreferrer" class="btn">Qwen AI (Alibaba)</a>
-                <a href="https://www.kimi.com" target="_blank" rel="noopener noreferrer" class="btn">Kimi AI</a>
-                <a href="https://grokai.bot" target="_blank" rel="noopener noreferrer" class="btn">Grok AI</a>
+                <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" class="btn">ChatGPT<br><small>текст, код, идеи, перевод</small></a>
+                <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Gemini<br><small>текст, код, мультимодальность</small></a>
+                <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="btn">Claude AI<br><small>безопасный, глубокий анализ</small></a>
+                <a href="https://chat.deepseek.com" target="_blank" rel="noopener noreferrer" class="btn">DeepSeek<br><small>логика, код, математика</small></a>
+                <a href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer" class="btn">Perplexity AI<br><small>поиск с источниками, факты</small></a>
+                <a href="https://chat.qwen.ai" target="_blank" rel="noopener noreferrer" class="btn">Qwen AI<br><small>текст, код, длинный контекст</small></a>
+                <a href="https://www.kimi.com" target="_blank" rel="noopener noreferrer" class="btn">Kimi AI<br><small>длинные тексты, файлы</small></a>
+                <a href="https://grokai.bot" target="_blank" rel="noopener noreferrer" class="btn">Grok AI<br><small>быстрый, прямой стиль</small></a>
             </div>
-            
             <div class="category-title">🎵 ГЕНЕРАЦИЯ МУЗЫКИ / АУДИО</div>
-            <div class="grid-2">
-                <a href="https://suno.com" target="_blank" rel="noopener noreferrer" class="btn">Suno (музыка)</a>
-            </div>
-            
+            <div class="grid-2"><a href="https://suno.com" target="_blank" rel="noopener noreferrer" class="btn">Suno<br><small>музыка, песни по тексту</small></a></div>
             <div class="category-title">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</div>
-            <div class="grid-2">
-                <a href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer" class="btn">Midjourney</a>
-                <a href="https://leonardo.ai" target="_blank" rel="noopener noreferrer" class="btn">Leonardo AI</a>
-                <a href="https://ideogram.ai" target="_blank" rel="noopener noreferrer" class="btn">Ideogram</a>
-            </div>
-            
+            <div class="grid-2"><a href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer" class="btn">Midjourney<br><small>фотореалистичные изображения</small></a><a href="https://leonardo.ai" target="_blank" rel="noopener noreferrer" class="btn">Leonardo AI<br><small>стили, персонажи, арт</small></a><a href="https://ideogram.ai" target="_blank" rel="noopener noreferrer" class="btn">Ideogram<br><small>текст в изображении, типографика</small></a></div>
             <div class="category-title">🎬 ВИДЕО / 3D / АНИМАЦИЯ</div>
-            <div class="grid-2">
-                <a href="https://runwayml.com" target="_blank" rel="noopener noreferrer" class="btn">Runway ML</a>
-                <a href="https://lumalabs.ai" target="_blank" rel="noopener noreferrer" class="btn">Luma Labs (3D/видео)</a>
-                <a href="https://www.heygen.com" target="_blank" rel="noopener noreferrer" class="btn">HeyGen (аватары)</a>
-            </div>
-            
+            <div class="grid-2"><a href="https://runwayml.com" target="_blank" rel="noopener noreferrer" class="btn">Runway ML<br><small>видео, анимация, эффекты</small></a><a href="https://lumalabs.ai" target="_blank" rel="noopener noreferrer" class="btn">Luma Labs<br><small>3D, видео по тексту</small></a><a href="https://www.heygen.com" target="_blank" rel="noopener noreferrer" class="btn">HeyGen<br><small>аватары, озвучка, видео</small></a></div>
             <div class="category-title">📊 ПРЕЗЕНТАЦИИ / СХЕМЫ / ВИЗУАЛИЗАЦИЯ</div>
-            <div class="grid-2">
-                <a href="https://gamma.app" target="_blank" rel="noopener noreferrer" class="btn">Gamma</a>
-                <a href="https://napkin.ai" target="_blank" rel="noopener noreferrer" class="btn">Napkin AI</a>
-                <a href="https://mylens.ai" target="_blank" rel="noopener noreferrer" class="btn">MyLens (визуализация данных)</a>
-            </div>
+            <div class="grid-2"><a href="https://gamma.app" target="_blank" rel="noopener noreferrer" class="btn">Gamma<br><small>презентации, документы</small></a><a href="https://napkin.ai" target="_blank" rel="noopener noreferrer" class="btn">Napkin AI<br><small>схемы, визуализация идей</small></a><a href="https://mylens.ai" target="_blank" rel="noopener noreferrer" class="btn">MyLens<br><small>визуализация данных, таймлайны</small></a><a href="https://www.canva.com/templates/" target="_blank" rel="noopener noreferrer" class="btn">Canva Templates<br><small>шаблоны дизайна</small></a></div>
         </div>
-        
+
+        <!-- Без VPN -->
         <div class="no-vpn-alert">✅ Эти сервисы работают без VPN</div>
-        
         <div class="card">
-            <div class="section-title">
-                🇷🇺 РАБОТАЮТ БЕЗ VPN
-                <span class="vpn-badge vpn-free">🔓 VPN не нужен</span>
-            </div>
-            
+            <div class="section-title">🇷🇺 РАБОТАЮТ БЕЗ VPN <span class="vpn-badge vpn-free">🔓 VPN не нужен</span></div>
             <div class="category-title">📝 ТЕКСТОВЫЕ ИИ / ПОИСК</div>
-            <div class="grid-2">
-                <a href="https://giga.chat" target="_blank" rel="noopener noreferrer" class="btn">GigaChat (Сбер)</a>
-                <a href="https://ya.ru/ai" target="_blank" rel="noopener noreferrer" class="btn">YandexGPT (Алиса)</a>
-                <a href="https://salute.sber.ru" target="_blank" rel="noopener noreferrer" class="btn">Salute AI (Салют)</a>
-                <a href="https://felo.ai/ru/search" target="_blank" rel="noopener noreferrer" class="btn">Felo AI (умный поиск)</a>
-                <a href="https://www.wolframalpha.com" target="_blank" rel="noopener noreferrer" class="btn">WolframAlpha</a>
-            </div>
-            
+            <div class="grid-2"><a href="https://giga.chat" target="_blank" rel="noopener noreferrer" class="btn">GigaChat<br><small>Сбер, русский, факты</small></a><a href="https://ya.ru/ai" target="_blank" rel="noopener noreferrer" class="btn">YandexGPT<br><small>Алиса, русский, текст</small></a><a href="https://salute.sber.ru" target="_blank" rel="noopener noreferrer" class="btn">Salute AI<br><small>Салют, русский, диалоги</small></a><a href="https://felo.ai/ru/search" target="_blank" rel="noopener noreferrer" class="btn">Felo AI<br><small>умный поиск, агрегатор</small></a><a href="https://www.wolframalpha.com" target="_blank" rel="noopener noreferrer" class="btn">WolframAlpha<br><small>расчёты, формулы, графики</small></a></div>
             <div class="category-title">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</div>
-            <div class="grid-2">
-                <a href="https://www.sberbank.ru/ru/person/kandinsky" target="_blank" rel="noopener noreferrer" class="btn">Kandinsky (Сбер)</a>
-                <a href="https://shedevrum.ru" target="_blank" rel="noopener noreferrer" class="btn">Шедеврум (Яндекс)</a>
-            </div>
-            
+            <div class="grid-2"><a href="https://www.sberbank.ru/ru/person/kandinsky" target="_blank" rel="noopener noreferrer" class="btn">Kandinsky<br><small>Сбер, русский, изображения</small></a><a href="https://shedevrum.ru" target="_blank" rel="noopener noreferrer" class="btn">Шедеврум<br><small>Яндекс, арт по-русски</small></a></div>
             <div class="category-title">🎓 ОБРАЗОВАНИЕ / ОБУЧЕНИЕ</div>
-            <div class="grid-2">
-                <a href="https://www.studyfetch.com/docs/tutorial-doc-format/tutorme" target="_blank" rel="noopener noreferrer" class="btn">StudyFetch Tutor Me</a>
-                <a href="https://polygosha.ru/ru" target="_blank" rel="noopener noreferrer" class="btn">Polygosha (обучение)</a>
-                <a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Scholar</a>
-            </div>
-            
+            <div class="grid-2"><a href="https://www.studyfetch.com/docs/tutorial-doc-format/tutorme" target="_blank" rel="noopener noreferrer" class="btn">StudyFetch Tutor Me<br><small>ИИ-репетитор</small></a><a href="https://polygosha.ru/ru" target="_blank" rel="noopener noreferrer" class="btn">Polygosha<br><small>обучение, языки</small></a><a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Scholar<br><small>академический поиск</small></a></div>
             <div class="category-title">🛠️ ИНСТРУМЕНТЫ / МЕДИА</div>
-            <div class="grid-2">
-                <a href="https://www.pippit.ai/ru-by" target="_blank" rel="noopener noreferrer" class="btn">Pippit (видео/дизайн)</a>
-                <a href="https://www.remove.bg" target="_blank" rel="noopener noreferrer" class="btn">Удалить фон</a>
-                <a href="https://123apps.com/ru" target="_blank" rel="noopener noreferrer" class="btn">123Apps (редакторы)</a>
-                <a href="https://podcast.adobe.com/enhance" target="_blank" rel="noopener noreferrer" class="btn">Adobe Podcast (звук)</a>
-                <a href="https://vocalremover.org" target="_blank" rel="noopener noreferrer" class="btn">Vocal Remover</a>
-                <a href="https://www.upscale.media" target="_blank" rel="noopener noreferrer" class="btn">Upscale Media (увеличение фото)</a>
-            </div>
+            <div class="grid-2"><a href="https://ai.tenorshare.com" target="_blank" rel="noopener noreferrer" class="btn">Tenorshare AI<br><small>обход AI-детекторов, PDF, презентации</small></a><a href="https://www.pippit.ai/ru-by" target="_blank" rel="noopener noreferrer" class="btn">Pippit<br><small>видео, дизайн, аватары</small></a><a href="https://www.remove.bg" target="_blank" rel="noopener noreferrer" class="btn">Удалить фон<br><small>вырезание фона</small></a><a href="https://123apps.com/ru" target="_blank" rel="noopener noreferrer" class="btn">123Apps<br><small>редакторы, конвертеры</small></a><a href="https://podcast.adobe.com/enhance" target="_blank" rel="noopener noreferrer" class="btn">Adobe Podcast<br><small>очистка звука</small></a><a href="https://vocalremover.org" target="_blank" rel="noopener noreferrer" class="btn">Vocal Remover<br><small>разделить голос/музыку</small></a><a href="https://www.upscale.media" target="_blank" rel="noopener noreferrer" class="btn">Upscale Media<br><small>увеличение фото</small></a></div>
         </div>
-        
-        <div class="card" style="background: var(--category-bg);">
-            <div class="section-title">💡 СОВЕТЫ ПО ИСПОЛЬЗОВАНИЮ</div>
-            <div style="font-size: 0.75rem; line-height: 1.5;">
-                • <strong>🔒 VPN нужен</strong> — для доступа к зарубежным сервисам<br>
-                • <strong>🔓 VPN не нужен</strong> — российские и открытые сервисы<br>
-                • <strong>📝 Текстовые ИИ</strong> — генерация текста, кода, переводы<br>
-                • <strong>🎨 Генерация изображений</strong> — создание картинок по описанию<br>
-                • <strong>🎵 Музыка/Аудио</strong> — создание музыки, обработка звука<br>
-                • <strong>🎬 Видео/3D</strong> — создание и обработка видео, 3D-моделей<br>
-                • <strong>📊 Визуализация</strong> — схемы, презентации, дашборды<br>
-                • <strong>🎓 Образование</strong> — ИИ-репетиторы, обучение<br>
-                • <strong>🛠️ Инструменты</strong> — удаление фона, улучшение фото, работа со звуком
-            </div>
-        </div>
+        <div class="card" style="background: var(--category-bg);"><div class="section-title">💡 СОВЕТЫ ПО ИСПОЛЬЗОВАНИЮ</div><div style="font-size: 0.75rem; line-height: 1.5;">• <strong>🏆 AI Arena</strong> — сравнивайте модели, голосуйте за лучшие, следите за рейтингом<br>• <strong>🔒 VPN нужен</strong> — для доступа к зарубежным сервисам<br>• <strong>🔓 VPN не нужен</strong> — российские и открытые сервисы<br>• <strong>📝 Текстовые ИИ</strong> — генерация текста, кода, переводы<br>• <strong>🎨 Генерация изображений</strong> — создание картинок по описанию<br>• <strong>🎵 Музыка/Аудио</strong> — создание музыки, обработка звука<br>• <strong>🎬 Видео/3D</strong> — создание и обработка видео, 3D-моделей<br>• <strong>📊 Визуализация</strong> — схемы, презентации, дашборды<br>• <strong>🎓 Образование</strong> — ИИ-репетиторы, обучение<br>• <strong>🛠️ Инструменты</strong> — удаление фона, улучшение фото, работа со звуком</div></div>
     </div>
 
-    <!-- 7. ПЕРЕМЕНКА (без Тест Пада, он на 4-й вкладке) -->
+    <!-- 7. ПЕРЕМЕНКА (без Тест Пада) -->
     <div class="page" :class="{ 'active': tab === 7 }" x-show="canAccessBreak">
         <h2 style="margin-bottom:16px;">🔔 ПЕРЕМЕНКА</h2>
-        <div class="grid-3">
-            <a href="https://radiopotok.ru/belarus" target="_blank" rel="noopener noreferrer" class="btn">🎵 БелРадио</a>
-            <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" class="btn">🎵 Tik-Tok</a>
-            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="btn">🎬 YouTube</a>
-            <a href="https://pikabu.ru" target="_blank" rel="noopener noreferrer" class="btn">🦎 Пикабу</a>
-            <a href="https://www.yaplakal.com" target="_blank" rel="noopener noreferrer" class="btn">🤣 ЯПлакалъ</a>
-        </div>
-        
-        <div class="card">
-            <h4>🎮 МИНИ-ИГРА: Угадай число</h4>
-            <div style="text-align:center">
-                <div x-text="gameMessage" style="margin-bottom:12px;"></div>
-                <input type="number" x-model="guess" class="input" style="width:100px; text-align:center; display:inline-block;">
-                <button @click="checkGuess" class="btn btn-primary">Угадать</button>
-                <button @click="resetGame" class="btn">Новая</button>
-            </div>
-        </div>
-        
-        <div class="card">
-            <h4>💬 Локальный чат</h4>
-            <div style="display:flex; gap:8px; margin-bottom:12px;">
-                <input type="text" x-model="chatMsg" class="input" style="flex:1" placeholder="Сообщение...">
-                <button @click="addChatMessage" class="btn btn-primary">📤</button>
-            </div>
-            <div style="max-height:250px; overflow-y:auto">
-                <template x-for="msg in chat_history" :key="msg.id">
-                    <div class="message-item"><strong x-text="msg.author"></strong> <span style="font-size:0.6rem;" x-text="msg.time"></span><div x-text="msg.text"></div></div>
-                </template>
-            </div>
-        </div>
+        <div class="grid-3"><a href="https://radiopotok.ru/belarus" target="_blank" rel="noopener noreferrer" class="btn">🎵 БелРадио</a><a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" class="btn">🎵 Tik-Tok</a><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="btn">🎬 YouTube</a><a href="https://pikabu.ru" target="_blank" rel="noopener noreferrer" class="btn">🦎 Пикабу</a><a href="https://www.yaplakal.com" target="_blank" rel="noopener noreferrer" class="btn">🤣 ЯПлакалъ</a></div>
+        <div class="card"><h4>🎮 МИНИ-ИГРА: Угадай число</h4><div style="text-align:center"><div x-text="gameMessage" style="margin-bottom:12px;"></div><input type="number" x-model="guess" class="input" style="width:100px; text-align:center; display:inline-block;"><button @click="checkGuess" class="btn btn-primary">Угадать</button><button @click="resetGame" class="btn">Новая</button></div></div>
+        <div class="card"><h4>💬 Локальный чат</h4><div style="display:flex; gap:8px; margin-bottom:12px;"><input type="text" x-model="chatMsg" class="input" style="flex:1" placeholder="Сообщение..."><button @click="addChatMessage" class="btn btn-primary">📤</button></div><div style="max-height:250px; overflow-y:auto"><template x-for="msg in chat_history" :key="msg.id"><div class="message-item"><strong x-text="msg.author"></strong> <span style="font-size:0.6rem;" x-text="msg.time"></span><div x-text="msg.text"></div></div></template></div></div>
     </div>
 
     <!-- 8. АДМИНИСТРИРОВАНИЕ -->
     <div class="page" :class="{ 'active': tab === 8 }">
-        <template x-if="rank === 'Студент'">
-            <div class="card" style="text-align:center;">
-                <div style="font-size:2rem;">🔐</div>
-                <p style="margin-bottom:10px;">Введите код для получения расширенного доступа:</p>
-                <input type="password" x-model="pass" class="input" style="margin:10px 0;" placeholder="Код доступа">
-                <button @click="login" class="btn btn-primary">ВОЙТИ</button>
-                <div style="font-size:0.65rem; margin-top:12px; color:var(--text-secondary);">
-                    Коды: 2026 (Мастодонт), 101280 (Админ)
-                </div>
-            </div>
-        </template>
-        
-        <template x-if="rank !== 'Студент'">
-            <div>
-                <div class="card"><h4>⚙️ НАСТРОЙКИ</h4>
-                    <div>Ваш ранг: <strong x-text="rank"></strong></div>
-                    <div style="margin-top:8px;">
-                        <label style="display:flex; align-items:center; gap:8px;">
-                            <input type="checkbox" x-model="soundEnabled"> 🔊 Звук новых сообщений
-                        </label>
-                    </div>
-                    <button @click="logout" class="btn btn-danger" style="width:100%; margin-top:10px;">Выйти</button>
-                </div>
-                
-                <div class="card"><h4>📊 СТАТИСТИКА</h4>
-                    <div>👥 Посетителей: <strong x-text="visitorCount"></strong></div>
-                    <div>📁 Групп: <strong x-text="groups_list.length"></strong></div>
-                    <div>💬 Сообщений: <strong x-text="groupMessages.length"></strong></div>
-                </div>
-            </div>
-        </template>
-        
-        <div class="card qr-code">
-            <h4>📲 QR-КОД АРТЕЛИ</h4>
-            <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR">
-            <p style="font-size:0.65rem; margin-top:8px;">Отсканируйте для быстрого доступа</p>
-        </div>
+        <template x-if="rank === 'Студент'"><div class="card" style="text-align:center;"><div style="font-size:2rem;">🔐</div><p style="margin-bottom:10px;">Введите код для получения расширенного доступа:</p><input type="password" x-model="pass" class="input" style="margin:10px 0;" placeholder="Код доступа"><button @click="login" class="btn btn-primary">ВОЙТИ</button><div style="font-size:0.65rem; margin-top:12px; color:var(--text-secondary);">Коды: 2026 (Мастодонт), 101280 (Админ)</div></div></template>
+        <template x-if="rank !== 'Студент'"><div><div class="card"><h4>⚙️ НАСТРОЙКИ</h4><div>Ваш ранг: <strong x-text="rank"></strong></div><div style="margin-top:8px;"><label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" x-model="soundEnabled"> 🔊 Звук новых сообщений</label></div><button @click="logout" class="btn btn-danger" style="width:100%; margin-top:10px;">Выйти</button></div><div class="card"><h4>📊 СТАТИСТИКА</h4><div>👥 Посетителей: <strong x-text="visitorCount"></strong></div><div>📁 Групп: <strong x-text="groups_list.length"></strong></div><div>💬 Сообщений: <strong x-text="groupMessages.length"></strong></div></div></div></template>
+        <div class="card qr-code"><h4>📲 QR-КОД АРТЕЛИ</h4><img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR"><p style="font-size:0.65rem; margin-top:8px;">Отсканируйте для быстрого доступа</p></div>
     </div>
 
     <nav class="nav-bar">
@@ -1085,7 +811,6 @@
 </div>
 
 <script>
-// Google Sheets API конфигурация
 const SHEETS_CONFIG = {
     groupsSheetId: '1y3vUKkOuj5dGFO2q4nzLD5EbB7f1X9fd3QAtFYjR1uM',
     messagesSheetId: '1y3vUKkOuj5dGFO2q4nzLD5EbB7f1X9fd3QAtFYjR1uM',
@@ -1101,406 +826,57 @@ document.addEventListener('alpine:init', () => {
         pass: '',
         currentTheme: localStorage.getItem('theme') || 'light',
         soundEnabled: true,
-        
         currentDate: new Date(),
         facts: ["📚 Закон Мерфи: Если что-то может пойти не так, оно пойдет не так.", "🔧 Бритва Оккама: Не нужно множить сущее без необходимости.", "🚜 Если техника работает — не трогай её!", "💡 Простота — залог надежности.", "🎯 Закон Парето: 20% усилий дают 80% результата.", "⚡ Закон Паркинсона: Работа заполняет всё отведенное на неё время."],
         fact: "",
-        
         groups_list: [],
         activeGroup: '',
         groupMessages: [],
         newMessage: '',
         newGroupName: '',
         showCreateModal: false,
-        
         syncing: false,
         syncStatusText: '',
         syncStatusClass: '',
-        
         notification: { show: false, text: '' },
-        
         chatMsg: '',
         chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
-        
         guess: '',
         gameMessage: 'Угадай число от 1 до 10',
         secretNumber: Math.floor(Math.random() * 10) + 1,
-        
         visitorCount: parseInt(localStorage.getItem('visitorCount') || '1'),
-        
-        get canCreateGroup() {
-            return this.rank === 'Мастодонт' || this.rank === 'Админ';
-        },
-        
-        get canAccessBreak() {
-            return this.rank === 'Мастодонт' || this.rank === 'Админ';
-        },
-        
-        get canPinMessage() {
-            return this.rank === 'Админ';
-        },
-        
+        get canCreateGroup() { return this.rank === 'Мастодонт' || this.rank === 'Админ'; },
+        get canAccessBreak() { return this.rank === 'Мастодонт' || this.rank === 'Админ'; },
+        get canPinMessage() { return this.rank === 'Админ'; },
         canDeleteGroup(groupName) { return this.rank === 'Админ'; },
-        
-        canEditMessage(msg) {
-            if (this.rank === 'Админ') return true;
-            if (this.rank === 'Мастодонт') return msg.author === this.rank;
-            if (this.rank === 'Студент') return msg.author === this.rank;
-            return false;
-        },
-        
-        get monthYear() {
-            return this.currentDate.toLocaleString('ru', { month: 'long', year: 'numeric' }).toUpperCase();
-        },
-        
-        get calendarDays() {
-            const year = this.currentDate.getFullYear();
-            const month = this.currentDate.getMonth();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const days = [];
-            const today = new Date();
-            for (let i = 1; i <= daysInMonth; i++) {
-                const isToday = i === today.getDate() && month === today.getMonth() && year === today.getFullYear();
-                days.push({ day: i, isToday: isToday });
-            }
-            return days;
-        },
-        
-        setTheme(theme) {
-            this.currentTheme = theme;
-            localStorage.setItem('theme', theme);
-            document.body.classList.remove('dark', 'colorful');
-            if (theme === 'dark') document.body.classList.add('dark');
-            if (theme === 'colorful') document.body.classList.add('colorful');
-        },
-        
-        showNotification(text) {
-            this.notification = { show: true, text: text };
-            setTimeout(() => { this.notification.show = false; }, 3000);
-        },
-        
+        canEditMessage(msg) { if (this.rank === 'Админ') return true; if (this.rank === 'Мастодонт') return msg.author === this.rank; if (this.rank === 'Студент') return msg.author === this.rank; return false; },
+        get monthYear() { return this.currentDate.toLocaleString('ru', { month: 'long', year: 'numeric' }).toUpperCase(); },
+        get calendarDays() { const year = this.currentDate.getFullYear(); const month = this.currentDate.getMonth(); const daysInMonth = new Date(year, month + 1, 0).getDate(); const days = []; const today = new Date(); for (let i = 1; i <= daysInMonth; i++) { const isToday = i === today.getDate() && month === today.getMonth() && year === today.getFullYear(); days.push({ day: i, isToday: isToday }); } return days; },
+        setTheme(theme) { this.currentTheme = theme; localStorage.setItem('theme', theme); document.body.classList.remove('dark', 'colorful'); if (theme === 'dark') document.body.classList.add('dark'); if (theme === 'colorful') document.body.classList.add('colorful'); },
+        showNotification(text) { this.notification = { show: true, text: text }; setTimeout(() => { this.notification.show = false; }, 3000); },
         prevMonth() { this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1); },
         nextMonth() { this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1); },
         refreshFact() { this.fact = this.facts[Math.floor(Math.random() * this.facts.length)]; },
-        
-        login() {
-            const p = this.pass.trim();
-            if (p === '2026') { 
-                this.rank = 'Мастодонт'; 
-                localStorage.setItem('rank', 'Мастодонт'); 
-                this.pass = ''; 
-                this.tab = 1; 
-                this.showNotification('Добро пожаловать, Мастодонт!');
-            } else if (p === '101280') { 
-                this.rank = 'Админ'; 
-                localStorage.setItem('rank', 'Админ'); 
-                this.pass = ''; 
-                this.tab = 8; 
-                this.showNotification('Добро пожаловать, Администратор!');
-            } else { 
-                alert('Неверный код'); 
-                this.pass = ''; 
-            }
-        },
-        
-        logout() {
-            if (confirm('Выйти?')) { 
-                this.rank = 'Студент'; 
-                localStorage.setItem('rank', 'Студент'); 
-                this.tab = 1; 
-                this.showNotification('Вы вышли из системы');
-            }
-        },
-        
-        async syncAll() {
-            if (this.syncing) return;
-            this.syncing = true;
-            this.setSyncStatus('🔄 Синхронизация...', 'syncing');
-            try {
-                await Promise.all([this.loadGroups(), this.loadMessages()]);
-                this.setSyncStatus('✓ Синхронизация завершена', 'success');
-            } catch (error) {
-                this.setSyncStatus('❌ Ошибка синхронизации', 'error');
-            }
-            setTimeout(() => { this.syncStatusText = ''; }, 2000);
-            this.syncing = false;
-        },
-        
-        async loadGroups() {
-            try {
-                const saved = localStorage.getItem('artel_groups');
-                if (saved) {
-                    this.groups_list = JSON.parse(saved);
-                } else {
-                    this.groups_list = [];
-                }
-                
-                const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getGroups&sheetId=${SHEETS_CONFIG.groupsSheetId}&gid=${SHEETS_CONFIG.groupsGid}`);
-                const data = await response.json();
-                if (data.groups && data.groups.length > 0) {
-                    this.groups_list = data.groups.map(g => ({ name: g.name, createdBy: g.createdBy }));
-                    localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
-                }
-                
-                if (this.groups_list.length > 0 && !this.activeGroup) {
-                    this.activeGroup = this.groups_list[0].name;
-                }
-            } catch (error) {
-                console.error('Ошибка загрузки групп:', error);
-            }
-        },
-        
-        async loadMessages() {
-            if (!this.activeGroup) return;
-            try {
-                const saved = localStorage.getItem(`group_messages_${this.activeGroup}`);
-                if (saved) {
-                    this.groupMessages = JSON.parse(saved);
-                } else {
-                    this.groupMessages = [];
-                }
-                
-                const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getMessages&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&group=${encodeURIComponent(this.activeGroup)}`);
-                const data = await response.json();
-                if (data.messages && data.messages.length > 0) {
-                    this.groupMessages = data.messages.map(m => ({ ...m, reactions: m.reactions || {}, pinned: m.pinned || false }));
-                    localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages));
-                }
-            } catch (error) {
-                console.error('Ошибка загрузки сообщений:', error);
-            }
-        },
-        
-        async createGroup() {
-            if (!this.newGroupName || !this.newGroupName.trim()) {
-                alert('Введите название группы!');
-                return;
-            }
-            const groupName = this.newGroupName.trim().toUpperCase();
-            if (this.groups_list.some(g => g.name === groupName)) {
-                alert('Группа с таким названием уже существует!');
-                return;
-            }
-            
-            this.setSyncStatus('🔄 Создание группы...', 'syncing');
-            try {
-                await fetch(`${SHEETS_CONFIG.scriptURL}?action=addGroup&sheetId=${SHEETS_CONFIG.groupsSheetId}&gid=${SHEETS_CONFIG.groupsGid}&groupName=${encodeURIComponent(groupName)}&createdBy=${this.rank}`);
-                await this.loadGroups();
-                this.activeGroup = groupName;
-                this.showCreateModal = false;
-                this.newGroupName = '';
-                this.setSyncStatus('✓ Группа создана', 'success');
-                this.showNotification(`Группа "${groupName}" создана`);
-            } catch (error) {
-                this.groups_list.push({ name: groupName, createdBy: this.rank });
-                localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
-                this.activeGroup = groupName;
-                this.showCreateModal = false;
-                this.newGroupName = '';
-                this.setSyncStatus('✓ Группа создана локально', 'success');
-                this.showNotification(`Группа "${groupName}" создана`);
-            }
-            setTimeout(() => { this.syncStatusText = ''; }, 2000);
-        },
-        
-        async deleteGroup(groupName) {
-            if (this.rank !== 'Админ') { alert('Только администратор может удалять группы!'); return; }
-            if (!confirm(`Удалить группу "${groupName}"? Все сообщения группы будут удалены!`)) return;
-            
-            this.setSyncStatus('🔄 Удаление группы...', 'syncing');
-            try {
-                await fetch(`${SHEETS_CONFIG.scriptURL}?action=deleteGroup&sheetId=${SHEETS_CONFIG.groupsSheetId}&gid=${SHEETS_CONFIG.groupsGid}&groupName=${encodeURIComponent(groupName)}`);
-                await this.loadGroups();
-                if (this.activeGroup === groupName) {
-                    this.activeGroup = this.groups_list[0]?.name || '';
-                }
-                this.setSyncStatus('✓ Группа удалена', 'success');
-                this.showNotification(`Группа "${groupName}" удалена`);
-            } catch (error) {
-                this.groups_list = this.groups_list.filter(g => g.name !== groupName);
-                localStorage.setItem('artel_groups', JSON.stringify(this.groups_list));
-                localStorage.removeItem(`group_messages_${groupName}`);
-                if (this.activeGroup === groupName) {
-                    this.activeGroup = this.groups_list[0]?.name || '';
-                }
-                this.setSyncStatus('✓ Группа удалена локально', 'success');
-                this.showNotification(`Группа "${groupName}" удалена`);
-            }
-            setTimeout(() => { this.syncStatusText = ''; }, 2000);
-        },
-        
-        async sendMessage() {
-            if (!this.newMessage.trim()) return;
-            if (!this.activeGroup) {
-                alert('Выберите группу!');
-                return;
-            }
-            
-            const message = {
-                id: Date.now(),
-                text: this.newMessage.trim(),
-                author: this.rank,
-                time: new Date().toLocaleString(),
-                group: this.activeGroup,
-                edited: false,
-                reactions: {},
-                pinned: false
-            };
-            
-            this.setSyncStatus('🔄 Отправка...', 'syncing');
-            try {
-                await fetch(`${SHEETS_CONFIG.scriptURL}?action=addMessage&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&group=${encodeURIComponent(this.activeGroup)}&message=${encodeURIComponent(message.text)}&author=${message.author}&time=${encodeURIComponent(message.time)}&id=${message.id}`);
-                await this.loadMessages();
-                this.newMessage = '';
-                this.setSyncStatus('✓ Сообщение отправлено', 'success');
-                this.showNotification('Сообщение отправлено');
-            } catch (error) {
-                this.groupMessages.unshift(message);
-                localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages));
-                this.newMessage = '';
-                this.setSyncStatus('✓ Сохранено локально', 'success');
-            }
-            setTimeout(() => { this.syncStatusText = ''; }, 1500);
-        },
-        
-        async editMessage(msg) {
-            const newText = prompt('Редактировать сообщение:', msg.text);
-            if (!newText || newText === msg.text) return;
-            
-            this.setSyncStatus('🔄 Сохранение...', 'syncing');
-            try {
-                await fetch(`${SHEETS_CONFIG.scriptURL}?action=editMessage&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&id=${msg.id}&newText=${encodeURIComponent(newText)}`);
-                await this.loadMessages();
-                this.setSyncStatus('✓ Сообщение изменено', 'success');
-            } catch (error) {
-                msg.text = newText;
-                msg.edited = true;
-                localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages));
-                this.setSyncStatus('✓ Сохранено локально', 'success');
-            }
-            setTimeout(() => { this.syncStatusText = ''; }, 1500);
-        },
-        
-        async deleteMessage(id) {
-            if (!confirm('Удалить сообщение?')) return;
-            
-            this.setSyncStatus('🔄 Удаление...', 'syncing');
-            try {
-                await fetch(`${SHEETS_CONFIG.scriptURL}?action=deleteMessage&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&id=${id}`);
-                await this.loadMessages();
-                this.setSyncStatus('✓ Сообщение удалено', 'success');
-            } catch (error) {
-                this.groupMessages = this.groupMessages.filter(m => m.id !== id);
-                localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages));
-                this.setSyncStatus('✓ Удалено локально', 'success');
-            }
-            setTimeout(() => { this.syncStatusText = ''; }, 1500);
-        },
-        
-        async togglePin(id) {
-            const msg = this.groupMessages.find(m => m.id === id);
-            if (!msg) return;
-            msg.pinned = !msg.pinned;
-            localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages));
-            this.showNotification(msg.pinned ? 'Сообщение закреплено' : 'Закрепление снято');
-        },
-        
-        async addReaction(id, emoji) {
-            const msg = this.groupMessages.find(m => m.id === id);
-            if (!msg) return;
-            if (!msg.reactions) msg.reactions = {};
-            msg.reactions[emoji] = (msg.reactions[emoji] || 0) + 1;
-            localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages));
-        },
-        
-        attachFile() {
-            const fileUrl = prompt('Введите ссылку на файл (Google Drive или другой):');
-            if (fileUrl) {
-                const fileName = prompt('Название файла:', 'Вложение');
-                if (this.newMessage) this.newMessage += '\n';
-                this.newMessage += `📎 ${fileName || 'Файл'}: ${fileUrl}`;
-            }
-        },
-        
-        selectGroup(groupName) {
-            this.activeGroup = groupName;
-            this.loadMessages();
-        },
-        
-        showCreateGroupModal() {
-            this.newGroupName = '';
-            this.showCreateModal = true;
-        },
-        
-        setSyncStatus(text, type) {
-            this.syncStatusText = text;
-            this.syncStatusClass = type;
-        },
-        
-        addChatMessage() {
-            if (!this.chatMsg.trim()) return;
-            this.chat_history.unshift({
-                id: Date.now(),
-                text: this.chatMsg.trim(),
-                author: this.rank,
-                time: new Date().toLocaleTimeString()
-            });
-            this.chatMsg = '';
-            localStorage.setItem('artel_chat', JSON.stringify(this.chat_history));
-        },
-        
-        checkGuess() {
-            const num = parseInt(this.guess);
-            if (isNaN(num) || num < 1 || num > 10) this.gameMessage = '❌ Введите число от 1 до 10!';
-            else if (num === this.secretNumber) { this.gameMessage = '🎉 Поздравляю! Вы угадали! 🎉'; this.secretNumber = Math.floor(Math.random() * 10) + 1; }
-            else if (num < this.secretNumber) this.gameMessage = `📈 Загаданное число БОЛЬШЕ чем ${num}`;
-            else this.gameMessage = `📉 Загаданное число МЕНЬШЕ чем ${num}`;
-            this.guess = '';
-        },
-        
+        login() { const p = this.pass.trim(); if (p === '2026') { this.rank = 'Мастодонт'; localStorage.setItem('rank', 'Мастодонт'); this.pass = ''; this.tab = 1; this.showNotification('Добро пожаловать, Мастодонт!'); } else if (p === '101280') { this.rank = 'Админ'; localStorage.setItem('rank', 'Админ'); this.pass = ''; this.tab = 8; this.showNotification('Добро пожаловать, Администратор!'); } else { alert('Неверный код'); this.pass = ''; } },
+        logout() { if (confirm('Выйти?')) { this.rank = 'Студент'; localStorage.setItem('rank', 'Студент'); this.tab = 1; this.showNotification('Вы вышли из системы'); } },
+        async syncAll() { if (this.syncing) return; this.syncing = true; this.setSyncStatus('🔄 Синхронизация...', 'syncing'); try { await Promise.all([this.loadGroups(), this.loadMessages()]); this.setSyncStatus('✓ Синхронизация завершена', 'success'); } catch (error) { this.setSyncStatus('❌ Ошибка синхронизации', 'error'); } setTimeout(() => { this.syncStatusText = ''; }, 2000); this.syncing = false; },
+        async loadGroups() { try { const saved = localStorage.getItem('artel_groups'); if (saved) this.groups_list = JSON.parse(saved); else this.groups_list = []; const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getGroups&sheetId=${SHEETS_CONFIG.groupsSheetId}&gid=${SHEETS_CONFIG.groupsGid}`); const data = await response.json(); if (data.groups && data.groups.length > 0) { this.groups_list = data.groups.map(g => ({ name: g.name, createdBy: g.createdBy })); localStorage.setItem('artel_groups', JSON.stringify(this.groups_list)); } if (this.groups_list.length > 0 && !this.activeGroup) this.activeGroup = this.groups_list[0].name; } catch (error) { console.error('Ошибка загрузки групп:', error); } },
+        async loadMessages() { if (!this.activeGroup) return; try { const saved = localStorage.getItem(`group_messages_${this.activeGroup}`); if (saved) this.groupMessages = JSON.parse(saved); else this.groupMessages = []; const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getMessages&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&group=${encodeURIComponent(this.activeGroup)}`); const data = await response.json(); if (data.messages && data.messages.length > 0) { this.groupMessages = data.messages.map(m => ({ ...m, reactions: m.reactions || {}, pinned: m.pinned || false })); localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages)); } } catch (error) { console.error('Ошибка загрузки сообщений:', error); } },
+        async createGroup() { if (!this.newGroupName || !this.newGroupName.trim()) { alert('Введите название группы!'); return; } const groupName = this.newGroupName.trim().toUpperCase(); if (this.groups_list.some(g => g.name === groupName)) { alert('Группа с таким названием уже существует!'); return; } this.setSyncStatus('🔄 Создание группы...', 'syncing'); try { await fetch(`${SHEETS_CONFIG.scriptURL}?action=addGroup&sheetId=${SHEETS_CONFIG.groupsSheetId}&gid=${SHEETS_CONFIG.groupsGid}&groupName=${encodeURIComponent(groupName)}&createdBy=${this.rank}`); await this.loadGroups(); this.activeGroup = groupName; this.showCreateModal = false; this.newGroupName = ''; this.setSyncStatus('✓ Группа создана', 'success'); this.showNotification(`Группа "${groupName}" создана`); } catch (error) { this.groups_list.push({ name: groupName, createdBy: this.rank }); localStorage.setItem('artel_groups', JSON.stringify(this.groups_list)); this.activeGroup = groupName; this.showCreateModal = false; this.newGroupName = ''; this.setSyncStatus('✓ Группа создана локально', 'success'); this.showNotification(`Группа "${groupName}" создана`); } setTimeout(() => { this.syncStatusText = ''; }, 2000); },
+        async deleteGroup(groupName) { if (this.rank !== 'Админ') { alert('Только администратор может удалять группы!'); return; } if (!confirm(`Удалить группу "${groupName}"? Все сообщения группы будут удалены!`)) return; this.setSyncStatus('🔄 Удаление группы...', 'syncing'); try { await fetch(`${SHEETS_CONFIG.scriptURL}?action=deleteGroup&sheetId=${SHEETS_CONFIG.groupsSheetId}&gid=${SHEETS_CONFIG.groupsGid}&groupName=${encodeURIComponent(groupName)}`); await this.loadGroups(); if (this.activeGroup === groupName) this.activeGroup = this.groups_list[0]?.name || ''; this.setSyncStatus('✓ Группа удалена', 'success'); this.showNotification(`Группа "${groupName}" удалена`); } catch (error) { this.groups_list = this.groups_list.filter(g => g.name !== groupName); localStorage.setItem('artel_groups', JSON.stringify(this.groups_list)); localStorage.removeItem(`group_messages_${groupName}`); if (this.activeGroup === groupName) this.activeGroup = this.groups_list[0]?.name || ''; this.setSyncStatus('✓ Группа удалена локально', 'success'); this.showNotification(`Группа "${groupName}" удалена`); } setTimeout(() => { this.syncStatusText = ''; }, 2000); },
+        async sendMessage() { if (!this.newMessage.trim()) return; if (!this.activeGroup) { alert('Выберите группу!'); return; } const message = { id: Date.now(), text: this.newMessage.trim(), author: this.rank, time: new Date().toLocaleString(), group: this.activeGroup, edited: false, reactions: {}, pinned: false }; this.setSyncStatus('🔄 Отправка...', 'syncing'); try { await fetch(`${SHEETS_CONFIG.scriptURL}?action=addMessage&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&group=${encodeURIComponent(this.activeGroup)}&message=${encodeURIComponent(message.text)}&author=${message.author}&time=${encodeURIComponent(message.time)}&id=${message.id}`); await this.loadMessages(); this.newMessage = ''; this.setSyncStatus('✓ Сообщение отправлено', 'success'); this.showNotification('Сообщение отправлено'); } catch (error) { this.groupMessages.unshift(message); localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages)); this.newMessage = ''; this.setSyncStatus('✓ Сохранено локально', 'success'); } setTimeout(() => { this.syncStatusText = ''; }, 1500); },
+        async editMessage(msg) { const newText = prompt('Редактировать сообщение:', msg.text); if (!newText || newText === msg.text) return; this.setSyncStatus('🔄 Сохранение...', 'syncing'); try { await fetch(`${SHEETS_CONFIG.scriptURL}?action=editMessage&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&id=${msg.id}&newText=${encodeURIComponent(newText)}`); await this.loadMessages(); this.setSyncStatus('✓ Сообщение изменено', 'success'); } catch (error) { msg.text = newText; msg.edited = true; localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages)); this.setSyncStatus('✓ Сохранено локально', 'success'); } setTimeout(() => { this.syncStatusText = ''; }, 1500); },
+        async deleteMessage(id) { if (!confirm('Удалить сообщение?')) return; this.setSyncStatus('🔄 Удаление...', 'syncing'); try { await fetch(`${SHEETS_CONFIG.scriptURL}?action=deleteMessage&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&id=${id}`); await this.loadMessages(); this.setSyncStatus('✓ Сообщение удалено', 'success'); } catch (error) { this.groupMessages = this.groupMessages.filter(m => m.id !== id); localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages)); this.setSyncStatus('✓ Удалено локально', 'success'); } setTimeout(() => { this.syncStatusText = ''; }, 1500); },
+        async togglePin(id) { const msg = this.groupMessages.find(m => m.id === id); if (!msg) return; msg.pinned = !msg.pinned; localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages)); this.showNotification(msg.pinned ? 'Сообщение закреплено' : 'Закрепление снято'); },
+        async addReaction(id, emoji) { const msg = this.groupMessages.find(m => m.id === id); if (!msg) return; if (!msg.reactions) msg.reactions = {}; msg.reactions[emoji] = (msg.reactions[emoji] || 0) + 1; localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages)); },
+        attachFile() { const fileUrl = prompt('Введите ссылку на файл (Google Drive или другой):'); if (fileUrl) { const fileName = prompt('Название файла:', 'Вложение'); if (this.newMessage) this.newMessage += '\n'; this.newMessage += `📎 ${fileName || 'Файл'}: ${fileUrl}`; } },
+        selectGroup(groupName) { this.activeGroup = groupName; this.loadMessages(); },
+        showCreateGroupModal() { this.newGroupName = ''; this.showCreateModal = true; },
+        setSyncStatus(text, type) { this.syncStatusText = text; this.syncStatusClass = type; },
+        addChatMessage() { if (!this.chatMsg.trim()) return; this.chat_history.unshift({ id: Date.now(), text: this.chatMsg.trim(), author: this.rank, time: new Date().toLocaleTimeString() }); this.chatMsg = ''; localStorage.setItem('artel_chat', JSON.stringify(this.chat_history)); },
+        checkGuess() { const num = parseInt(this.guess); if (isNaN(num) || num < 1 || num > 10) this.gameMessage = '❌ Введите число от 1 до 10!'; else if (num === this.secretNumber) { this.gameMessage = '🎉 Поздравляю! Вы угадали! 🎉'; this.secretNumber = Math.floor(Math.random() * 10) + 1; } else if (num < this.secretNumber) this.gameMessage = `📈 Загаданное число БОЛЬШЕ чем ${num}`; else this.gameMessage = `📉 Загаданное число МЕНЬШЕ чем ${num}`; this.guess = ''; },
         resetGame() { this.secretNumber = Math.floor(Math.random() * 10) + 1; this.gameMessage = '🎮 Новая игра! Угадай число от 1 до 10'; this.guess = ''; },
-        
-        async init() {
-            const savedRank = localStorage.getItem('rank');
-            if (savedRank && (savedRank === 'Мастодонт' || savedRank === 'Админ')) {
-                this.rank = savedRank;
-            } else {
-                this.rank = 'Студент';
-                localStorage.setItem('rank', 'Студент');
-            }
-            
-            this.refreshFact();
-            this.setTheme(this.currentTheme);
-            
-            let count = parseInt(localStorage.getItem('visitorCount') || '0');
-            count++;
-            localStorage.setItem('visitorCount', count);
-            this.visitorCount = count;
-            
-            await this.loadGroups();
-            if (this.groups_list.length > 0 && !this.activeGroup) {
-                this.activeGroup = this.groups_list[0].name;
-            }
-            await this.loadMessages();
-            
-            setInterval(() => {
-                if (document.visibilityState === 'visible') {
-                    this.syncAll();
-                }
-            }, 30000);
-            
-            window.addEventListener('storage', (e) => {
-                if (e.key === 'artel_groups') { try { this.groups_list = JSON.parse(e.newValue); } catch(e) {} }
-                if (e.key === `group_messages_${this.activeGroup}`) { try { this.groupMessages = JSON.parse(e.newValue); } catch(e) {} }
-                if (e.key === 'rank') { 
-                    if (e.newValue && (e.newValue === 'Мастодонт' || e.newValue === 'Админ')) {
-                        this.rank = e.newValue;
-                    } else {
-                        this.rank = 'Студент';
-                    }
-                }
-            });
-        }
+        async init() { const savedRank = localStorage.getItem('rank'); if (savedRank && (savedRank === 'Мастодонт' || savedRank === 'Админ')) this.rank = savedRank; else { this.rank = 'Студент'; localStorage.setItem('rank', 'Студент'); } this.refreshFact(); this.setTheme(this.currentTheme); let count = parseInt(localStorage.getItem('visitorCount') || '0'); count++; localStorage.setItem('visitorCount', count); this.visitorCount = count; await this.loadGroups(); if (this.groups_list.length > 0 && !this.activeGroup) this.activeGroup = this.groups_list[0].name; await this.loadMessages(); setInterval(() => { if (document.visibilityState === 'visible') this.syncAll(); }, 30000); window.addEventListener('storage', (e) => { if (e.key === 'artel_groups') { try { this.groups_list = JSON.parse(e.newValue); } catch(e) {} } if (e.key === `group_messages_${this.activeGroup}`) { try { this.groupMessages = JSON.parse(e.newValue); } catch(e) {} } if (e.key === 'rank') { if (e.newValue && (e.newValue === 'Мастодонт' || e.newValue === 'Админ')) this.rank = e.newValue; else this.rank = 'Студент'; } }); }
     }));
 });
 </script>
