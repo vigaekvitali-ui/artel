@@ -608,7 +608,7 @@
         </div>
     </header>
 
-    <!-- 1. ГЛАВНАЯ - ТОЛЬКО ТРИ УКАЗАННЫЕ ПАПКИ -->
+    <!-- 1. ГЛАВНАЯ -->
     <div class="page" :class="{ 'active': tab === 1 }">
         <div class="calendar">
             <div class="calendar-header">
@@ -631,7 +631,6 @@
             <div x-text="fact" @click="refreshFact" style="cursor:pointer; padding:10px; background:var(--bg); border-radius:10px;"></div>
         </div>
         
-        <!-- ТОЛЬКО ТРИ УКАЗАННЫЕ ПАПКИ GOOGLE DRIVE -->
         <div class="card">
             <h3 style="margin-bottom:12px;">📁 ОСНОВНЫЕ РЕСУРСЫ</h3>
             <div class="grid-2">
@@ -659,7 +658,6 @@
             </div>
         </div>
         
-        <!-- БИБЛИОТЕКИ -->
         <div class="grid-2">
             <a href="https://www.litres.ru" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📚 ЛитРес</a>
             <a href="https://cyberleninka.ru" target="_blank" rel="noopener noreferrer" class="btn">📖 КиберЛенинка</a>
@@ -749,7 +747,7 @@
         </div>
     </div>
 
-    <!-- 4. ЗАЧЕТКА -->
+    <!-- 4. ЗАЧЕТКА (С ДОСКАМИ И ТЕСТАМИ) -->
     <div class="page" :class="{ 'active': tab === 4 }">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
             <h2 style="margin:0;">📋 Зачетка</h2>
@@ -779,7 +777,7 @@
                 <button @click="sendMessage" class="btn btn-primary">Отправить</button>
             </div>
             
-            <div style="max-height: 450px; overflow-y: auto;">
+            <div style="max-height: 350px; overflow-y: auto;">
                 <template x-for="msg in groupMessages" :key="msg.id">
                     <div class="message-item" :class="{ 'pinned': msg.pinned }">
                         <div>
@@ -804,6 +802,31 @@
                 <div x-show="groupMessages.length === 0" style="text-align:center; padding:20px; color:var(--text-secondary);">
                     Нет сообщений. Напишите первое!
                 </div>
+            </div>
+        </div>
+        
+        <!-- ДОСКИ И ТЕСТЫ -->
+        <div class="card">
+            <div class="section-title">📌 ИНТЕРАКТИВНЫЕ ДОСКИ</div>
+            <div class="grid-2">
+                <a href="https://miro.com" target="_blank" rel="noopener noreferrer" class="btn">Miro</a>
+                <a href="https://padlet.com/dashboard" target="_blank" rel="noopener noreferrer" class="btn">Padlet</a>
+                <a href="https://www.conceptboard.com" target="_blank" rel="noopener noreferrer" class="btn">Conceptboard</a>
+                <a href="https://www.whiteboard.microsoft.com" target="_blank" rel="noopener noreferrer" class="btn">Microsoft Whiteboard</a>
+                <a href="https://jamboard.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Jamboard</a>
+                <a href="https://explaineverything.com" target="_blank" rel="noopener noreferrer" class="btn">Explain Everything</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="section-title">📝 ТЕСТЫ И ОПРОСЫ</div>
+            <div class="grid-2">
+                <a href="https://onlinetestpad.com" target="_blank" rel="noopener noreferrer" class="btn">Онлайн Тест Пад</a>
+                <a href="https://quizlet.com" target="_blank" rel="noopener noreferrer" class="btn">Quizlet</a>
+                <a href="https://kahoot.com" target="_blank" rel="noopener noreferrer" class="btn">Kahoot!</a>
+                <a href="https://forms.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Формы</a>
+                <a href="https://www.classmarker.com" target="_blank" rel="noopener noreferrer" class="btn">ClassMarker</a>
+                <a href="https://quizizz.com" target="_blank" rel="noopener noreferrer" class="btn">Quizizz</a>
             </div>
         </div>
         
@@ -867,9 +890,8 @@
         </div>
     </div>
 
-        <!-- 6. ИИ-СЕРВИСЫ (ТОЛЬКО ПРОВЕРЕННЫЕ РАБОЧИЕ ССЫЛКИ) -->
+    <!-- 6. ИИ-СЕРВИСЫ (ПРОВЕРЕННЫЕ РАБОЧИЕ) -->
     <div class="page" :class="{ 'active': tab === 6 }">
-        <!-- СЕРВИСЫ, ТРЕБУЮЩИЕ VPN -->
         <div class="vpn-alert">⚠️ Эти сервисы требуют VPN для доступа из Беларуси</div>
         
         <div class="card">
@@ -885,7 +907,14 @@
                 <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="btn">Claude AI</a>
                 <a href="https://chat.deepseek.com" target="_blank" rel="noopener noreferrer" class="btn">DeepSeek</a>
                 <a href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer" class="btn">Perplexity AI</a>
-                <a href="https://www.blackbox.ai" target="_blank" rel="noopener noreferrer" class="btn">Blackbox AI</a>
+                <a href="https://chat.qwen.ai" target="_blank" rel="noopener noreferrer" class="btn">Qwen AI (Alibaba)</a>
+                <a href="https://www.kimi.com" target="_blank" rel="noopener noreferrer" class="btn">Kimi AI</a>
+                <a href="https://grokai.bot" target="_blank" rel="noopener noreferrer" class="btn">Grok AI</a>
+            </div>
+            
+            <div class="category-title">🎵 ГЕНЕРАЦИЯ МУЗЫКИ / АУДИО</div>
+            <div class="grid-2">
+                <a href="https://suno.com" target="_blank" rel="noopener noreferrer" class="btn">Suno (музыка)</a>
             </div>
             
             <div class="category-title">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</div>
@@ -895,20 +924,21 @@
                 <a href="https://ideogram.ai" target="_blank" rel="noopener noreferrer" class="btn">Ideogram</a>
             </div>
             
-            <div class="category-title">🎬 ВИДЕО / АНИМАЦИЯ</div>
+            <div class="category-title">🎬 ВИДЕО / 3D / АНИМАЦИЯ</div>
             <div class="grid-2">
                 <a href="https://runwayml.com" target="_blank" rel="noopener noreferrer" class="btn">Runway ML</a>
-                <a href="https://www.heygen.com" target="_blank" rel="noopener noreferrer" class="btn">HeyGen</a>
+                <a href="https://lumalabs.ai" target="_blank" rel="noopener noreferrer" class="btn">Luma Labs (3D/видео)</a>
+                <a href="https://www.heygen.com" target="_blank" rel="noopener noreferrer" class="btn">HeyGen (аватары)</a>
             </div>
             
-            <div class="category-title">📊 ПРЕЗЕНТАЦИИ / СХЕМЫ</div>
+            <div class="category-title">📊 ПРЕЗЕНТАЦИИ / СХЕМЫ / ВИЗУАЛИЗАЦИЯ</div>
             <div class="grid-2">
                 <a href="https://gamma.app" target="_blank" rel="noopener noreferrer" class="btn">Gamma</a>
                 <a href="https://napkin.ai" target="_blank" rel="noopener noreferrer" class="btn">Napkin AI</a>
+                <a href="https://mylens.ai" target="_blank" rel="noopener noreferrer" class="btn">MyLens (визуализация данных)</a>
             </div>
         </div>
         
-        <!-- СЕРВИСЫ, РАБОТАЮЩИЕ БЕЗ VPN -->
         <div class="no-vpn-alert">✅ Эти сервисы работают без VPN</div>
         
         <div class="card">
@@ -917,25 +947,34 @@
                 <span class="vpn-badge vpn-free">🔓 VPN не нужен</span>
             </div>
             
-            <div class="category-title">📝 ТЕКСТОВЫЕ ИИ</div>
+            <div class="category-title">📝 ТЕКСТОВЫЕ ИИ / ПОИСК</div>
             <div class="grid-2">
                 <a href="https://giga.chat" target="_blank" rel="noopener noreferrer" class="btn">GigaChat (Сбер)</a>
                 <a href="https://ya.ru/ai" target="_blank" rel="noopener noreferrer" class="btn">YandexGPT (Алиса)</a>
                 <a href="https://salute.sber.ru" target="_blank" rel="noopener noreferrer" class="btn">Salute AI (Салют)</a>
+                <a href="https://felo.ai/ru/search" target="_blank" rel="noopener noreferrer" class="btn">Felo AI (умный поиск)</a>
                 <a href="https://www.wolframalpha.com" target="_blank" rel="noopener noreferrer" class="btn">WolframAlpha</a>
             </div>
             
             <div class="category-title">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</div>
             <div class="grid-2">
-                <a href="https://fusionbrain.ai" target="_blank" rel="noopener noreferrer" class="btn">Kandinsky 3.0</a>
+                <a href="https://www.sberbank.ru/ru/person/kandinsky" target="_blank" rel="noopener noreferrer" class="btn">Kandinsky (Сбер)</a>
                 <a href="https://shedevrum.ru" target="_blank" rel="noopener noreferrer" class="btn">Шедеврум (Яндекс)</a>
-                <a href="https://candydream.ai" target="_blank" rel="noopener noreferrer" class="btn">CandyDream</a>
             </div>
             
-            <div class="category-title">🎬 МЕДИА-ИНСТРУМЕНТЫ</div>
+            <div class="category-title">🎓 ОБРАЗОВАНИЕ / ОБУЧЕНИЕ</div>
             <div class="grid-2">
+                <a href="https://www.studyfetch.com/docs/tutorial-doc-format/tutorme" target="_blank" rel="noopener noreferrer" class="btn">StudyFetch Tutor Me</a>
+                <a href="https://polygosha.ru/ru" target="_blank" rel="noopener noreferrer" class="btn">Polygosha (обучение)</a>
+                <a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Scholar</a>
+            </div>
+            
+            <div class="category-title">🛠️ ИНСТРУМЕНТЫ / МЕДИА</div>
+            <div class="grid-2">
+                <a href="https://www.pippit.ai/ru-by" target="_blank" rel="noopener noreferrer" class="btn">Pippit (видео/дизайн)</a>
                 <a href="https://www.remove.bg" target="_blank" rel="noopener noreferrer" class="btn">Удалить фон</a>
-                <a href="https://podcast.adobe.com/enhance" target="_blank" rel="noopener noreferrer" class="btn">Adobe Podcast (очистка звука)</a>
+                <a href="https://123apps.com/ru" target="_blank" rel="noopener noreferrer" class="btn">123Apps (редакторы)</a>
+                <a href="https://podcast.adobe.com/enhance" target="_blank" rel="noopener noreferrer" class="btn">Adobe Podcast (звук)</a>
                 <a href="https://vocalremover.org" target="_blank" rel="noopener noreferrer" class="btn">Vocal Remover</a>
                 <a href="https://www.upscale.media" target="_blank" rel="noopener noreferrer" class="btn">Upscale Media (увеличение фото)</a>
             </div>
@@ -944,17 +983,20 @@
         <div class="card" style="background: var(--category-bg);">
             <div class="section-title">💡 СОВЕТЫ ПО ИСПОЛЬЗОВАНИЮ</div>
             <div style="font-size: 0.75rem; line-height: 1.5;">
-                • <strong>🔒 VPN нужен</strong> — сервисы, которые могут быть недоступны без VPN<br>
-                • <strong>🔓 VPN не нужен</strong> — российские и другие доступные сервисы<br>
-                • <strong>📝 Текстовые ИИ</strong> — для написания текстов, кода, переводов<br>
+                • <strong>🔒 VPN нужен</strong> — для доступа к зарубежным сервисам<br>
+                • <strong>🔓 VPN не нужен</strong> — российские и открытые сервисы<br>
+                • <strong>📝 Текстовые ИИ</strong> — генерация текста, кода, переводы<br>
                 • <strong>🎨 Генерация изображений</strong> — создание картинок по описанию<br>
-                • <strong>🎬 Видео/Анимация</strong> — создание и обработка видео<br>
-                • <strong>📊 Презентации/Схемы</strong> — визуализация идей и данных<br>
-                • Рекомендуется использовать <strong>Proton VPN</strong> или <strong>Psiphon</strong> для доступа
+                • <strong>🎵 Музыка/Аудио</strong> — создание музыки, обработка звука<br>
+                • <strong>🎬 Видео/3D</strong> — создание и обработка видео, 3D-моделей<br>
+                • <strong>📊 Визуализация</strong> — схемы, презентации, дашборды<br>
+                • <strong>🎓 Образование</strong> — ИИ-репетиторы, обучение<br>
+                • <strong>🛠️ Инструменты</strong> — удаление фона, улучшение фото, работа со звуком
             </div>
         </div>
     </div>
-    <!-- 7. ПЕРЕМЕНКА -->
+
+    <!-- 7. ПЕРЕМЕНКА (без Тест Пада, он на 4-й вкладке) -->
     <div class="page" :class="{ 'active': tab === 7 }" x-show="canAccessBreak">
         <h2 style="margin-bottom:16px;">🔔 ПЕРЕМЕНКА</h2>
         <div class="grid-3">
@@ -963,7 +1005,6 @@
             <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="btn">🎬 YouTube</a>
             <a href="https://pikabu.ru" target="_blank" rel="noopener noreferrer" class="btn">🦎 Пикабу</a>
             <a href="https://www.yaplakal.com" target="_blank" rel="noopener noreferrer" class="btn">🤣 ЯПлакалъ</a>
-            <a href="https://onlinetestpad.com" target="_blank" rel="noopener noreferrer" class="btn">📝 Онлайн Тест Пад</a>
         </div>
         
         <div class="card">
@@ -1055,19 +1096,16 @@ const SHEETS_CONFIG = {
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
-        // Основное
         tab: 1,
         rank: 'Студент',
         pass: '',
         currentTheme: localStorage.getItem('theme') || 'light',
         soundEnabled: true,
         
-        // Календарь
         currentDate: new Date(),
         facts: ["📚 Закон Мерфи: Если что-то может пойти не так, оно пойдет не так.", "🔧 Бритва Оккама: Не нужно множить сущее без необходимости.", "🚜 Если техника работает — не трогай её!", "💡 Простота — залог надежности.", "🎯 Закон Парето: 20% усилий дают 80% результата.", "⚡ Закон Паркинсона: Работа заполняет всё отведенное на неё время."],
         fact: "",
         
-        // Группы и сообщения
         groups_list: [],
         activeGroup: '',
         groupMessages: [],
@@ -1075,24 +1113,19 @@ document.addEventListener('alpine:init', () => {
         newGroupName: '',
         showCreateModal: false,
         
-        // Синхронизация
         syncing: false,
         syncStatusText: '',
         syncStatusClass: '',
         
-        // Уведомления
         notification: { show: false, text: '' },
         
-        // Локальный чат
         chatMsg: '',
         chat_history: JSON.parse(localStorage.getItem('artel_chat') || '[]'),
         
-        // Игра
         guess: '',
         gameMessage: 'Угадай число от 1 до 10',
         secretNumber: Math.floor(Math.random() * 10) + 1,
         
-        // Счетчик
         visitorCount: parseInt(localStorage.getItem('visitorCount') || '1'),
         
         get canCreateGroup() {
