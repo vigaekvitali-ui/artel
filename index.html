@@ -30,6 +30,7 @@
             --message-bg: #ffffff;
             --vpn-bg: #fee2e2;
             --novpn-bg: #dcfce7;
+            --category-bg: #f1f5f9;
         }
         
         body.dark {
@@ -44,6 +45,7 @@
             --message-bg: #1e293b;
             --vpn-bg: #7f1a1a;
             --novpn-bg: #14532d;
+            --category-bg: #1e293b;
         }
         
         body.colorful {
@@ -58,6 +60,7 @@
             --message-bg: #ffffff;
             --vpn-bg: #fee2e2;
             --novpn-bg: #dcfce7;
+            --category-bg: #fef3c7;
         }
         
         body.colorful .app-container {
@@ -325,39 +328,11 @@
             color: white;
         }
         
-        .group-tabs {
-            display: flex;
-            overflow-x: auto;
-            gap: 8px;
-            margin-bottom: 16px;
-            padding-bottom: 5px;
-        }
-        
-        .group-btn {
-            padding: 8px 16px;
-            border: 1px solid var(--border);
-            background: var(--paper);
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            white-space: nowrap;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .active-group-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-        }
-        
         .vpn-badge {
             display: inline-block;
             font-size: 0.6rem;
-            padding: 2px 6px;
-            border-radius: 12px;
+            padding: 2px 8px;
+            border-radius: 20px;
             margin-left: 8px;
             font-weight: normal;
         }
@@ -380,6 +355,21 @@
         body.dark .vpn-free {
             background: #14532d;
             color: #bbf7d0;
+        }
+        
+        .category-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin: 16px 0 12px 0;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .category-title:first-of-type {
+            margin-top: 0;
         }
         
         .section-title {
@@ -693,9 +683,9 @@
         </div>
     </div>
 
-    <!-- 6. ИИ-СЕРВИСЫ (С РАЗДЕЛЕНИЕМ ПО VPN) -->
+    <!-- 6. ИИ-СЕРВИСЫ (С РАЗДЕЛЕНИЕМ ПО VPN И КАТЕГОРИЯМ) -->
     <div class="page" :class="{ 'active': tab === 6 }">
-        <!-- Сервисы, требующие VPN -->
+        <!-- СЕРВИСЫ, ТРЕБУЮЩИЕ VPN -->
         <div class="vpn-alert">⚠️ Эти сервисы требуют VPN для доступа из Беларуси</div>
         
         <div class="card">
@@ -703,27 +693,45 @@
                 🌍 ТРЕБУЮТ VPN
                 <span class="vpn-badge vpn-required">🔒 VPN нужен</span>
             </div>
+            
+            <!-- Текстовые ИИ (VPN) -->
+            <div class="category-title">📝 ТЕКСТОВЫЕ ИИ (чат, код, перевод)</div>
             <div class="grid-2">
                 <a href="https://chatgpt.com" target="_blank" class="btn" style="border-left:4px solid #10a37f">ChatGPT</a>
                 <a href="https://gemini.google.com" target="_blank" class="btn" style="border-left:4px solid #4285f4">Google Gemini</a>
                 <a href="https://claude.ai" target="_blank" class="btn" style="border-left:4px solid #d97757">Claude AI</a>
                 <a href="https://chat.deepseek.com" target="_blank" class="btn" style="border-left:4px solid #4ade80">DeepSeek</a>
                 <a href="https://perplexity.ai" target="_blank" class="btn" style="border-left:4px solid #5436da">Perplexity AI</a>
+                <a href="https://blackbox.ai" target="_blank" class="btn" style="border-left:4px solid #00a67e">Blackbox AI (код)</a>
+                <a href="https://notebooklm.google.com" target="_blank" class="btn" style="border-left:4px solid #1a73e8">NotebookLM</a>
+            </div>
+            
+            <!-- Генерация изображений (VPN) -->
+            <div class="category-title">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</div>
+            <div class="grid-2">
                 <a href="https://www.midjourney.com" target="_blank" class="btn" style="border-left:4px solid #000000">Midjourney</a>
                 <a href="https://www.leonardo.ai" target="_blank" class="btn" style="border-left:4px solid #4a90e2">Leonardo AI</a>
                 <a href="https://ideogram.ai" target="_blank" class="btn" style="border-left:4px solid #ff6b6b">Ideogram</a>
-                <a href="https://gamma.app" target="_blank" class="btn" style="border-left:4px solid #9333ea">Gamma</a>
-                <a href="https://napkin.ai" target="_blank" class="btn" style="border-left:4px solid #f97316">Napkin AI</a>
-                <a href="https://tome.app" target="_blank" class="btn" style="border-left:4px solid #06b6d4">Tome</a>
-                <a href="https://notebooklm.google.com" target="_blank" class="btn" style="border-left:4px solid #1a73e8">NotebookLM</a>
-                <a href="https://blackbox.ai" target="_blank" class="btn" style="border-left:4px solid #00a67e">Blackbox AI</a>
-                <a href="https://www.heygen.com" target="_blank" class="btn" style="border-left:4px solid #6366f1">HeyGen</a>
+            </div>
+            
+            <!-- Видео/Анимация (VPN) -->
+            <div class="category-title">🎬 ВИДЕО / АНИМАЦИЯ</div>
+            <div class="grid-2">
                 <a href="https://www.runwayml.com" target="_blank" class="btn" style="border-left:4px solid #ec489a">Runway ML</a>
+                <a href="https://www.heygen.com" target="_blank" class="btn" style="border-left:4px solid #6366f1">HeyGen (аватары)</a>
                 <a href="https://www.kaiber.ai" target="_blank" class="btn" style="border-left:4px solid #8b5cf6">Kaiber</a>
+            </div>
+            
+            <!-- Презентации и схемы (VPN) -->
+            <div class="category-title">📊 ПРЕЗЕНТАЦИИ / СХЕМЫ</div>
+            <div class="grid-2">
+                <a href="https://gamma.app" target="_blank" class="btn" style="border-left:4px solid #9333ea">Gamma (презентации)</a>
+                <a href="https://napkin.ai" target="_blank" class="btn" style="border-left:4px solid #f97316">Napkin AI (схемы)</a>
+                <a href="https://tome.app" target="_blank" class="btn" style="border-left:4px solid #06b6d4">Tome (сторителлинг)</a>
             </div>
         </div>
         
-        <!-- Сервисы, работающие без VPN -->
+        <!-- СЕРВИСЫ, РАБОТАЮЩИЕ БЕЗ VPN -->
         <div class="no-vpn-alert">✅ Эти сервисы работают без VPN</div>
         
         <div class="card">
@@ -731,36 +739,53 @@
                 🇷🇺 РАБОТАЮТ БЕЗ VPN
                 <span class="vpn-badge vpn-free">🔓 VPN не нужен</span>
             </div>
+            
+            <!-- Текстовые ИИ (без VPN) -->
+            <div class="category-title">📝 ТЕКСТОВЫЕ ИИ (чат, код, перевод)</div>
             <div class="grid-2">
-                <a href="https://fusionbrain.ai" target="_blank" class="btn" style="border-left:4px solid #ff6b35">Kandinsky (fusionbrain.ai)</a>
                 <a href="https://giga-chat.ru" target="_blank" class="btn" style="border-left:4px solid #00a3ff">GigaChat (Сбер)</a>
                 <a href="https://yandex.ru/cloud/ru/services/yandexgpt" target="_blank" class="btn" style="border-left:4px solid #fc3f1d">YandexGPT</a>
                 <a href="https://www.saluteai.ru" target="_blank" class="btn" style="border-left:4px solid #ff4d4d">Salute AI (Салют)</a>
-                <a href="https://developers.sber.ru/portal/products/ru/giga-chat-api" target="_blank" class="btn" style="border-left:4px solid #00a3ff">GigaChat API</a>
-                <a href="https://neuroroom.ru" target="_blank" class="btn" style="border-left:4px solid #9c27b0">NeuroRoom</a>
-                <a href="https://нейросеть.рф" target="_blank" class="btn" style="border-left:4px solid #ff6b35">Нейросеть.рф</a>
                 <a href="https://ruper.ai" target="_blank" class="btn" style="border-left:4px solid #667eea">Ruper AI</a>
                 <a href="https://chat-gpt.ru" target="_blank" class="btn" style="border-left:4px solid #10a37f">ChatGPT на русском</a>
-                <a href="https://www.aimyth.ru" target="_blank" class="btn" style="border-left:4px solid #ec489a">AIMyth</a>
                 <a href="https://gpt-chatting.ru" target="_blank" class="btn" style="border-left:4px solid #10a37f">GPT Chatting</a>
+                <a href="https://neuroroom.ru" target="_blank" class="btn" style="border-left:4px solid #9c27b0">NeuroRoom</a>
+                <a href="https://www.aimyth.ru" target="_blank" class="btn" style="border-left:4px solid #ec489a">AIMyth</a>
+                <a href="https://wolframalpha.com" target="_blank" class="btn" style="border-left:4px solid #e67e22">WolframAlpha (расчеты)</a>
+            </div>
+            
+            <!-- Генерация изображений (без VPN) -->
+            <div class="category-title">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</div>
+            <div class="grid-2">
+                <a href="https://fusionbrain.ai" target="_blank" class="btn" style="border-left:4px solid #ff6b35">Kandinsky (fusionbrain.ai)</a>
                 <a href="https://shedevrum.ru" target="_blank" class="btn" style="border-left:4px solid #f59e0b">Шедеврум (Яндекс)</a>
                 <a href="https://candydream.ai" target="_blank" class="btn" style="border-left:4px solid #ff69b4">CandyDream</a>
                 <a href="https://www.artgenerator.ru" target="_blank" class="btn" style="border-left:4px solid #8b5cf6">ArtGenerator</a>
                 <a href="https://kazimir.ai" target="_blank" class="btn" style="border-left:4px solid #3b82f6">Kazimir AI</a>
-                <a href="https://wolframalpha.com" target="_blank" class="btn" style="border-left:4px solid #e67e22">WolframAlpha</a>
+                <a href="https://нейросеть.рф" target="_blank" class="btn" style="border-left:4px solid #ff6b35">Нейросеть.рф</a>
+            </div>
+            
+            <!-- Медиа-инструменты (без VPN) -->
+            <div class="category-title">🎬 МЕДИА-ИНСТРУМЕНТЫ</div>
+            <div class="grid-2">
+                <a href="https://www.remove.bg" target="_blank" class="btn">🖼️ Удалить фон</a>
+                <a href="https://replicate.com/guosongchi/waifu2x" target="_blank" class="btn">✨ Улучшить фото</a>
+                <a href="https://podcast.adobe.com/enhance" target="_blank" class="btn">🎤 Очистить звук</a>
+                <a href="https://vocalremover.org" target="_blank" class="btn">🎵 Голос/Музыка</a>
             </div>
         </div>
         
-        <!-- Дополнительные сервисы -->
-        <div class="card">
-            <div class="section-title">
-                🎬 МЕДИА И ИНСТРУМЕНТЫ
-            </div>
-            <div class="grid-2">
-                <a href="https://www.remove.bg" target="_blank" class="btn">Удалить фон</a>
-                <a href="https://replicate.com/guosongchi/waifu2x" target="_blank" class="btn">Улучшить фото</a>
-                <a href="https://podcast.adobe.com/enhance" target="_blank" class="btn">🎤 Очистить звук</a>
-                <a href="https://vocalremover.org" target="_blank" class="btn">✂️ Голос/Музыка</a>
+        <!-- Дополнительная информация -->
+        <div class="card" style="background: var(--category-bg);">
+            <div class="section-title">💡 СОВЕТЫ ПО ИСПОЛЬЗОВАНИЮ</div>
+            <div style="font-size: 0.75rem; line-height: 1.5;">
+                • <strong>🔒 VPN нужен</strong> — сервисы, которые могут быть недоступны без VPN<br>
+                • <strong>🔓 VPN не нужен</strong> — российские и другие доступные сервисы<br>
+                • <strong>📝 Текстовые ИИ</strong> — для написания текстов, кода, переводов<br>
+                • <strong>🎨 Генерация изображений</strong> — создание картинок по описанию<br>
+                • <strong>🎬 Видео/Анимация</strong> — создание и обработка видео<br>
+                • <strong>📊 Презентации/Схемы</strong> — визуализация идей и данных<br>
+                • Рекомендуется использовать <strong>Proton VPN</strong> или <strong>Psiphon</strong> для доступа
             </div>
         </div>
     </div>
@@ -852,7 +877,7 @@
 </div>
 
 <script>
-// Google Sheets API конфигурация
+// Google Sheets API конфигурация (остается без изменений)
 const SHEETS_CONFIG = {
     groupsSheetId: '1y3vUKkOuj5dGFO2q4nzLD5EbB7f1X9fd3QAtFYjR1uM',
     messagesSheetId: '1y3vUKkOuj5dGFO2q4nzLD5EbB7f1X9fd3QAtFYjR1uM',
