@@ -615,7 +615,7 @@
         </div>
     </header>
 
-    <!-- 1. ГЛАВНАЯ -->
+    <!-- 1. ГЛАВНАЯ - ТОЛЬКО УКАЗАННЫЕ ПАПКИ -->
     <div class="page" :class="{ 'active': tab === 1 }">
         <div class="calendar">
             <div class="calendar-header">
@@ -638,15 +638,35 @@
             <div x-text="fact" @click="refreshFact" style="cursor:pointer; padding:10px; background:var(--bg); border-radius:10px;"></div>
         </div>
         
+        <!-- ТОЛЬКО ТРИ УКАЗАННЫЕ ПАПКИ GOOGLE DRIVE -->
         <div class="card">
             <h3 style="margin-bottom:12px;">📁 ОСНОВНЫЕ РЕСУРСЫ</h3>
             <div class="grid-2">
-                <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" class="btn drive-folder drive-auto"><span>🚗</span> АВТОМОБИЛИ</a>
-                <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" class="btn drive-folder drive-tractor"><span>🚜</span> ТРАКТОРЫ</a>
-                <a href="https://drive.google.com/drive/folders/1KlkqrXha0zBNZWXfDS6ISiq4zs44u3hL" target="_blank" class="btn drive-folder drive-machinery"><span>🌾</span> С/Х МАШИНЫ</a>
+                <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" class="btn drive-folder drive-auto">
+                    <span>🚗</span>
+                    <div style="flex:1; text-align: left;">
+                        <div style="font-weight: bold;">АВТОМОБИЛИ</div>
+                        <div style="font-size: 0.65rem;">Техническая документация, схемы, руководства</div>
+                    </div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" class="btn drive-folder drive-tractor">
+                    <span>🚜</span>
+                    <div style="flex:1; text-align: left;">
+                        <div style="font-weight: bold;">ТРАКТОРЫ</div>
+                        <div style="font-size: 0.65rem;">Схемы, руководства по эксплуатации, каталоги</div>
+                    </div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1KlkqrXha0zBNZWXfDS6ISiq4zs44u3hL" target="_blank" class="btn drive-folder drive-machinery">
+                    <span>🌾</span>
+                    <div style="flex:1; text-align: left;">
+                        <div style="font-weight: bold;">СЕЛЬСКОХОЗЯЙСТВЕННЫЕ МАШИНЫ</div>
+                        <div style="font-size: 0.65rem;">Каталоги, инструкции, технические характеристики</div>
+                    </div>
+                </a>
             </div>
         </div>
         
+        <!-- БИБЛИОТЕКИ (без Google Drive) -->
         <div class="grid-2">
             <a href="https://www.litres.ru" target="_blank" class="btn btn-primary">📚 ЛитРес</a>
             <a href="https://cyberleninka.ru" target="_blank" class="btn">📖 КиберЛенинка</a>
@@ -735,7 +755,6 @@
             </div>
         </div>
     </div>
-
     <!-- 4. ЗАЧЕТКА -->
     <div class="page" :class="{ 'active': tab === 4 }">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
