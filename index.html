@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>АРТЕЛЬ 2026 - ИИ СЕРВИСЫ</title>
+    <title>АРТЕЛЬ 2026 - Полная версия</title>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
         [x-cloak] { display: none !important; }
@@ -31,6 +31,8 @@
             --vpn-bg: #fee2e2;
             --novpn-bg: #dcfce7;
             --category-bg: #f1f5f9;
+            --nav-text: #64748b;
+            --nav-active: #2563eb;
         }
         
         body.dark {
@@ -46,6 +48,8 @@
             --vpn-bg: #7f1a1a;
             --novpn-bg: #14532d;
             --category-bg: #1e293b;
+            --nav-text: #94a3b8;
+            --nav-active: #60a5fa;
         }
         
         body.colorful {
@@ -61,6 +65,8 @@
             --vpn-bg: #fee2e2;
             --novpn-bg: #dcfce7;
             --category-bg: #fef3c7;
+            --nav-text: #4b5563;
+            --nav-active: #f59e0b;
         }
         
         body.colorful .app-container {
@@ -272,7 +278,7 @@
             gap: 2px;
             padding: 8px 0;
             font-size: 0.55rem;
-            color: var(--text-secondary);
+            color: var(--nav-text);
             cursor: pointer;
             background: transparent;
             border: none;
@@ -281,7 +287,7 @@
         
         .nav-item span:first-child { font-size: 1rem; }
         .nav-item.active {
-            color: var(--primary);
+            color: var(--nav-active);
             border-top: 2px solid var(--primary);
             background: var(--hover);
         }
@@ -308,6 +314,7 @@
             background: var(--paper);
             border-radius: 6px;
             cursor: pointer;
+            color: var(--text);
         }
         
         .calendar-grid {
@@ -326,6 +333,208 @@
         .calendar-day.today {
             background: var(--primary);
             color: white;
+        }
+        
+        .group-tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 5px;
+        }
+        
+        .group-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            background: var(--paper);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text);
+        }
+        
+        .active-group-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .delete-group-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0 4px;
+        }
+        
+        .message-item {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            animation: fadeIn 0.2s ease;
+            background: var(--message-bg);
+            position: relative;
+        }
+        
+        .message-item.pinned {
+            background: linear-gradient(135deg, rgba(245,158,11,0.1), transparent);
+            border-left: 3px solid var(--warning);
+        }
+        
+        .message-author {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .message-time {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            margin-left: 8px;
+        }
+        
+        .message-text {
+            margin-top: 6px;
+            word-break: break-word;
+        }
+        
+        .message-actions {
+            margin-top: 8px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .message-action-btn {
+            background: none;
+            border: none;
+            font-size: 0.7rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+        
+        .message-action-btn.edit { color: var(--warning); }
+        .message-action-btn.delete { color: var(--danger); }
+        .message-action-btn.pin { color: var(--primary); }
+        .message-action-btn:hover { background: var(--bg); }
+        
+        .reaction-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .reaction {
+            background: var(--bg);
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--text);
+        }
+        
+        .reaction:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .search-box {
+            margin-bottom: 12px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .sync-status {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 8px;
+            padding: 5px;
+            border-radius: 6px;
+        }
+        
+        .sync-status.syncing { background: var(--warning); color: white; }
+        .sync-status.success { background: var(--success); color: white; }
+        .sync-status.error { background: var(--danger); color: white; }
+        
+        .notification {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            animation: slideIn 0.3s ease;
+            z-index: 2000;
+            max-width: 300px;
+            font-size: 0.8rem;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .vpn-alert {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .no-vpn-alert {
+            background: #dcfce7;
+            color: #166534;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .prompt-text {
+            background: var(--bg);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 8px;
+            cursor: pointer;
+            user-select: all;
+            font-size: 0.7rem;
+            color: var(--text);
+        }
+        
+        .drive-folder {
+            justify-content: flex-start;
+            border-left: 5px solid;
+        }
+        .drive-auto { border-left-color: #22c55e; }
+        .drive-tractor { border-left-color: #f59e0b; }
+        .drive-machinery { border-left-color: #3b82f6; }
+        
+        .qr-code {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .qr-code img {
+            max-width: 150px;
+            border-radius: 12px;
         }
         
         .vpn-badge {
@@ -366,6 +575,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--text);
         }
         
         .category-title:first-of-type {
@@ -380,46 +590,7 @@
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
-        }
-        
-        .vpn-alert {
-            background: #fee2e2;
-            color: #b91c1c;
-            padding: 10px;
-            text-align: center;
-            font-size: 0.7rem;
-            font-weight: bold;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .no-vpn-alert {
-            background: #dcfce7;
-            color: #166534;
-            padding: 10px;
-            text-align: center;
-            font-size: 0.7rem;
-            font-weight: bold;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .drive-folder {
-            justify-content: flex-start;
-            border-left: 5px solid;
-        }
-        .drive-auto { border-left-color: #22c55e; }
-        .drive-tractor { border-left-color: #f59e0b; }
-        .drive-machinery { border-left-color: #3b82f6; }
-        
-        .qr-code {
-            text-align: center;
-            padding: 10px;
-        }
-        
-        .qr-code img {
-            max-width: 150px;
-            border-radius: 12px;
+            color: var(--text);
         }
         
         @media (max-width: 600px) {
@@ -694,7 +865,6 @@
                 <span class="vpn-badge vpn-required">🔒 VPN нужен</span>
             </div>
             
-            <!-- Текстовые ИИ (VPN) -->
             <div class="category-title">📝 ТЕКСТОВЫЕ ИИ (чат, код, перевод)</div>
             <div class="grid-2">
                 <a href="https://chatgpt.com" target="_blank" class="btn" style="border-left:4px solid #10a37f">ChatGPT</a>
@@ -706,7 +876,6 @@
                 <a href="https://notebooklm.google.com" target="_blank" class="btn" style="border-left:4px solid #1a73e8">NotebookLM</a>
             </div>
             
-            <!-- Генерация изображений (VPN) -->
             <div class="category-title">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</div>
             <div class="grid-2">
                 <a href="https://www.midjourney.com" target="_blank" class="btn" style="border-left:4px solid #000000">Midjourney</a>
@@ -714,7 +883,6 @@
                 <a href="https://ideogram.ai" target="_blank" class="btn" style="border-left:4px solid #ff6b6b">Ideogram</a>
             </div>
             
-            <!-- Видео/Анимация (VPN) -->
             <div class="category-title">🎬 ВИДЕО / АНИМАЦИЯ</div>
             <div class="grid-2">
                 <a href="https://www.runwayml.com" target="_blank" class="btn" style="border-left:4px solid #ec489a">Runway ML</a>
@@ -722,7 +890,6 @@
                 <a href="https://www.kaiber.ai" target="_blank" class="btn" style="border-left:4px solid #8b5cf6">Kaiber</a>
             </div>
             
-            <!-- Презентации и схемы (VPN) -->
             <div class="category-title">📊 ПРЕЗЕНТАЦИИ / СХЕМЫ</div>
             <div class="grid-2">
                 <a href="https://gamma.app" target="_blank" class="btn" style="border-left:4px solid #9333ea">Gamma (презентации)</a>
@@ -740,7 +907,6 @@
                 <span class="vpn-badge vpn-free">🔓 VPN не нужен</span>
             </div>
             
-            <!-- Текстовые ИИ (без VPN) -->
             <div class="category-title">📝 ТЕКСТОВЫЕ ИИ (чат, код, перевод)</div>
             <div class="grid-2">
                 <a href="https://giga-chat.ru" target="_blank" class="btn" style="border-left:4px solid #00a3ff">GigaChat (Сбер)</a>
@@ -754,7 +920,6 @@
                 <a href="https://wolframalpha.com" target="_blank" class="btn" style="border-left:4px solid #e67e22">WolframAlpha (расчеты)</a>
             </div>
             
-            <!-- Генерация изображений (без VPN) -->
             <div class="category-title">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</div>
             <div class="grid-2">
                 <a href="https://fusionbrain.ai" target="_blank" class="btn" style="border-left:4px solid #ff6b35">Kandinsky (fusionbrain.ai)</a>
@@ -765,7 +930,6 @@
                 <a href="https://нейросеть.рф" target="_blank" class="btn" style="border-left:4px solid #ff6b35">Нейросеть.рф</a>
             </div>
             
-            <!-- Медиа-инструменты (без VPN) -->
             <div class="category-title">🎬 МЕДИА-ИНСТРУМЕНТЫ</div>
             <div class="grid-2">
                 <a href="https://www.remove.bg" target="_blank" class="btn">🖼️ Удалить фон</a>
@@ -775,7 +939,6 @@
             </div>
         </div>
         
-        <!-- Дополнительная информация -->
         <div class="card" style="background: var(--category-bg);">
             <div class="section-title">💡 СОВЕТЫ ПО ИСПОЛЬЗОВАНИЮ</div>
             <div style="font-size: 0.75rem; line-height: 1.5;">
@@ -831,9 +994,12 @@
         <template x-if="rank === 'Студент'">
             <div class="card" style="text-align:center;">
                 <div style="font-size:2rem;">🔐</div>
+                <p style="margin-bottom:10px;">Введите код для получения расширенного доступа:</p>
                 <input type="password" x-model="pass" class="input" style="margin:10px 0;" placeholder="Код доступа">
                 <button @click="login" class="btn btn-primary">ВОЙТИ</button>
-                <div style="font-size:0.65rem; margin-top:8px;">Коды: 2026 (Мастодонт), 101280 (Админ)</div>
+                <div style="font-size:0.65rem; margin-top:12px; color:var(--text-secondary);">
+                    Коды: 2026 (Мастодонт), 101280 (Админ)
+                </div>
             </div>
         </template>
         
@@ -857,6 +1023,7 @@
             </div>
         </template>
         
+        <!-- QR-код для всех -->
         <div class="card qr-code">
             <h4>📲 QR-КОД АРТЕЛИ</h4>
             <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR">
@@ -877,7 +1044,7 @@
 </div>
 
 <script>
-// Google Sheets API конфигурация (остается без изменений)
+// Google Sheets API конфигурация
 const SHEETS_CONFIG = {
     groupsSheetId: '1y3vUKkOuj5dGFO2q4nzLD5EbB7f1X9fd3QAtFYjR1uM',
     messagesSheetId: '1y3vUKkOuj5dGFO2q4nzLD5EbB7f1X9fd3QAtFYjR1uM',
@@ -890,7 +1057,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
         // Основное
         tab: 1,
-        rank: localStorage.getItem('rank') || 'Студент',
+        rank: 'Студент', // ПО УМОЛЧАНИЮ СТУДЕНТ
         pass: '',
         currentTheme: localStorage.getItem('theme') || 'light',
         soundEnabled: true,
@@ -985,13 +1152,31 @@ document.addEventListener('alpine:init', () => {
         
         login() {
             const p = this.pass.trim();
-            if (p === '2026') { this.rank = 'Мастодонт'; localStorage.setItem('rank', 'Мастодонт'); this.pass = ''; this.tab = 1; this.showNotification('Добро пожаловать, Мастодонт!'); }
-            else if (p === '101280') { this.rank = 'Админ'; localStorage.setItem('rank', 'Админ'); this.pass = ''; this.tab = 8; this.showNotification('Добро пожаловать, Администратор!'); }
-            else { alert('Неверный код'); this.pass = ''; }
+            if (p === '2026') { 
+                this.rank = 'Мастодонт'; 
+                localStorage.setItem('rank', 'Мастодонт'); 
+                this.pass = ''; 
+                this.tab = 1; 
+                this.showNotification('Добро пожаловать, Мастодонт!');
+            } else if (p === '101280') { 
+                this.rank = 'Админ'; 
+                localStorage.setItem('rank', 'Админ'); 
+                this.pass = ''; 
+                this.tab = 8; 
+                this.showNotification('Добро пожаловать, Администратор!');
+            } else { 
+                alert('Неверный код'); 
+                this.pass = ''; 
+            }
         },
         
         logout() {
-            if (confirm('Выйти?')) { this.rank = 'Студент'; localStorage.setItem('rank', 'Студент'); this.tab = 1; }
+            if (confirm('Выйти?')) { 
+                this.rank = 'Студент'; 
+                localStorage.setItem('rank', 'Студент'); 
+                this.tab = 1; 
+                this.showNotification('Вы вышли из системы');
+            }
         },
         
         async syncAll() {
@@ -1243,6 +1428,15 @@ document.addEventListener('alpine:init', () => {
         resetGame() { this.secretNumber = Math.floor(Math.random() * 10) + 1; this.gameMessage = '🎮 Новая игра! Угадай число от 1 до 10'; this.guess = ''; },
         
         async init() {
+            // Загружаем ранг из localStorage, если есть, иначе Студент
+            const savedRank = localStorage.getItem('rank');
+            if (savedRank && (savedRank === 'Мастодонт' || savedRank === 'Админ')) {
+                this.rank = savedRank;
+            } else {
+                this.rank = 'Студент';
+                localStorage.setItem('rank', 'Студент');
+            }
+            
             this.refreshFact();
             this.setTheme(this.currentTheme);
             
@@ -1266,7 +1460,13 @@ document.addEventListener('alpine:init', () => {
             window.addEventListener('storage', (e) => {
                 if (e.key === 'artel_groups') { try { this.groups_list = JSON.parse(e.newValue); } catch(e) {} }
                 if (e.key === `group_messages_${this.activeGroup}`) { try { this.groupMessages = JSON.parse(e.newValue); } catch(e) {} }
-                if (e.key === 'rank') { this.rank = e.newValue; }
+                if (e.key === 'rank') { 
+                    if (e.newValue && (e.newValue === 'Мастодонт' || e.newValue === 'Админ')) {
+                        this.rank = e.newValue;
+                    } else {
+                        this.rank = 'Студент';
+                    }
+                }
             });
         }
     }));
