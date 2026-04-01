@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>АРТЕЛЬ 2026 - Полная версия</title>
+    <title>АРТЕЛЬ 2026 - ИИ СЕРВИСЫ</title>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
         [x-cloak] { display: none !important; }
@@ -28,6 +28,8 @@
             --danger: #ef4444;
             --hover: #f8fafc;
             --message-bg: #ffffff;
+            --vpn-bg: #fee2e2;
+            --novpn-bg: #dcfce7;
         }
         
         body.dark {
@@ -40,6 +42,8 @@
             --border: #334155;
             --hover: #334155;
             --message-bg: #1e293b;
+            --vpn-bg: #7f1a1a;
+            --novpn-bg: #14532d;
         }
         
         body.colorful {
@@ -52,6 +56,8 @@
             --border: #e5e7eb;
             --hover: #fef3c7;
             --message-bg: #ffffff;
+            --vpn-bg: #fee2e2;
+            --novpn-bg: #dcfce7;
         }
         
         body.colorful .app-container {
@@ -183,6 +189,13 @@
             margin-bottom: 16px; 
         }
         
+        .grid-4 { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
+            gap: 10px; 
+            margin-bottom: 16px; 
+        }
+        
         .btn {
             display: flex;
             align-items: center;
@@ -233,11 +246,6 @@
             width: 100%;
             background: var(--paper);
             color: var(--text);
-        }
-        
-        .input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
         
         .nav-bar {
@@ -345,124 +353,43 @@
             border: none;
         }
         
-        .delete-group-btn {
-            background: none;
-            border: none;
-            color: var(--danger);
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 0 4px;
-        }
-        
-        .message-item {
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
-            animation: fadeIn 0.2s ease;
-            background: var(--message-bg);
-            position: relative;
-        }
-        
-        .message-item.pinned {
-            background: linear-gradient(135deg, rgba(245,158,11,0.1), transparent);
-            border-left: 3px solid var(--warning);
-        }
-        
-        .message-author {
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .message-time {
+        .vpn-badge {
+            display: inline-block;
             font-size: 0.6rem;
-            color: var(--text-secondary);
+            padding: 2px 6px;
+            border-radius: 12px;
             margin-left: 8px;
+            font-weight: normal;
         }
         
-        .message-text {
-            margin-top: 6px;
-            word-break: break-word;
+        .vpn-required {
+            background: #fee2e2;
+            color: #b91c1c;
         }
         
-        .message-actions {
-            margin-top: 8px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+        .vpn-free {
+            background: #dcfce7;
+            color: #166534;
         }
         
-        .message-action-btn {
-            background: none;
-            border: none;
-            font-size: 0.7rem;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 4px;
-            transition: all 0.2s;
+        body.dark .vpn-required {
+            background: #7f1a1a;
+            color: #fecaca;
         }
         
-        .message-action-btn.edit { color: var(--warning); }
-        .message-action-btn.delete { color: var(--danger); }
-        .message-action-btn.pin { color: var(--primary); }
-        .message-action-btn:hover { background: var(--bg); }
-        
-        .reaction-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
+        body.dark .vpn-free {
+            background: #14532d;
+            color: #bbf7d0;
         }
         
-        .reaction {
-            background: var(--bg);
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .reaction:hover {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .search-box {
+        .section-title {
+            font-size: 1rem;
+            font-weight: bold;
             margin-bottom: 12px;
             display: flex;
+            align-items: center;
             gap: 8px;
-        }
-        
-        .sync-status {
-            font-size: 0.7rem;
-            text-align: center;
-            margin-top: 8px;
-            padding: 5px;
-            border-radius: 6px;
-        }
-        
-        .sync-status.syncing { background: var(--warning); color: white; }
-        .sync-status.success { background: var(--success); color: white; }
-        .sync-status.error { background: var(--danger); color: white; }
-        
-        .notification {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            background: var(--primary);
-            color: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            animation: slideIn 0.3s ease;
-            z-index: 2000;
-            max-width: 300px;
-            font-size: 0.8rem;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            flex-wrap: wrap;
         }
         
         .vpn-alert {
@@ -476,14 +403,15 @@
             margin-bottom: 15px;
         }
         
-        .prompt-text {
-            background: var(--bg);
+        .no-vpn-alert {
+            background: #dcfce7;
+            color: #166534;
             padding: 10px;
-            border-radius: 8px;
-            margin-top: 8px;
-            cursor: pointer;
-            user-select: all;
+            text-align: center;
             font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
         
         .drive-folder {
@@ -647,7 +575,7 @@
         </div>
     </div>
 
-    <!-- 4. ЗАЧЕТКА (ИСПРАВЛЕНА) -->
+    <!-- 4. ЗАЧЕТКА -->
     <div class="page" :class="{ 'active': tab === 4 }">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
             <h2 style="margin:0;">📋 Зачетка</h2>
@@ -657,7 +585,6 @@
             </div>
         </div>
         
-        <!-- Группы -->
         <div class="group-tabs" x-show="groups_list.length > 0">
             <template x-for="g in groups_list" :key="g.name">
                 <div class="group-btn" :class="activeGroup === g.name ? 'active-group-btn' : ''" @click="selectGroup(g.name)">
@@ -670,7 +597,6 @@
             📭 Нет групп. Создайте первую группу!
         </div>
         
-        <!-- Сообщения (показываем только если есть активная группа) -->
         <div x-show="activeGroup && activeGroup !== ''" class="card">
             <div style="font-weight:bold; margin-bottom:12px;">💬 ЧАТ ГРУППЫ: <span x-text="activeGroup"></span></div>
             <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
@@ -709,7 +635,6 @@
         
         <div class="sync-status" :class="syncStatusClass" x-text="syncStatusText" x-show="syncStatusText"></div>
         
-        <!-- Модальное окно создания группы -->
         <div x-show="showCreateModal" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:2000;">
             <div class="card" style="width:90%; max-width:300px;">
                 <h4>Создать группу</h4>
@@ -768,41 +693,69 @@
         </div>
     </div>
 
-    <!-- 6. ИИ-СЕРВИСЫ -->
+    <!-- 6. ИИ-СЕРВИСЫ (С РАЗДЕЛЕНИЕМ ПО VPN) -->
     <div class="page" :class="{ 'active': tab === 6 }">
-        <div class="vpn-alert">⚠️ VPN необходим для большинства сервисов</div>
+        <!-- Сервисы, требующие VPN -->
+        <div class="vpn-alert">⚠️ Эти сервисы требуют VPN для доступа из Беларуси</div>
         
-        <div class="card"><h4>🧠 ТЕКСТ / КОД / РЕШЕНИЯ</h4>
+        <div class="card">
+            <div class="section-title">
+                🌍 ТРЕБУЮТ VPN
+                <span class="vpn-badge vpn-required">🔒 VPN нужен</span>
+            </div>
             <div class="grid-2">
                 <a href="https://chatgpt.com" target="_blank" class="btn" style="border-left:4px solid #10a37f">ChatGPT</a>
-                <a href="https://gemini.google.com" target="_blank" class="btn" style="border-left:4px solid #4285f4">Gemini</a>
+                <a href="https://gemini.google.com" target="_blank" class="btn" style="border-left:4px solid #4285f4">Google Gemini</a>
                 <a href="https://claude.ai" target="_blank" class="btn" style="border-left:4px solid #d97757">Claude AI</a>
                 <a href="https://chat.deepseek.com" target="_blank" class="btn" style="border-left:4px solid #4ade80">DeepSeek</a>
-                <a href="https://perplexity.ai" target="_blank" class="btn span-full">🔍 Perplexity (Поиск с источниками)</a>
-                <a href="https://blackbox.ai" target="_blank" class="btn">💻 Blackbox (Код)</a>
-                <a href="https://notebooklm.google.com" target="_blank" class="btn">📚 NotebookLM</a>
+                <a href="https://perplexity.ai" target="_blank" class="btn" style="border-left:4px solid #5436da">Perplexity AI</a>
+                <a href="https://www.midjourney.com" target="_blank" class="btn" style="border-left:4px solid #000000">Midjourney</a>
+                <a href="https://www.leonardo.ai" target="_blank" class="btn" style="border-left:4px solid #4a90e2">Leonardo AI</a>
+                <a href="https://ideogram.ai" target="_blank" class="btn" style="border-left:4px solid #ff6b6b">Ideogram</a>
+                <a href="https://gamma.app" target="_blank" class="btn" style="border-left:4px solid #9333ea">Gamma</a>
+                <a href="https://napkin.ai" target="_blank" class="btn" style="border-left:4px solid #f97316">Napkin AI</a>
+                <a href="https://tome.app" target="_blank" class="btn" style="border-left:4px solid #06b6d4">Tome</a>
+                <a href="https://notebooklm.google.com" target="_blank" class="btn" style="border-left:4px solid #1a73e8">NotebookLM</a>
+                <a href="https://blackbox.ai" target="_blank" class="btn" style="border-left:4px solid #00a67e">Blackbox AI</a>
+                <a href="https://www.heygen.com" target="_blank" class="btn" style="border-left:4px solid #6366f1">HeyGen</a>
+                <a href="https://www.runwayml.com" target="_blank" class="btn" style="border-left:4px solid #ec489a">Runway ML</a>
+                <a href="https://www.kaiber.ai" target="_blank" class="btn" style="border-left:4px solid #8b5cf6">Kaiber</a>
             </div>
         </div>
         
-        <div class="card"><h4>🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</h4>
+        <!-- Сервисы, работающие без VPN -->
+        <div class="no-vpn-alert">✅ Эти сервисы работают без VPN</div>
+        
+        <div class="card">
+            <div class="section-title">
+                🇷🇺 РАБОТАЮТ БЕЗ VPN
+                <span class="vpn-badge vpn-free">🔓 VPN не нужен</span>
+            </div>
             <div class="grid-2">
-                <a href="https://midjourney.com" target="_blank" class="btn">Midjourney</a>
-                <a href="https://leonardo.ai" target="_blank" class="btn">Leonardo</a>
-                <a href="https://fusionbrain.ai" target="_blank" class="btn">Kandinsky</a>
-                <a href="https://ideogram.ai" target="_blank" class="btn">Ideogram</a>
+                <a href="https://fusionbrain.ai" target="_blank" class="btn" style="border-left:4px solid #ff6b35">Kandinsky (fusionbrain.ai)</a>
+                <a href="https://giga-chat.ru" target="_blank" class="btn" style="border-left:4px solid #00a3ff">GigaChat (Сбер)</a>
+                <a href="https://yandex.ru/cloud/ru/services/yandexgpt" target="_blank" class="btn" style="border-left:4px solid #fc3f1d">YandexGPT</a>
+                <a href="https://www.saluteai.ru" target="_blank" class="btn" style="border-left:4px solid #ff4d4d">Salute AI (Салют)</a>
+                <a href="https://developers.sber.ru/portal/products/ru/giga-chat-api" target="_blank" class="btn" style="border-left:4px solid #00a3ff">GigaChat API</a>
+                <a href="https://neuroroom.ru" target="_blank" class="btn" style="border-left:4px solid #9c27b0">NeuroRoom</a>
+                <a href="https://нейросеть.рф" target="_blank" class="btn" style="border-left:4px solid #ff6b35">Нейросеть.рф</a>
+                <a href="https://ruper.ai" target="_blank" class="btn" style="border-left:4px solid #667eea">Ruper AI</a>
+                <a href="https://chat-gpt.ru" target="_blank" class="btn" style="border-left:4px solid #10a37f">ChatGPT на русском</a>
+                <a href="https://www.aimyth.ru" target="_blank" class="btn" style="border-left:4px solid #ec489a">AIMyth</a>
+                <a href="https://gpt-chatting.ru" target="_blank" class="btn" style="border-left:4px solid #10a37f">GPT Chatting</a>
+                <a href="https://shedevrum.ru" target="_blank" class="btn" style="border-left:4px solid #f59e0b">Шедеврум (Яндекс)</a>
+                <a href="https://candydream.ai" target="_blank" class="btn" style="border-left:4px solid #ff69b4">CandyDream</a>
+                <a href="https://www.artgenerator.ru" target="_blank" class="btn" style="border-left:4px solid #8b5cf6">ArtGenerator</a>
+                <a href="https://kazimir.ai" target="_blank" class="btn" style="border-left:4px solid #3b82f6">Kazimir AI</a>
+                <a href="https://wolframalpha.com" target="_blank" class="btn" style="border-left:4px solid #e67e22">WolframAlpha</a>
             </div>
         </div>
         
-        <div class="card"><h4>🛠️ ИНЖЕНЕРИЯ / СХЕМЫ / ПРЕЗЕНТЫ</h4>
-            <div class="grid-2">
-                <a href="https://gamma.app" target="_blank" class="btn" style="border-left:4px solid #9333ea">Gamma (Презентации)</a>
-                <a href="https://napkin.ai" target="_blank" class="btn">Napkin (Схемы)</a>
-                <a href="https://tome.app" target="_blank" class="btn">Tome (Сторителлинг)</a>
-                <a href="https://wolframalpha.com" target="_blank" class="btn">📐 WolframAlpha</a>
+        <!-- Дополнительные сервисы -->
+        <div class="card">
+            <div class="section-title">
+                🎬 МЕДИА И ИНСТРУМЕНТЫ
             </div>
-        </div>
-        
-        <div class="card"><h4>🎬 МЕДИА (ФОТО / ЗВУК)</h4>
             <div class="grid-2">
                 <a href="https://www.remove.bg" target="_blank" class="btn">Удалить фон</a>
                 <a href="https://replicate.com/guosongchi/waifu2x" target="_blank" class="btn">Улучшить фото</a>
