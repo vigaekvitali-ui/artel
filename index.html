@@ -33,6 +33,9 @@
             --category-bg: #f1f5f9;
             --nav-text: #64748b;
             --nav-active: #2563eb;
+            --btn-bg: #ffffff;
+            --btn-border: #cbd5e1;
+            --btn-text: #1e293b;
         }
         
         body.dark {
@@ -50,6 +53,9 @@
             --category-bg: #1e293b;
             --nav-text: #94a3b8;
             --nav-active: #60a5fa;
+            --btn-bg: #1e293b;
+            --btn-border: #334155;
+            --btn-text: #f1f5f9;
         }
         
         body.colorful {
@@ -67,6 +73,9 @@
             --category-bg: #fef3c7;
             --nav-text: #4b5563;
             --nav-active: #f59e0b;
+            --btn-bg: #ffffff;
+            --btn-border: #e5e7eb;
+            --btn-text: #1f2937;
         }
         
         body.colorful .app-container {
@@ -75,7 +84,6 @@
         
         body.colorful .card,
         body.colorful .calendar,
-        body.colorful .btn,
         body.colorful .input {
             background: rgba(255,255,255,0.9);
         }
@@ -91,10 +99,6 @@
             padding-bottom: 70px;
             min-height: 100vh;
             transition: all 0.3s ease;
-        }
-        
-        body.colorful {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
         .app-container { 
@@ -198,13 +202,6 @@
             margin-bottom: 16px; 
         }
         
-        .grid-4 { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
-            gap: 10px; 
-            margin-bottom: 16px; 
-        }
-        
         .btn {
             display: flex;
             align-items: center;
@@ -212,14 +209,14 @@
             gap: 8px;
             padding: 12px;
             border-radius: 10px;
-            border: 1px solid var(--border);
-            background: white;
+            border: 1px solid var(--btn-border);
+            background: var(--btn-bg);
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             text-decoration: none;
-            color: var(--text);
+            color: var(--btn-text);
             text-align: center;
         }
         
@@ -328,6 +325,7 @@
             padding: 6px 2px;
             border-radius: 6px;
             font-size: 0.7rem;
+            color: var(--text);
         }
         
         .calendar-day.today {
@@ -379,6 +377,7 @@
             animation: fadeIn 0.2s ease;
             background: var(--message-bg);
             position: relative;
+            color: var(--text);
         }
         
         .message-item.pinned {
@@ -447,12 +446,6 @@
         .reaction:hover {
             background: var(--primary);
             color: white;
-        }
-        
-        .search-box {
-            margin-bottom: 12px;
-            display: flex;
-            gap: 8px;
         }
         
         .sync-status {
@@ -615,7 +608,7 @@
         </div>
     </header>
 
-    <!-- 1. ГЛАВНАЯ - ТОЛЬКО УКАЗАННЫЕ ПАПКИ -->
+    <!-- 1. ГЛАВНАЯ - ТОЛЬКО ТРИ УКАЗАННЫЕ ПАПКИ -->
     <div class="page" :class="{ 'active': tab === 1 }">
         <div class="calendar">
             <div class="calendar-header">
@@ -642,36 +635,36 @@
         <div class="card">
             <h3 style="margin-bottom:12px;">📁 ОСНОВНЫЕ РЕСУРСЫ</h3>
             <div class="grid-2">
-                <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" class="btn drive-folder drive-auto">
+                <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" rel="noopener noreferrer" class="btn drive-folder drive-auto">
                     <span>🚗</span>
                     <div style="flex:1; text-align: left;">
                         <div style="font-weight: bold;">АВТОМОБИЛИ</div>
-                        <div style="font-size: 0.65rem;">Техническая документация, схемы, руководства</div>
+                        <div style="font-size: 0.65rem;">Техническая документация</div>
                     </div>
                 </a>
-                <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" class="btn drive-folder drive-tractor">
+                <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" rel="noopener noreferrer" class="btn drive-folder drive-tractor">
                     <span>🚜</span>
                     <div style="flex:1; text-align: left;">
                         <div style="font-weight: bold;">ТРАКТОРЫ</div>
-                        <div style="font-size: 0.65rem;">Схемы, руководства по эксплуатации, каталоги</div>
+                        <div style="font-size: 0.65rem;">Схемы и руководства</div>
                     </div>
                 </a>
-                <a href="https://drive.google.com/drive/folders/1KlkqrXha0zBNZWXfDS6ISiq4zs44u3hL" target="_blank" class="btn drive-folder drive-machinery">
+                <a href="https://drive.google.com/drive/folders/1KlkqrXha0zBNZWXfDS6ISiq4zs44u3hL" target="_blank" rel="noopener noreferrer" class="btn drive-folder drive-machinery">
                     <span>🌾</span>
                     <div style="flex:1; text-align: left;">
-                        <div style="font-weight: bold;">СЕЛЬСКОХОЗЯЙСТВЕННЫЕ МАШИНЫ</div>
-                        <div style="font-size: 0.65rem;">Каталоги, инструкции, технические характеристики</div>
+                        <div style="font-weight: bold;">СЕЛЬХОЗМАШИНЫ</div>
+                        <div style="font-size: 0.65rem;">Каталоги и инструкции</div>
                     </div>
                 </a>
             </div>
         </div>
         
-        <!-- БИБЛИОТЕКИ (без Google Drive) -->
+        <!-- БИБЛИОТЕКИ -->
         <div class="grid-2">
-            <a href="https://www.litres.ru" target="_blank" class="btn btn-primary">📚 ЛитРес</a>
-            <a href="https://cyberleninka.ru" target="_blank" class="btn">📖 КиберЛенинка</a>
-            <a href="https://elibrary.ru" target="_blank" class="btn">📚 eLibrary</a>
-            <a href="https://www.rsl.ru" target="_blank" class="btn">🏛️ РГБ</a>
+            <a href="https://www.litres.ru" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📚 ЛитРес</a>
+            <a href="https://cyberleninka.ru" target="_blank" rel="noopener noreferrer" class="btn">📖 КиберЛенинка</a>
+            <a href="https://elibrary.ru" target="_blank" rel="noopener noreferrer" class="btn">📚 eLibrary</a>
+            <a href="https://www.rsl.ru" target="_blank" rel="noopener noreferrer" class="btn">🏛️ РГБ</a>
         </div>
         
         <form action="https://www.google.com/search" method="get" target="_blank" style="display:flex; gap:8px;">
@@ -683,49 +676,49 @@
     <!-- 2. ИНФО-ЦЕНТР -->
     <div class="page" :class="{ 'active': tab === 2 }">
         <div class="card">
-            <a href="https://www.ventusky.com/?p=54.02;25.90;8" target="_blank" class="btn btn-primary" style="padding: 20px;">🌤️ ПОГОДА (VENTUSKY)</a>
+            <a href="https://www.ventusky.com/?p=54.02;25.90;8" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 20px;">🌤️ ПОГОДА (VENTUSKY)</a>
         </div>
         
         <div class="card"><h4 style="color:#ef4444;">🏛️ ОБРАЗОВАНИЕ (РБ)</h4>
             <div class="grid-2">
-                <a href="https://edu.gov.by/news/" target="_blank" class="btn">Минобр</a>
-                <a href="https://ripo.by" target="_blank" class="btn">РИПО</a>
-                <a href="https://adu.by" target="_blank" class="btn">Нац. институт</a>
-                <a href="https://www.bntu.by" target="_blank" class="btn">БНТУ</a>
+                <a href="https://edu.gov.by/news/" target="_blank" rel="noopener noreferrer" class="btn">Минобр</a>
+                <a href="https://ripo.by" target="_blank" rel="noopener noreferrer" class="btn">РИПО</a>
+                <a href="https://adu.by" target="_blank" rel="noopener noreferrer" class="btn">Нац. институт</a>
+                <a href="https://www.bntu.by" target="_blank" rel="noopener noreferrer" class="btn">БНТУ</a>
             </div>
         </div>
         
         <div class="card"><h4 style="color:#16a34a;">🚜 ПРОИЗВОДИТЕЛИ ТЕХНИКИ РБ</h4>
             <div class="grid-2">
-                <a href="https://belarus-tractor.com/ru/" target="_blank" class="btn">МТЗ</a>
-                <a href="https://www.gomselmash.by/ru/" target="_blank" class="btn">Гомсельмаш</a>
-                <a href="https://lidselmash.by/ru/" target="_blank" class="btn">Лидсельмаш</a>
-                <a href="https://www.bobruiskagromash.by/ru/" target="_blank" class="btn">Бобруйскагромаш</a>
-                <a href="https://amkodor.by" target="_blank" class="btn">Амкодор</a>
-                <a href="https://www.legmash.by" target="_blank" class="btn">Легмаш</a>
+                <a href="https://belarus-tractor.com/ru/" target="_blank" rel="noopener noreferrer" class="btn">МТЗ</a>
+                <a href="https://www.gomselmash.by/ru/" target="_blank" rel="noopener noreferrer" class="btn">Гомсельмаш</a>
+                <a href="https://lidselmash.by/ru/" target="_blank" rel="noopener noreferrer" class="btn">Лидсельмаш</a>
+                <a href="https://www.bobruiskagromash.by/ru/" target="_blank" rel="noopener noreferrer" class="btn">Бобруйскагромаш</a>
+                <a href="https://amkodor.by" target="_blank" rel="noopener noreferrer" class="btn">Амкодор</a>
+                <a href="https://www.legmash.by" target="_blank" rel="noopener noreferrer" class="btn">Легмаш</a>
             </div>
         </div>
         
         <div class="card"><h4 style="color:#16a34a;">🌾 АГРО-СЕКТОР</h4>
             <div class="grid-2">
-                <a href="https://www.sb.by/sections/selkhoz/" target="_blank" class="btn">Сельхоз.BY</a>
-                <a href="https://belmarket.by" target="_blank" class="btn">Белрынок</a>
-                <a href="https://glavpahar.ru" target="_blank" class="btn">ГлавПахарь</a>
-                <a href="https://agrobelarus.by" target="_blank" class="btn">АгроБеларусь</a>
+                <a href="https://www.sb.by/sections/selkhoz/" target="_blank" rel="noopener noreferrer" class="btn">Сельхоз.BY</a>
+                <a href="https://belmarket.by" target="_blank" rel="noopener noreferrer" class="btn">Белрынок</a>
+                <a href="https://glavpahar.ru" target="_blank" rel="noopener noreferrer" class="btn">ГлавПахарь</a>
+                <a href="https://agrobelarus.by" target="_blank" rel="noopener noreferrer" class="btn">АгроБеларусь</a>
             </div>
         </div>
         
         <div class="card"><h4 style="color:#2563eb;">🌍 ТЕХНОЛОГИИ МИРА</h4>
             <div class="grid-2">
-                <a href="https://www.futurefarming.com" target="_blank" class="btn">Future Farming</a>
-                <a href="https://www.zr.ru" target="_blank" class="btn">За Рулем</a>
-                <a href="https://www.agritechnica.com" target="_blank" class="btn">Agritechnica</a>
+                <a href="https://www.futurefarming.com" target="_blank" rel="noopener noreferrer" class="btn">Future Farming</a>
+                <a href="https://www.zr.ru" target="_blank" rel="noopener noreferrer" class="btn">За Рулем</a>
+                <a href="https://www.agritechnica.com" target="_blank" rel="noopener noreferrer" class="btn">Agritechnica</a>
             </div>
         </div>
         
         <div class="card"><h4 style="color:#64748b;">📡 МОНИТОРИНГ</h4>
             <div class="grid-2">
-                <a href="https://myfin.by/currency/oshmyany" target="_blank" class="btn">Курсы валют</a>
+                <a href="https://myfin.by/currency/oshmyany" target="_blank" rel="noopener noreferrer" class="btn">Курсы валют</a>
             </div>
         </div>
     </div>
@@ -733,28 +726,29 @@
     <!-- 3. ТЕХПОМОЩЬ -->
     <div class="page" :class="{ 'active': tab === 3 }">
         <h2 style="margin-bottom:16px;">🛠️ ТЕХПОМОЩЬ</h2>
-        <div class="card"><a href="https://www.online-calculator.com/full-screen-calculator/" target="_blank" class="btn btn-primary">📐 КАЛЬКУЛЯТОР</a></div>
+        <div class="card"><a href="https://www.online-calculator.com/full-screen-calculator/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📐 КАЛЬКУЛЯТОР</a></div>
         
         <div class="card"><h4>🏭 ЗАВОДЫ РБ (ПРОМЫШЛЕННОСТЬ)</h4>
             <div class="grid-3">
-                <a href="https://maz.by" target="_blank" class="btn">МАЗ</a>
-                <a href="https://belaz.by" target="_blank" class="btn">БЕЛАЗ</a>
-                <a href="https://www.belgidravlika.by" target="_blank" class="btn">Белгидравлика</a>
-                <a href="https://minprom.gov.by/predpriyatiya/" target="_blank" class="btn span-full">Все заводы (Реестр)</a>
+                <a href="https://maz.by" target="_blank" rel="noopener noreferrer" class="btn">МАЗ</a>
+                <a href="https://belaz.by" target="_blank" rel="noopener noreferrer" class="btn">БЕЛАЗ</a>
+                <a href="https://www.belgidravlika.by" target="_blank" rel="noopener noreferrer" class="btn">Белгидравлика</a>
+                <a href="https://minprom.gov.by/predpriyatiya/" target="_blank" rel="noopener noreferrer" class="btn span-full">Все заводы (Реестр)</a>
             </div>
         </div>
         
         <div class="card"><h4>💾 ИНЖЕНЕРНЫЕ БАЗЫ ДАННЫХ</h4>
             <div class="grid-2">
-                <a href="https://tebx.ru" target="_blank" class="btn">ТЕБХ</a>
-                <a href="https://podshypnik.info" target="_blank" class="btn">Подшипники</a>
-                <a href="https://znaytovar.ru" target="_blank" class="btn">ГОСТы / ТУ</a>
-                <a href="https://stroy-technics.ru" target="_blank" class="btn">Строй-Техника</a>
-                <a href="https://www.dwg.ru" target="_blank" class="btn">DWG (Чертежи)</a>
-                <a href="https://3dcontentcentral.com" target="_blank" class="btn">3D Content Central</a>
+                <a href="https://tebx.ru" target="_blank" rel="noopener noreferrer" class="btn">ТЕБХ</a>
+                <a href="https://podshypnik.info" target="_blank" rel="noopener noreferrer" class="btn">Подшипники</a>
+                <a href="https://znaytovar.ru" target="_blank" rel="noopener noreferrer" class="btn">ГОСТы / ТУ</a>
+                <a href="https://stroy-technics.ru" target="_blank" rel="noopener noreferrer" class="btn">Строй-Техника</a>
+                <a href="https://www.dwg.ru" target="_blank" rel="noopener noreferrer" class="btn">DWG (Чертежи)</a>
+                <a href="https://3dcontentcentral.com" target="_blank" rel="noopener noreferrer" class="btn">3D Content Central</a>
             </div>
         </div>
     </div>
+
     <!-- 4. ЗАЧЕТКА -->
     <div class="page" :class="{ 'active': tab === 4 }">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
@@ -835,28 +829,28 @@
         
         <div class="card"><h4>🌐 VPN СЕРВИСЫ</h4>
             <div class="grid-3">
-                <a href="https://protonvpn.com" target="_blank" class="btn">Proton VPN</a>
-                <a href="https://psiphon.ca" target="_blank" class="btn">Psiphon</a>
-                <a href="https://www.urban-vpn.com" target="_blank" class="btn">Urban VPN</a>
-                <a href="https://windscribe.com" target="_blank" class="btn">Windscribe</a>
-                <a href="https://1.1.1.1" target="_blank" class="btn">Cloudflare</a>
-                <a href="https://browsec.com" target="_blank" class="btn">Browsec</a>
+                <a href="https://protonvpn.com" target="_blank" rel="noopener noreferrer" class="btn">Proton VPN</a>
+                <a href="https://psiphon.ca" target="_blank" rel="noopener noreferrer" class="btn">Psiphon</a>
+                <a href="https://www.urban-vpn.com" target="_blank" rel="noopener noreferrer" class="btn">Urban VPN</a>
+                <a href="https://windscribe.com" target="_blank" rel="noopener noreferrer" class="btn">Windscribe</a>
+                <a href="https://1.1.1.1" target="_blank" rel="noopener noreferrer" class="btn">Cloudflare</a>
+                <a href="https://browsec.com" target="_blank" rel="noopener noreferrer" class="btn">Browsec</a>
             </div>
         </div>
         
         <div class="card"><h4>🤠 ПРОМПТ-СЕРВИСЫ</h4>
             <div class="grid-2">
-                <a href="https://promptcowboy.com" target="_blank" class="btn">PromptCowboy</a>
-                <a href="https://prompthero.com" target="_blank" class="btn">PromptHero</a>
-                <a href="https://autoprompt.cc" target="_blank" class="btn">AutoPrompt</a>
-                <a href="https://нейросеть.рф" target="_blank" class="btn">Нейросеть.рф</a>
+                <a href="https://promptcowboy.com" target="_blank" rel="noopener noreferrer" class="btn">PromptCowboy</a>
+                <a href="https://prompthero.com" target="_blank" rel="noopener noreferrer" class="btn">PromptHero</a>
+                <a href="https://autoprompt.cc" target="_blank" rel="noopener noreferrer" class="btn">AutoPrompt</a>
+                <a href="https://xn--80aaafbnn2b7a.xn--p1ai/" target="_blank" rel="noopener noreferrer" class="btn">Нейросеть.рф</a>
             </div>
         </div>
         
         <div class="card"><h4>🛡️ АНТИПЛАГИАТ</h4>
             <div class="grid-2">
-                <a href="https://text.ru" target="_blank" class="btn">Text.ru</a>
-                <a href="https://gptzero.me" target="_blank" class="btn">GPTZero</a>
+                <a href="https://text.ru" target="_blank" rel="noopener noreferrer" class="btn">Text.ru</a>
+                <a href="https://gptzero.me" target="_blank" rel="noopener noreferrer" class="btn">GPTZero</a>
             </div>
         </div>
         
@@ -873,7 +867,7 @@
         </div>
     </div>
 
-    <!-- 6. ИИ-СЕРВИСЫ (С РАЗДЕЛЕНИЕМ ПО VPN И КАТЕГОРИЯМ) -->
+    <!-- 6. ИИ-СЕРВИСЫ (ТОЛЬКО ПРОВЕРЕННЫЕ РАБОЧИЕ ССЫЛКИ) -->
     <div class="page" :class="{ 'active': tab === 6 }">
         <!-- СЕРВИСЫ, ТРЕБУЮЩИЕ VPN -->
         <div class="vpn-alert">⚠️ Эти сервисы требуют VPN для доступа из Беларуси</div>
@@ -886,34 +880,40 @@
             
             <div class="category-title">📝 ТЕКСТОВЫЕ ИИ (чат, код, перевод)</div>
             <div class="grid-2">
-                <a href="https://chatgpt.com" target="_blank" class="btn" style="border-left:4px solid #10a37f">ChatGPT</a>
-                <a href="https://gemini.google.com" target="_blank" class="btn" style="border-left:4px solid #4285f4">Google Gemini</a>
-                <a href="https://claude.ai" target="_blank" class="btn" style="border-left:4px solid #d97757">Claude AI</a>
-                <a href="https://chat.deepseek.com" target="_blank" class="btn" style="border-left:4px solid #4ade80">DeepSeek</a>
-                <a href="https://perplexity.ai" target="_blank" class="btn" style="border-left:4px solid #5436da">Perplexity AI</a>
-                <a href="https://blackbox.ai" target="_blank" class="btn" style="border-left:4px solid #00a67e">Blackbox AI (код)</a>
-                <a href="https://notebooklm.google.com" target="_blank" class="btn" style="border-left:4px solid #1a73e8">NotebookLM</a>
+                <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" class="btn">ChatGPT</a>
+                <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="btn">Google Gemini</a>
+                <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="btn">Claude AI</a>
+                <a href="https://chat.deepseek.com" target="_blank" rel="noopener noreferrer" class="btn">DeepSeek</a>
+                <a href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer" class="btn">Perplexity AI</a>
+                <a href="https://www.blackbox.ai" target="_blank" rel="noopener noreferrer" class="btn">Blackbox AI</a>
+                <a href="https://notebooklm.google.com" target="_blank" rel="noopener noreferrer" class="btn">NotebookLM</a>
+                <a href="https://www.character.ai" target="_blank" rel="noopener noreferrer" class="btn">Character.AI</a>
+                <a href="https://pi.ai/talk" target="_blank" rel="noopener noreferrer" class="btn">Pi AI</a>
             </div>
             
             <div class="category-title">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</div>
             <div class="grid-2">
-                <a href="https://www.midjourney.com" target="_blank" class="btn" style="border-left:4px solid #000000">Midjourney</a>
-                <a href="https://www.leonardo.ai" target="_blank" class="btn" style="border-left:4px solid #4a90e2">Leonardo AI</a>
-                <a href="https://ideogram.ai" target="_blank" class="btn" style="border-left:4px solid #ff6b6b">Ideogram</a>
+                <a href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer" class="btn">Midjourney</a>
+                <a href="https://leonardo.ai" target="_blank" rel="noopener noreferrer" class="btn">Leonardo AI</a>
+                <a href="https://ideogram.ai" target="_blank" rel="noopener noreferrer" class="btn">Ideogram</a>
+                <a href="https://playground.com" target="_blank" rel="noopener noreferrer" class="btn">Playground AI</a>
+                <a href="https://www.craiyon.com" target="_blank" rel="noopener noreferrer" class="btn">Craiyon</a>
             </div>
             
             <div class="category-title">🎬 ВИДЕО / АНИМАЦИЯ</div>
             <div class="grid-2">
-                <a href="https://www.runwayml.com" target="_blank" class="btn" style="border-left:4px solid #ec489a">Runway ML</a>
-                <a href="https://www.heygen.com" target="_blank" class="btn" style="border-left:4px solid #6366f1">HeyGen (аватары)</a>
-                <a href="https://www.kaiber.ai" target="_blank" class="btn" style="border-left:4px solid #8b5cf6">Kaiber</a>
+                <a href="https://runwayml.com" target="_blank" rel="noopener noreferrer" class="btn">Runway ML</a>
+                <a href="https://www.heygen.com" target="_blank" rel="noopener noreferrer" class="btn">HeyGen</a>
+                <a href="https://kaiber.ai" target="_blank" rel="noopener noreferrer" class="btn">Kaiber</a>
+                <a href="https://pika.art" target="_blank" rel="noopener noreferrer" class="btn">Pika Labs</a>
             </div>
             
             <div class="category-title">📊 ПРЕЗЕНТАЦИИ / СХЕМЫ</div>
             <div class="grid-2">
-                <a href="https://gamma.app" target="_blank" class="btn" style="border-left:4px solid #9333ea">Gamma (презентации)</a>
-                <a href="https://napkin.ai" target="_blank" class="btn" style="border-left:4px solid #f97316">Napkin AI (схемы)</a>
-                <a href="https://tome.app" target="_blank" class="btn" style="border-left:4px solid #06b6d4">Tome (сторителлинг)</a>
+                <a href="https://gamma.app" target="_blank" rel="noopener noreferrer" class="btn">Gamma</a>
+                <a href="https://napkin.ai" target="_blank" rel="noopener noreferrer" class="btn">Napkin AI</a>
+                <a href="https://tome.app" target="_blank" rel="noopener noreferrer" class="btn">Tome</a>
+                <a href="https://www.beautiful.ai" target="_blank" rel="noopener noreferrer" class="btn">Beautiful.ai</a>
             </div>
         </div>
         
@@ -928,33 +928,34 @@
             
             <div class="category-title">📝 ТЕКСТОВЫЕ ИИ (чат, код, перевод)</div>
             <div class="grid-2">
-                <a href="https://giga-chat.ru" target="_blank" class="btn" style="border-left:4px solid #00a3ff">GigaChat (Сбер)</a>
-                <a href="https://yandex.ru/cloud/ru/services/yandexgpt" target="_blank" class="btn" style="border-left:4px solid #fc3f1d">YandexGPT</a>
-                <a href="https://www.saluteai.ru" target="_blank" class="btn" style="border-left:4px solid #ff4d4d">Salute AI (Салют)</a>
-                <a href="https://ruper.ai" target="_blank" class="btn" style="border-left:4px solid #667eea">Ruper AI</a>
-                <a href="https://chat-gpt.ru" target="_blank" class="btn" style="border-left:4px solid #10a37f">ChatGPT на русском</a>
-                <a href="https://gpt-chatting.ru" target="_blank" class="btn" style="border-left:4px solid #10a37f">GPT Chatting</a>
-                <a href="https://neuroroom.ru" target="_blank" class="btn" style="border-left:4px solid #9c27b0">NeuroRoom</a>
-                <a href="https://www.aimyth.ru" target="_blank" class="btn" style="border-left:4px solid #ec489a">AIMyth</a>
-                <a href="https://wolframalpha.com" target="_blank" class="btn" style="border-left:4px solid #e67e22">WolframAlpha (расчеты)</a>
+                <a href="https://giga-chat.ru" target="_blank" rel="noopener noreferrer" class="btn">GigaChat (Сбер)</a>
+                <a href="https://ya.ru/ai" target="_blank" rel="noopener noreferrer" class="btn">YandexGPT (Алиса)</a>
+                <a href="https://www.saluteai.ru" target="_blank" rel="noopener noreferrer" class="btn">Salute AI (Салют)</a>
+                <a href="https://ruper.ai" target="_blank" rel="noopener noreferrer" class="btn">Ruper AI</a>
+                <a href="https://chat-gpt.ru" target="_blank" rel="noopener noreferrer" class="btn">ChatGPT на русском</a>
+                <a href="https://neuroroom.ru" target="_blank" rel="noopener noreferrer" class="btn">NeuroRoom</a>
+                <a href="https://www.aimyth.ru" target="_blank" rel="noopener noreferrer" class="btn">AIMyth</a>
+                <a href="https://www.wolframalpha.com" target="_blank" rel="noopener noreferrer" class="btn">WolframAlpha</a>
             </div>
             
             <div class="category-title">🎨 ГЕНЕРАЦИЯ ИЗОБРАЖЕНИЙ</div>
             <div class="grid-2">
-                <a href="https://fusionbrain.ai" target="_blank" class="btn" style="border-left:4px solid #ff6b35">Kandinsky (fusionbrain.ai)</a>
-                <a href="https://shedevrum.ru" target="_blank" class="btn" style="border-left:4px solid #f59e0b">Шедеврум (Яндекс)</a>
-                <a href="https://candydream.ai" target="_blank" class="btn" style="border-left:4px solid #ff69b4">CandyDream</a>
-                <a href="https://www.artgenerator.ru" target="_blank" class="btn" style="border-left:4px solid #8b5cf6">ArtGenerator</a>
-                <a href="https://kazimir.ai" target="_blank" class="btn" style="border-left:4px solid #3b82f6">Kazimir AI</a>
-                <a href="https://нейросеть.рф" target="_blank" class="btn" style="border-left:4px solid #ff6b35">Нейросеть.рф</a>
+                <a href="https://fusionbrain.ai" target="_blank" rel="noopener noreferrer" class="btn">Kandinsky 3.0</a>
+                <a href="https://shedevrum.ru" target="_blank" rel="noopener noreferrer" class="btn">Шедеврум</a>
+                <a href="https://candydream.ai" target="_blank" rel="noopener noreferrer" class="btn">CandyDream</a>
+                <a href="https://www.artgenerator.ru" target="_blank" rel="noopener noreferrer" class="btn">ArtGenerator</a>
+                <a href="https://kazimir.ai" target="_blank" rel="noopener noreferrer" class="btn">Kazimir AI</a>
+                <a href="https://xn--80aaafbnn2b7a.xn--p1ai/" target="_blank" rel="noopener noreferrer" class="btn">Нейросеть.рф</a>
             </div>
             
             <div class="category-title">🎬 МЕДИА-ИНСТРУМЕНТЫ</div>
             <div class="grid-2">
-                <a href="https://www.remove.bg" target="_blank" class="btn">🖼️ Удалить фон</a>
-                <a href="https://replicate.com/guosongchi/waifu2x" target="_blank" class="btn">✨ Улучшить фото</a>
-                <a href="https://podcast.adobe.com/enhance" target="_blank" class="btn">🎤 Очистить звук</a>
-                <a href="https://vocalremover.org" target="_blank" class="btn">🎵 Голос/Музыка</a>
+                <a href="https://www.remove.bg" target="_blank" rel="noopener noreferrer" class="btn">Удалить фон</a>
+                <a href="https://replicate.com/guosongchi/waifu2x" target="_blank" rel="noopener noreferrer" class="btn">Улучшить фото</a>
+                <a href="https://podcast.adobe.com/enhance" target="_blank" rel="noopener noreferrer" class="btn">Очистить звук</a>
+                <a href="https://vocalremover.org" target="_blank" rel="noopener noreferrer" class="btn">Разделить голос/музыку</a>
+                <a href="https://www.upscale.media" target="_blank" rel="noopener noreferrer" class="btn">Upscale Media</a>
+                <a href="https://clipdrop.co" target="_blank" rel="noopener noreferrer" class="btn">Clipdrop</a>
             </div>
         </div>
         
@@ -976,12 +977,12 @@
     <div class="page" :class="{ 'active': tab === 7 }" x-show="canAccessBreak">
         <h2 style="margin-bottom:16px;">🔔 ПЕРЕМЕНКА</h2>
         <div class="grid-3">
-            <a href="https://radiopotok.ru/belarus" target="_blank" class="btn">🎵 БелРадио</a>
-            <a href="https://www.tiktok.com" target="_blank" class="btn">🎵 Tik-Tok</a>
-            <a href="https://www.youtube.com" target="_blank" class="btn">🎬 YouTube</a>
-            <a href="https://pikabu.ru" target="_blank" class="btn">🦎 Пикабу</a>
-            <a href="https://www.yaplakal.com" target="_blank" class="btn">🤣 ЯПлакалъ</a>
-            <a href="https://onlinetestpad.com" target="_blank" class="btn">📝 Онлайн Тест Пад</a>
+            <a href="https://radiopotok.ru/belarus" target="_blank" rel="noopener noreferrer" class="btn">🎵 БелРадио</a>
+            <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" class="btn">🎵 Tik-Tok</a>
+            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="btn">🎬 YouTube</a>
+            <a href="https://pikabu.ru" target="_blank" rel="noopener noreferrer" class="btn">🦎 Пикабу</a>
+            <a href="https://www.yaplakal.com" target="_blank" rel="noopener noreferrer" class="btn">🤣 ЯПлакалъ</a>
+            <a href="https://onlinetestpad.com" target="_blank" rel="noopener noreferrer" class="btn">📝 Онлайн Тест Пад</a>
         </div>
         
         <div class="card">
@@ -1042,7 +1043,6 @@
             </div>
         </template>
         
-        <!-- QR-код для всех -->
         <div class="card qr-code">
             <h4>📲 QR-КОД АРТЕЛИ</h4>
             <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR">
@@ -1076,7 +1076,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
         // Основное
         tab: 1,
-        rank: 'Студент', // ПО УМОЛЧАНИЮ СТУДЕНТ
+        rank: 'Студент',
         pass: '',
         currentTheme: localStorage.getItem('theme') || 'light',
         soundEnabled: true,
@@ -1447,7 +1447,6 @@ document.addEventListener('alpine:init', () => {
         resetGame() { this.secretNumber = Math.floor(Math.random() * 10) + 1; this.gameMessage = '🎮 Новая игра! Угадай число от 1 до 10'; this.guess = ''; },
         
         async init() {
-            // Загружаем ранг из localStorage, если есть, иначе Студент
             const savedRank = localStorage.getItem('rank');
             if (savedRank && (savedRank === 'Мастодонт' || savedRank === 'Админ')) {
                 this.rank = savedRank;
