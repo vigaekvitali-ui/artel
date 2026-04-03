@@ -6,6 +6,7 @@
     <title>АРТЕЛЬ 2026 — Мультипортал</title>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
+        /* Все стили ОСТАЮТСЯ ТАКИМИ ЖЕ, как в предыдущей версии */
         [x-cloak] { display: none !important; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         :root {
@@ -288,7 +289,7 @@
         <div class="footer-note">📩 Вопросы по работе сайта можно оставить на странице Админка</div>
     </div>
 
-    <!-- 9. АДМИНИСТРИРОВАНИЕ (включая обратную связь) -->
+    <!-- 9. АДМИНИСТРИРОВАНИЕ (с новыми кодами 1980 и 12120) -->
     <div class="page" :class="{ 'active': tab === 9 }">
         <template x-if="rank === 'Студент'">
             <div class="card" style="text-align:center;">
@@ -296,7 +297,7 @@
                 <p style="margin-bottom:10px;">Введите код для получения расширенного доступа:</p>
                 <input type="password" x-model="pass" class="input" style="margin:10px 0;" placeholder="Код доступа">
                 <button @click="login" class="btn btn-primary">ВОЙТИ</button>
-                <div style="font-size:0.65rem; margin-top:12px; color:var(--text-secondary);">Коды: 2026 (Мастодонт), 101280 (Админ)</div>
+                <div style="font-size:0.65rem; margin-top:12px; color:var(--text-secondary);">Введите код доступа</div>
             </div>
         </template>
         <template x-if="rank !== 'Студент'">
@@ -474,11 +475,30 @@ document.addEventListener('alpine:init', () => {
         // Предупреждение
         closeWarning() { this.warningClosed = true; localStorage.setItem('warningClosed', 'true'); },
         
-        // Авторизация
-        login() { const p = this.pass.trim(); if (p === '2026') { this.rank = 'Мастодонт'; localStorage.setItem('rank', 'Мастодонт'); this.pass = ''; this.tab = 1; this.showNotification('Добро пожаловать, Мастодонт!'); } else if (p === '101280') { this.rank = 'Админ'; localStorage.setItem('rank', 'Админ'); this.pass = ''; this.tab = 9; this.showNotification('Добро пожаловать, Администратор!'); } else { alert('Неверный код'); this.pass = ''; } },
+        // Авторизация с НОВЫМИ КОДАМИ: Мастодонт 1980, Админ 12120
+        login() { 
+            const p = this.pass.trim(); 
+            if (p === '1980') { 
+                this.rank = 'Мастодонт'; 
+                localStorage.setItem('rank', 'Мастодонт'); 
+                this.pass = ''; 
+                this.tab = 1; 
+                this.showNotification('Добро пожаловать, Мастодонт!'); 
+            } else if (p === '12120') { 
+                this.rank = 'Админ'; 
+                localStorage.setItem('rank', 'Админ'); 
+                this.pass = ''; 
+                this.tab = 9; 
+                this.showNotification('Добро пожаловать, Администратор!'); 
+            } else { 
+                alert('Неверный код'); 
+                this.pass = ''; 
+            } 
+        },
+        
         logout() { if (confirm('Выйти?')) { this.rank = 'Студент'; localStorage.setItem('rank', 'Студент'); this.tab = 1; this.showNotification('Вы вышли из системы'); } },
         
-        // Синхронизация (упрощённая, без Google Sheets для обратной связи)
+        // Синхронизация
         async syncAll() { if (this.syncing) return; this.syncing = true; this.setSyncStatus('🔄 Синхронизация...', 'syncing'); try { await Promise.all([this.loadGroups(), this.loadMessages()]); this.setSyncStatus('✓ Синхронизация завершена', 'success'); } catch (error) { this.setSyncStatus('❌ Ошибка синхронизации', 'error'); } setTimeout(() => { this.syncStatusText = ''; }, 2000); this.syncing = false; },
         async loadGroups() { try { const saved = localStorage.getItem('artel_groups'); this.groups_list = saved ? JSON.parse(saved) : []; const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getGroups&sheetId=${SHEETS_CONFIG.groupsSheetId}&gid=${SHEETS_CONFIG.groupsGid}`); const data = await response.json(); if (data.groups && data.groups.length > 0) { this.groups_list = data.groups.map(g => ({ name: g.name, createdBy: g.createdBy })); localStorage.setItem('artel_groups', JSON.stringify(this.groups_list)); } if (this.groups_list.length > 0 && !this.activeGroup) this.activeGroup = this.groups_list[0].name; } catch (error) { console.error('Ошибка загрузки групп:', error); } },
         async loadMessages() { if (!this.activeGroup) return; try { const saved = localStorage.getItem(`group_messages_${this.activeGroup}`); this.groupMessages = saved ? JSON.parse(saved) : []; const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getMessages&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&group=${encodeURIComponent(this.activeGroup)}`); const data = await response.json(); if (data.messages && data.messages.length > 0) { this.groupMessages = data.messages.map(m => ({ ...m, reactions: m.reactions || {}, pinned: m.pinned || false })); localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages)); } } catch (error) { console.error('Ошибка загрузки сообщений:', error); } },
