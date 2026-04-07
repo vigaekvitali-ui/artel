@@ -6,7 +6,7 @@
     <title>АРТЕЛЬ 2026 — Мультипортал</title>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
-        /* Все стили ОСТАЮТСЯ ТАКИМИ ЖЕ, как в предыдущей версии */
+        /* Все стили остаются без изменений, как в предыдущей версии */
         [x-cloak] { display: none !important; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         :root {
@@ -289,7 +289,7 @@
         <div class="footer-note">📩 Вопросы по работе сайта можно оставить на странице Админка</div>
     </div>
 
-    <!-- 9. АДМИНИСТРИРОВАНИЕ (с новыми кодами 1980 и 12120) -->
+    <!-- 9. АДМИНИСТРИРОВАНИЕ (С QR-КОДОМ) -->
     <div class="page" :class="{ 'active': tab === 9 }">
         <template x-if="rank === 'Студент'">
             <div class="card" style="text-align:center;">
@@ -314,14 +314,15 @@
                     <div>📁 Групп: <strong x-text="groups_list.length"></strong></div>
                     <div>💬 Сообщений: <strong x-text="groupMessages.length"></strong></div>
                 </div>
-                <div class="card">
+                <!-- QR-код добавлен снова -->
+                <div class="card qr-code">
                     <h4>📲 QR-КОД АРТЕЛИ</h4>
-                    <div class="qr-code"><img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR"></div>
+                    <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR">
                 </div>
             </div>
         </template>
         
-        <!-- Обратная связь (пишет любой авторизованный, видит только админ) -->
+        <!-- Обратная связь -->
         <div class="card">
             <div class="section-title">💬 ОБРАТНАЯ СВЯЗЬ</div>
             <div x-show="rank !== 'Студент'">
@@ -449,14 +450,27 @@ document.addEventListener('alpine:init', () => {
         canEditMessage(msg) { if (this.rank === 'Админ') return true; if (this.rank === 'Мастодонт') return msg.author === this.rank; if (this.rank === 'Студент') return msg.author === this.rank; return false; },
         
         get monthYear() { return this.currentDate.toLocaleString('ru', { month: 'long', year: 'numeric' }).toUpperCase(); },
+        
+        // ИСПРАВЛЕННЫЙ КАЛЕНДАРЬ
         get calendarDays() {
             const year = this.currentDate.getFullYear();
             const month = this.currentDate.getMonth();
+            const firstDayOfMonth = new Date(year, month, 1);
+            // Определяем день недели первого дня месяца (понедельник = 1, воскресенье = 7)
+            let startDay = firstDayOfMonth.getDay();
+            if (startDay === 0) startDay = 7; // воскресенье -> 7
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const days = [];
             const today = new Date();
+            
+            // Пустые ячейки для дней предыдущего месяца
+            for (let i = 1; i < startDay; i++) {
+                days.push({ day: '', isToday: false, isEmpty: true });
+            }
+            // Дни текущего месяца
             for (let i = 1; i <= daysInMonth; i++) {
-                days.push({ day: i, isToday: i === today.getDate() && month === today.getMonth() && year === today.getFullYear() });
+                const isToday = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear());
+                days.push({ day: i, isToday: isToday, isEmpty: false });
             }
             return days;
         },
@@ -475,7 +489,7 @@ document.addEventListener('alpine:init', () => {
         // Предупреждение
         closeWarning() { this.warningClosed = true; localStorage.setItem('warningClosed', 'true'); },
         
-        // Авторизация с НОВЫМИ КОДАМИ: Мастодонт 1980, Админ 12120
+        // Авторизация с новыми кодами
         login() { 
             const p = this.pass.trim(); 
             if (p === '1980') { 
@@ -603,7 +617,6 @@ document.addEventListener('alpine:init', () => {
             // Восстановление сохранённой вкладки
             const savedTab = localStorage.getItem('activeTab');
             if (savedTab && [1,2,3,4,5,6,7,8,9].includes(parseInt(savedTab))) this.tab = parseInt(savedTab);
-            // Отслеживание изменения вкладки для сохранения
             this.$watch('tab', (value) => { localStorage.setItem('activeTab', value); });
             
             // Восстановление ранга
