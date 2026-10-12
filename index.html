@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>АРТЕЛЬ 2026 — Мультипортал</title>
+    <title>Образовательный ресурс преподавателя. Шумский Виталий Владимирович</title>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
-        /* Все стили остаются без изменений, как в предыдущей версии */
         [x-cloak] { display: none !important; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         :root {
@@ -37,7 +36,7 @@
         body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; font-size: 14px; line-height: 1.5; padding-bottom: 70px; min-height: 100vh; transition: all 0.3s ease; }
         .app-container { width: 100%; min-height: 100vh; background: var(--paper); box-shadow: 0 0 20px rgba(0,0,0,0.1); }
         header { background: var(--paper); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
-        .logo { font-weight: 900; font-size: 1.2rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo { font-weight: 900; font-size: 1rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1.2; }
         .rank-badge { background: var(--bg); padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; color: var(--primary); }
         .theme-selector { display: flex; gap: 6px; background: var(--bg); padding: 4px; border-radius: 20px; }
         .theme-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: all 0.2s; }
@@ -124,7 +123,7 @@
 
 <div class="app-container">
     <header>
-        <div class="logo">🏭 АРТЕЛЬ 2026</div>
+        <div class="logo">🎓 Образовательный ресурс преподавателя<br><span style="font-size:0.75rem;">Шумский Виталий Владимирович</span></div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <div class="theme-selector">
                 <div class="theme-btn theme-light" :class="{ 'active': currentTheme === 'light' }" @click="setTheme('light')" title="Светлая тема"></div>
@@ -157,13 +156,32 @@
             </div>
         </div>
         <div class="card"><div style="font-weight:bold; margin-bottom:8px;">📖 Факт дня / Закон Мерфи</div><div x-text="fact" @click="refreshFact" style="cursor:pointer; padding:10px; background:var(--bg); border-radius:10px;"></div></div>
-        <div class="card"><h3 style="margin-bottom:12px;">📁 ОСНОВНЫЕ РЕСУРСЫ</h3>
+        
+        <!-- УЧЕБНО-МЕТОДИЧЕСКИЙ КОМПЛЕКС -->
+        <div class="card">
+            <h3 style="margin-bottom:12px;">📚 УЧЕБНО-МЕТОДИЧЕСКИЙ КОМПЛЕКС</h3>
             <div class="grid-2">
-                <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" rel="noopener noreferrer" class="btn drive-folder drive-auto"><span>🚗</span><div style="flex:1; text-align: left;"><div style="font-weight: bold;">АВТОМОБИЛИ</div><div style="font-size: 0.65rem;">Техническая документация</div></div></a>
-                <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" rel="noopener noreferrer" class="btn drive-folder drive-tractor"><span>🚜</span><div style="flex:1; text-align: left;"><div style="font-weight: bold;">ТРАКТОРЫ</div><div style="font-size: 0.65rem;">Схемы и руководства</div></div></a>
-                <a href="https://drive.google.com/drive/folders/1KlkqrXha0zBNZWXfDS6ISiq4zs44u3hL" target="_blank" rel="noopener noreferrer" class="btn drive-folder drive-machinery"><span>🌾</span><div style="flex:1; text-align: left;"><div style="font-weight: bold;">СЕЛЬХОЗМАШИНЫ</div><div style="font-size: 0.65rem;">Каталоги и инструкции</div></div></a>
+                <a href="https://drive.google.com/drive/folders/1csMxKZETcXxEnTxfG7UEmB947JXPP8P2" target="_blank" rel="noopener noreferrer" class="btn drive-folder drive-auto">
+                    <span>🚗</span>
+                    <div style="flex:1; text-align: left;">
+                        <div style="font-weight: bold;">Устройство и эксплуатация автомобилей категории С</div>
+                    </div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1trRijHmd6VdVPoinjH0XFu60U5iCAvyw" target="_blank" rel="noopener noreferrer" class="btn drive-folder drive-tractor">
+                    <span>🚜</span>
+                    <div style="flex:1; text-align: left;">
+                        <div style="font-weight: bold;">Устройство колёсных тракторов, самоходных машин</div>
+                    </div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1KlkqrXha0zBNZWXfDS6ISiq4zs44u3hL" target="_blank" rel="noopener noreferrer" class="btn drive-folder drive-machinery">
+                    <span>🌾</span>
+                    <div style="flex:1; text-align: left;">
+                        <div style="font-weight: bold;">Устройство самоходных сельскохозяйственных машин. Агрегатируемая сельскохозяйственная техника</div>
+                    </div>
+                </a>
             </div>
         </div>
+        
         <div class="grid-2">
             <a href="https://www.litres.ru" target="_blank" rel="noopener noreferrer" class="btn btn-primary">📚 ЛитРес</a>
             <a href="https://cyberleninka.ru" target="_blank" rel="noopener noreferrer" class="btn">📖 КиберЛенинка</a>
@@ -245,7 +263,6 @@
         <h2 style="margin-bottom:16px;">🔔 ПЕРЕМЕНКА</h2>
         <div class="grid-3"><a href="https://radiopotok.ru/belarus" target="_blank" rel="noopener noreferrer" class="btn">🎵 БелРадио</a><a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" class="btn">🎵 Tik-Tok</a><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="btn">🎬 YouTube</a><a href="https://pikabu.ru" target="_blank" rel="noopener noreferrer" class="btn">🦎 Пикабу</a><a href="https://www.yaplakal.com" target="_blank" rel="noopener noreferrer" class="btn">🤣 ЯПлакалъ</a></div>
         
-        <!-- Калькулятор среднего балла (10-балльная система) -->
         <div class="card">
             <div class="section-title">📊 КАЛЬКУЛЯТОР СРЕДНЕГО БАЛЛА (10-балльная система)</div>
             <div class="grade-row" x-repeat="grade in grades">
@@ -289,7 +306,7 @@
         <div class="footer-note">📩 Вопросы по работе сайта можно оставить на странице Админка</div>
     </div>
 
-    <!-- 9. АДМИНИСТРИРОВАНИЕ (С QR-КОДОМ) -->
+    <!-- 9. АДМИНИСТРИРОВАНИЕ -->
     <div class="page" :class="{ 'active': tab === 9 }">
         <template x-if="rank === 'Студент'">
             <div class="card" style="text-align:center;">
@@ -314,15 +331,13 @@
                     <div>📁 Групп: <strong x-text="groups_list.length"></strong></div>
                     <div>💬 Сообщений: <strong x-text="groupMessages.length"></strong></div>
                 </div>
-                <!-- QR-код добавлен снова -->
                 <div class="card qr-code">
-                    <h4>📲 QR-КОД АРТЕЛИ</h4>
+                    <h4>📲 QR-КОД</h4>
                     <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href)" alt="QR">
                 </div>
             </div>
         </template>
         
-        <!-- Обратная связь -->
         <div class="card">
             <div class="section-title">💬 ОБРАТНАЯ СВЯЗЬ</div>
             <div x-show="rank !== 'Студент'">
@@ -372,7 +387,6 @@ const SHEETS_CONFIG = {
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('artel', () => ({
-        // Основное состояние
         tab: 1,
         rank: 'Студент',
         pass: '',
@@ -380,12 +394,10 @@ document.addEventListener('alpine:init', () => {
         soundEnabled: true,
         warningClosed: localStorage.getItem('warningClosed') === 'true',
         
-        // Календарь и факты
         currentDate: new Date(),
         facts: ["📚 Закон Мерфи: Если что-то может пойти не так, оно пойдет не так.", "🔧 Бритва Оккама: Не нужно множить сущее без необходимости.", "🚜 Если техника работает — не трогай её!", "💡 Простота — залог надежности.", "🎯 Закон Парето: 20% усилий дают 80% результата.", "⚡ Закон Паркинсона: Работа заполняет всё отведенное на неё время."],
         fact: "",
         
-        // Группы и сообщения
         groups_list: [],
         activeGroup: '',
         groupMessages: [],
@@ -393,56 +405,36 @@ document.addEventListener('alpine:init', () => {
         newGroupName: '',
         showCreateModal: false,
         
-        // Синхронизация
         syncing: false,
         syncStatusText: '',
         syncStatusClass: '',
         notification: { show: false, text: '' },
         
-        // Локальный чат
         chatMsg: '',
         chat_history: [],
         
-        // Игра
         guess: '',
         gameMessage: 'Угадай число от 1 до 10',
         secretNumber: Math.floor(Math.random() * 10) + 1,
         
-        // Счётчик посещений
         visitorCount: 1,
         
-        // Калькулятор оценок (10-балльная система)
         grades: [
-            { value: 1, count: 0 },
-            { value: 2, count: 0 },
-            { value: 3, count: 0 },
-            { value: 4, count: 0 },
-            { value: 5, count: 0 },
-            { value: 6, count: 0 },
-            { value: 7, count: 0 },
-            { value: 8, count: 0 },
-            { value: 9, count: 0 },
+            { value: 1, count: 0 }, { value: 2, count: 0 }, { value: 3, count: 0 },
+            { value: 4, count: 0 }, { value: 5, count: 0 }, { value: 6, count: 0 },
+            { value: 7, count: 0 }, { value: 8, count: 0 }, { value: 9, count: 0 },
             { value: 10, count: 0 }
         ],
         desiredGrade: 5.0,
         averageGrade: 0,
         neededPoints: 0,
         
-        // Финансовые калькуляторы
-        depositAmount: 1000,
-        depositRate: 10,
-        depositYears: 1,
-        depositResult: '',
-        loanAmount: 10000,
-        loanRate: 15,
-        loanYears: 5,
-        loanResult: '',
+        depositAmount: 1000, depositRate: 10, depositYears: 1, depositResult: '',
+        loanAmount: 10000, loanRate: 15, loanYears: 5, loanResult: '',
         
-        // Обратная связь
         feedbackText: '',
         feedbackList: [],
         
-        // Геттеры
         get canCreateGroup() { return this.rank === 'Мастодонт' || this.rank === 'Админ'; },
         get canAccessBreak() { return this.rank === 'Мастодонт' || this.rank === 'Админ'; },
         get canPinMessage() { return this.rank === 'Админ'; },
@@ -451,23 +443,18 @@ document.addEventListener('alpine:init', () => {
         
         get monthYear() { return this.currentDate.toLocaleString('ru', { month: 'long', year: 'numeric' }).toUpperCase(); },
         
-        // ИСПРАВЛЕННЫЙ КАЛЕНДАРЬ
         get calendarDays() {
             const year = this.currentDate.getFullYear();
             const month = this.currentDate.getMonth();
             const firstDayOfMonth = new Date(year, month, 1);
-            // Определяем день недели первого дня месяца (понедельник = 1, воскресенье = 7)
             let startDay = firstDayOfMonth.getDay();
-            if (startDay === 0) startDay = 7; // воскресенье -> 7
+            if (startDay === 0) startDay = 7;
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const days = [];
             const today = new Date();
-            
-            // Пустые ячейки для дней предыдущего месяца
             for (let i = 1; i < startDay; i++) {
                 days.push({ day: '', isToday: false, isEmpty: true });
             }
-            // Дни текущего месяца
             for (let i = 1; i <= daysInMonth; i++) {
                 const isToday = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear());
                 days.push({ day: i, isToday: isToday, isEmpty: false });
@@ -475,44 +462,21 @@ document.addEventListener('alpine:init', () => {
             return days;
         },
         
-        // Методы тем
         setTheme(theme) { this.currentTheme = theme; localStorage.setItem('theme', theme); document.body.classList.remove('dark', 'colorful'); if (theme === 'dark') document.body.classList.add('dark'); if (theme === 'colorful') document.body.classList.add('colorful'); },
-        
-        // Уведомления
         showNotification(text) { this.notification = { show: true, text: text }; setTimeout(() => { this.notification.show = false; }, 3000); },
-        
-        // Календарь
         prevMonth() { this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1); },
         nextMonth() { this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1); },
         refreshFact() { this.fact = this.facts[Math.floor(Math.random() * this.facts.length)]; },
-        
-        // Предупреждение
         closeWarning() { this.warningClosed = true; localStorage.setItem('warningClosed', 'true'); },
         
-        // Авторизация с новыми кодами
         login() { 
             const p = this.pass.trim(); 
-            if (p === '1980') { 
-                this.rank = 'Мастодонт'; 
-                localStorage.setItem('rank', 'Мастодонт'); 
-                this.pass = ''; 
-                this.tab = 1; 
-                this.showNotification('Добро пожаловать, Мастодонт!'); 
-            } else if (p === '12120') { 
-                this.rank = 'Админ'; 
-                localStorage.setItem('rank', 'Админ'); 
-                this.pass = ''; 
-                this.tab = 9; 
-                this.showNotification('Добро пожаловать, Администратор!'); 
-            } else { 
-                alert('Неверный код'); 
-                this.pass = ''; 
-            } 
+            if (p === '1980') { this.rank = 'Мастодонт'; localStorage.setItem('rank', 'Мастодонт'); this.pass = ''; this.tab = 1; this.showNotification('Добро пожаловать, Мастодонт!'); } 
+            else if (p === '12120') { this.rank = 'Админ'; localStorage.setItem('rank', 'Админ'); this.pass = ''; this.tab = 9; this.showNotification('Добро пожаловать, Администратор!'); } 
+            else { alert('Неверный код'); this.pass = ''; } 
         },
-        
         logout() { if (confirm('Выйти?')) { this.rank = 'Студент'; localStorage.setItem('rank', 'Студент'); this.tab = 1; this.showNotification('Вы вышли из системы'); } },
         
-        // Синхронизация
         async syncAll() { if (this.syncing) return; this.syncing = true; this.setSyncStatus('🔄 Синхронизация...', 'syncing'); try { await Promise.all([this.loadGroups(), this.loadMessages()]); this.setSyncStatus('✓ Синхронизация завершена', 'success'); } catch (error) { this.setSyncStatus('❌ Ошибка синхронизации', 'error'); } setTimeout(() => { this.syncStatusText = ''; }, 2000); this.syncing = false; },
         async loadGroups() { try { const saved = localStorage.getItem('artel_groups'); this.groups_list = saved ? JSON.parse(saved) : []; const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getGroups&sheetId=${SHEETS_CONFIG.groupsSheetId}&gid=${SHEETS_CONFIG.groupsGid}`); const data = await response.json(); if (data.groups && data.groups.length > 0) { this.groups_list = data.groups.map(g => ({ name: g.name, createdBy: g.createdBy })); localStorage.setItem('artel_groups', JSON.stringify(this.groups_list)); } if (this.groups_list.length > 0 && !this.activeGroup) this.activeGroup = this.groups_list[0].name; } catch (error) { console.error('Ошибка загрузки групп:', error); } },
         async loadMessages() { if (!this.activeGroup) return; try { const saved = localStorage.getItem(`group_messages_${this.activeGroup}`); this.groupMessages = saved ? JSON.parse(saved) : []; const response = await fetch(`${SHEETS_CONFIG.scriptURL}?action=getMessages&sheetId=${SHEETS_CONFIG.messagesSheetId}&gid=${SHEETS_CONFIG.messagesGid}&group=${encodeURIComponent(this.activeGroup)}`); const data = await response.json(); if (data.messages && data.messages.length > 0) { this.groupMessages = data.messages.map(m => ({ ...m, reactions: m.reactions || {}, pinned: m.pinned || false })); localStorage.setItem(`group_messages_${this.activeGroup}`, JSON.stringify(this.groupMessages)); } } catch (error) { console.error('Ошибка загрузки сообщений:', error); } },
@@ -531,109 +495,53 @@ document.addEventListener('alpine:init', () => {
         checkGuess() { const num = parseInt(this.guess); if (isNaN(num) || num < 1 || num > 10) this.gameMessage = '❌ Введите число от 1 до 10!'; else if (num === this.secretNumber) { this.gameMessage = '🎉 Поздравляю! Вы угадали! 🎉'; this.secretNumber = Math.floor(Math.random() * 10) + 1; } else if (num < this.secretNumber) this.gameMessage = `📈 Загаданное число БОЛЬШЕ чем ${num}`; else this.gameMessage = `📉 Загаданное число МЕНЬШЕ чем ${num}`; this.guess = ''; },
         resetGame() { this.secretNumber = Math.floor(Math.random() * 10) + 1; this.gameMessage = '🎮 Новая игра! Угадай число от 1 до 10'; this.guess = ''; },
         
-        // Калькулятор оценок
         calculateGrades() {
-            let totalPoints = 0;
-            let totalCount = 0;
-            for (let g of this.grades) {
-                totalPoints += g.value * g.count;
-                totalCount += g.count;
-            }
+            let totalPoints = 0, totalCount = 0;
+            for (let g of this.grades) { totalPoints += g.value * g.count; totalCount += g.count; }
             this.averageGrade = totalCount > 0 ? totalPoints / totalCount : 0;
             this.calculateNeeded();
         },
         calculateNeeded() {
             if (this.desiredGrade < 1) this.desiredGrade = 1;
             if (this.desiredGrade > 10) this.desiredGrade = 10;
-            let totalPoints = 0;
-            let totalCount = 0;
-            for (let g of this.grades) {
-                totalPoints += g.value * g.count;
-                totalCount += g.count;
-            }
-            if (totalCount === 0) {
-                this.neededPoints = 'введите оценки';
-                return;
-            }
+            let totalPoints = 0, totalCount = 0;
+            for (let g of this.grades) { totalPoints += g.value * g.count; totalCount += g.count; }
+            if (totalCount === 0) { this.neededPoints = 'введите оценки'; return; }
             const needed = Math.ceil(this.desiredGrade * totalCount - totalPoints);
             this.neededPoints = needed > 0 ? needed : 0;
         },
         
-        // Финансовые калькуляторы
-        calculateDeposit() {
-            const P = parseFloat(this.depositAmount);
-            const r = parseFloat(this.depositRate) / 100;
-            const n = parseFloat(this.depositYears);
-            if (isNaN(P) || isNaN(r) || isNaN(n)) return;
-            const result = P * Math.pow(1 + r, n);
-            this.depositResult = result.toFixed(2);
-        },
-        calculateLoan() {
-            const P = parseFloat(this.loanAmount);
-            const r = parseFloat(this.loanRate) / 100 / 12;
-            const n = parseFloat(this.loanYears) * 12;
-            if (isNaN(P) || isNaN(r) || isNaN(n)) return;
-            const payment = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
-            const total = payment * n;
-            const overpay = total - P;
-            this.loanResult = {
-                payment: payment.toFixed(2),
-                overpay: overpay.toFixed(2)
-            };
-        },
+        calculateDeposit() { const P = parseFloat(this.depositAmount); const r = parseFloat(this.depositRate) / 100; const n = parseFloat(this.depositYears); if (isNaN(P) || isNaN(r) || isNaN(n)) return; const result = P * Math.pow(1 + r, n); this.depositResult = result.toFixed(2); },
+        calculateLoan() { const P = parseFloat(this.loanAmount); const r = parseFloat(this.loanRate) / 100 / 12; const n = parseFloat(this.loanYears) * 12; if (isNaN(P) || isNaN(r) || isNaN(n)) return; const payment = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1); const total = payment * n; const overpay = total - P; this.loanResult = { payment: payment.toFixed(2), overpay: overpay.toFixed(2) }; },
         
-        // Обратная связь
         sendFeedback() {
             if (!this.feedbackText.trim()) return;
-            if (this.rank === 'Студент') {
-                alert('Оставлять сообщения могут только авторизованные пользователи (Мастодонт или Админ)');
-                return;
-            }
-            const feedback = {
-                id: Date.now(),
-                text: this.feedbackText.trim(),
-                author: this.rank,
-                rank: this.rank,
-                time: new Date().toLocaleString(),
-                resolved: false
-            };
+            if (this.rank === 'Студент') { alert('Оставлять сообщения могут только авторизованные пользователи (Мастодонт или Админ)'); return; }
+            const feedback = { id: Date.now(), text: this.feedbackText.trim(), author: this.rank, rank: this.rank, time: new Date().toLocaleString(), resolved: false };
             this.feedbackList.unshift(feedback);
             localStorage.setItem('artel_feedback', JSON.stringify(this.feedbackList));
             this.feedbackText = '';
             this.showNotification('Сообщение отправлено администратору');
         },
-        markResolved(id) {
-            const fb = this.feedbackList.find(f => f.id === id);
-            if (fb) fb.resolved = true;
-            localStorage.setItem('artel_feedback', JSON.stringify(this.feedbackList));
-        },
-        deleteFeedback(id) {
-            this.feedbackList = this.feedbackList.filter(f => f.id !== id);
-            localStorage.setItem('artel_feedback', JSON.stringify(this.feedbackList));
-        },
+        markResolved(id) { const fb = this.feedbackList.find(f => f.id === id); if (fb) fb.resolved = true; localStorage.setItem('artel_feedback', JSON.stringify(this.feedbackList)); },
+        deleteFeedback(id) { this.feedbackList = this.feedbackList.filter(f => f.id !== id); localStorage.setItem('artel_feedback', JSON.stringify(this.feedbackList)); },
         
-        // Инициализация
         async init() {
-            // Восстановление сохранённой вкладки
             const savedTab = localStorage.getItem('activeTab');
             if (savedTab && [1,2,3,4,5,6,7,8,9].includes(parseInt(savedTab))) this.tab = parseInt(savedTab);
             this.$watch('tab', (value) => { localStorage.setItem('activeTab', value); });
             
-            // Восстановление ранга
             const savedRank = localStorage.getItem('rank');
             this.rank = (savedRank === 'Мастодонт' || savedRank === 'Админ') ? savedRank : 'Студент';
             localStorage.setItem('rank', this.rank);
             
-            // Восстановление темы
             this.setTheme(this.currentTheme);
             
-            // Счётчик посещений
             let count = parseInt(localStorage.getItem('visitorCount') || '0');
             count++;
             localStorage.setItem('visitorCount', count);
             this.visitorCount = count;
             
-            // Загрузка данных
             this.refreshFact();
             this.chat_history = JSON.parse(localStorage.getItem('artel_chat') || '[]');
             this.feedbackList = JSON.parse(localStorage.getItem('artel_feedback') || '[]');
@@ -641,13 +549,10 @@ document.addEventListener('alpine:init', () => {
             if (this.groups_list.length > 0 && !this.activeGroup) this.activeGroup = this.groups_list[0].name;
             await this.loadMessages();
             
-            // Калькулятор оценок
             this.calculateGrades();
             
-            // Авто-синхронизация
             setInterval(() => { if (document.visibilityState === 'visible') this.syncAll(); }, 30000);
             
-            // Межвкладочная синхронизация
             window.addEventListener('storage', (e) => {
                 if (e.key === 'artel_groups') { try { this.groups_list = JSON.parse(e.newValue); } catch(e) {} }
                 if (e.key === `group_messages_${this.activeGroup}`) { try { this.groupMessages = JSON.parse(e.newValue); } catch(e) {} }
